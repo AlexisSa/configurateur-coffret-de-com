@@ -1,4 +1,6 @@
-import { ExternalLink, Eye, Share2 } from "lucide-react";
+import { useState } from "react";
+import { ExternalLink, Eye, RotateCcw, Share2 } from "lucide-react";
+import { ConfirmModal } from "./ConfirmModal.jsx";
 import { getBomShortDesignation } from "../utils/bomDisplay.js";
 import {
   formatPriceHT,
@@ -16,6 +18,7 @@ import {
  *   optionsStepComplete?: boolean,
  *   onPreviewPdf: () => void,
  *   onShare?: () => void,
+ *   onReset?: () => void,
  * }} props
  */
 export function RecapTable({
@@ -24,7 +27,9 @@ export function RecapTable({
   optionsStepComplete = false,
   onPreviewPdf,
   onShare,
+  onReset,
 }) {
+  const [confirmResetOpen, setConfirmResetOpen] = useState(false);
   const lineCount = bom.length;
   const showPrices = hasPricedLines(bom);
   const totalHT = showPrices ? getPricedTotalHT(bom) : 0;
@@ -34,10 +39,30 @@ export function RecapTable({
     <aside className="panel recap-panel" id="recap-panel">
       <div className="recap-header">
         <h2 className="recap-title">Nomenclature</h2>
-        {lineCount > 0 && (
-          <span className="recap-count">{lineCount}</span>
+        {hasGamme && onReset && (
+          <button
+            type="button"
+            className="link-btn recap-reset-btn"
+            onClick={() => setConfirmResetOpen(true)}
+            aria-label="Réinitialiser la configuration"
+          >
+            <RotateCcw size={13} strokeWidth={2} aria-hidden />
+            Réinitialiser
+          </button>
         )}
       </div>
+
+      <ConfirmModal
+        open={confirmResetOpen}
+        title="Réinitialiser la configuration ?"
+        message="Tous vos choix seront effacés. Vous devrez recommencer depuis le début."
+        confirmLabel="Réinitialiser"
+        onConfirm={() => {
+          onReset?.();
+          setConfirmResetOpen(false);
+        }}
+        onCancel={() => setConfirmResetOpen(false)}
+      />
 
       {lineCount === 0 ? (
         <p className="recap-empty">

@@ -22,11 +22,11 @@
   color: var(--text);
 }
 
-.recap-count {
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-subtle);
-  font-variant-numeric: tabular-nums;
+.recap-reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
 }
 
 .recap-scroll {

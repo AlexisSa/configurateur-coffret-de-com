@@ -50,6 +50,7 @@ function App() {
     buildMailtoLink,
     shareConfig,
     copyRecap,
+    resetConfiguration,
     toasts,
     removeToast,
   } = useCoffretConfiguration();
@@ -233,6 +234,7 @@ function App() {
               optionsStepComplete={optionsStepComplete}
               onPreviewPdf={openPdfPreview}
               onShare={shareConfig}
+              onReset={resetConfiguration}
             />
           </aside>
         </div>
