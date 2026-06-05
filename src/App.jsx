@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { useCoffretConfiguration } from "./hooks/useCoffretConfiguration.js";
 import { useEmbedResize } from "./hooks/useEmbedResize.js";
+import { useEmbedContext } from "./hooks/useEmbedContext.js";
 import { isEmbedMode } from "./utils/embedMode.js";
 import { getGroupMeta } from "./utils/bomBuilder.js";
 import { getVisibleGroups } from "./utils/compatibility.js";
@@ -27,6 +28,7 @@ import {
 function App() {
   const embedMode = isEmbedMode();
   useEmbedResize();
+  const { pricingTierCode } = useEmbedContext();
 
   const {
     state,
@@ -53,7 +55,7 @@ function App() {
     resetConfiguration,
     toasts,
     removeToast,
-  } = useCoffretConfiguration();
+  } = useCoffretConfiguration(pricingTierCode);
 
   const [openGroup, setOpenGroup] = useState(null);
 
@@ -230,6 +232,7 @@ function App() {
             )}
             <RecapTable
               bom={bom}
+              pricingTierCode={pricingTierCode}
               hasGamme={Boolean(state.gammeId)}
               optionsStepComplete={optionsStepComplete}
               onPreviewPdf={openPdfPreview}

@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "sync:pricing": "node scripts/sync-pricing-matrix.mjs"
   },
   "dependencies": {
     "jspdf": "^3.0.3",

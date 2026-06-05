@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 import { isEmbedMode } from "../utils/embedMode.js";
+import { getAllowedEmbedOrigins } from "../utils/embedOrigins.js";
 
 const RESIZE_MESSAGE_TYPE = "coffret-resize";
-const EMBED_PARENT_ORIGINS = [
-  "https://www.xeilom.fr",
-  "https://xeilom.fr",
-];
 
 /**
  * @returns {string[]}
@@ -15,17 +12,7 @@ function getPostMessageTargets() {
     return ["*"];
   }
 
-  const targets = new Set(EMBED_PARENT_ORIGINS);
-
-  try {
-    if (document.referrer) {
-      targets.add(new URL(document.referrer).origin);
-    }
-  } catch {
-    // referrer invalide : on conserve uniquement les origines Oxatis
-  }
-
-  return [...targets];
+  return getAllowedEmbedOrigins();
 }
 
 /**

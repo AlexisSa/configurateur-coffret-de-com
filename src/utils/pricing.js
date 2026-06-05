@@ -1,27 +1,19 @@
 import { catalog } from "./catalog.js";
-
-const LOT_24_SIZE = 24;
+import { getDefaultPricingTierCode, getPricingTierLabel } from "./pricingTier.js";
+import { getSkuTierPriceHT } from "./pricingMatrix.js";
 
 /**
  * @param {string} sku
+ * @param {string} [pricingTierCode]
  * @returns {number|null}
  */
-export function getUnitPriceHT(sku) {
-  const gammePrice = getGammeUnitPriceHT(sku);
-  if (gammePrice != null) return gammePrice;
-
-  const embase = catalog.components?.embaseRj45;
-  if (embase?.sku === sku) return embase.unitPriceHT ?? null;
-  if (embase?.skuLot24 === sku && embase.unitPriceHT != null) {
-    return Math.round(embase.unitPriceHT * LOT_24_SIZE * 100) / 100;
-  }
-
-  const option = catalog.options.find((o) => o.sku === sku);
-  return option?.unitPriceHT ?? null;
+export function getUnitPriceHT(sku, pricingTierCode = getDefaultPricingTierCode()) {
+  return getSkuTierPriceHT(sku, pricingTierCode);
 }
 
 /**
  * Prix HT du châssis (toutes variantes SKU : baseSku + suffixe matériau).
+ * Conservé pour les tests et la compatibilité interne.
  * @param {string} sku
  * @returns {number|null}
  */
@@ -41,12 +33,12 @@ export function getGammeUnitPriceHT(sku) {
  * @param {import('./bomBuilder.js').BomLine} line
  * @returns {import('./bomBuilder.js').BomLine}
  */
-export function applyPricingToLine(line) {
+export function applyPricingToLine(line, pricingTierCode = getDefaultPricingTierCode()) {
   if (line.sku === "INCLUS") {
     return { ...line, unitPriceHT: null, lineTotalHT: null };
   }
 
-  const unitPriceHT = getUnitPriceHT(line.sku);
+  const unitPriceHT = getUnitPriceHT(line.sku, pricingTierCode);
   if (unitPriceHT == null) {
     return { ...line, unitPriceHT: null, lineTotalHT: null };
   }
@@ -57,9 +49,10 @@ export function applyPricingToLine(line) {
 
 /**
  * @param {import('./bomBuilder.js').BomLine[]} bom
+ * @param {string} [pricingTierCode]
  */
-export function applyPricingToBom(bom) {
-  return bom.map(applyPricingToLine);
+export function applyPricingToBom(bom, pricingTierCode = getDefaultPricingTierCode()) {
+  return bom.map((line) => applyPricingToLine(line, pricingTierCode));
 }
 
 /**
@@ -118,7 +111,11 @@ export function formatPriceHT(amount) {
 /**
  * @returns {string}
  */
-export function getPricingDisclaimer() {
+export function getPricingDisclaimer(pricingTierCode = getDefaultPricingTierCode()) {
   const text = catalog.meta?.pricing?.disclaimer?.trim();
-  return text || "";
+  const tierLabel = getPricingTierLabel(pricingTierCode);
+  const tierNote = `Tarif appliqué : ${tierLabel}.`;
+
+  if (!text) return tierNote;
+  return `${text} ${tierNote}`;
 }

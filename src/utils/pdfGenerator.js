@@ -444,7 +444,7 @@ function drawTableRow(doc, y, line, layout, striped, showPrices) {
  * @param {number} y
  * @param {import("./bomBuilder.js").BomLine[]} bom
  */
-function drawTotalsBlock(doc, y, bom) {
+function drawTotalsBlock(doc, y, bom, pricingTierCode) {
   const totalHT = getPricedTotalHT(bom);
   const innerX = MARGIN + BOX_PAD;
   const valueX = CONTENT_RIGHT - BOX_PAD;
@@ -457,7 +457,7 @@ function drawTotalsBlock(doc, y, bom) {
   const rowGap = 4;
   const titleH = 5;
   const rowsH = 8.5 + rowGap + ttcLabelLines.length * 3.8 + 2;
-  const disclaimer = getPricingDisclaimer();
+  const disclaimer = getPricingDisclaimer(pricingTierCode);
   const noteLines = disclaimer
     ? wrapText(doc, disclaimer, CONTENT_W - BOX_PAD * 2)
     : [];
@@ -549,8 +549,8 @@ export const BOM_PDF_FILENAME = "nomenclature-coffret.pdf";
  * @param {{ societe?: string, clientName?: string, email?: string, telephone?: string }} [internal]
  * @returns {Promise<import('jspdf').jsPDF|null>}
  */
-export async function buildBomPdf(state, internal = {}) {
-  const bom = buildBom(state);
+export async function buildBomPdf(state, internal = {}, pricingTierCode) {
+  const bom = buildBom(state, pricingTierCode);
   if (bom.length === 0) return null;
 
   const logo = await loadBrandLogoForPdf();
@@ -581,7 +581,7 @@ export async function buildBomPdf(state, internal = {}) {
       doc.addPage();
       y = drawPageHeader(doc, true);
     }
-    drawTotalsBlock(doc, y, bom);
+    drawTotalsBlock(doc, y, bom, pricingTierCode);
   }
 
   drawFooters(doc);
@@ -593,8 +593,8 @@ export async function buildBomPdf(state, internal = {}) {
  * @param {{ societe?: string, clientName?: string, email?: string, telephone?: string }} [internal]
  * @returns {Promise<Blob|null>}
  */
-export async function createBomPdfBlob(state, internal = {}) {
-  const doc = await buildBomPdf(state, internal);
+export async function createBomPdfBlob(state, internal = {}, pricingTierCode) {
+  const doc = await buildBomPdf(state, internal, pricingTierCode);
   if (!doc) return null;
   return doc.output("blob");
 }
@@ -603,8 +603,8 @@ export async function createBomPdfBlob(state, internal = {}) {
  * @param {import('./compatibility.js').ConfigState} state
  * @param {{ societe?: string, clientName?: string, email?: string, telephone?: string }} [internal]
  */
-export async function downloadBomPdf(state, internal = {}) {
-  const doc = await buildBomPdf(state, internal);
+export async function downloadBomPdf(state, internal = {}, pricingTierCode) {
+  const doc = await buildBomPdf(state, internal, pricingTierCode);
   if (!doc) return false;
   doc.save(BOM_PDF_FILENAME);
   return true;

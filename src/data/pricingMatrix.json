@@ -1,0 +1,204 @@
+{
+  "meta": {
+    "tiers": [
+      "S",
+      "M",
+      "B",
+      "A",
+      "Z"
+    ],
+    "note": "Prix HT par SKU et par tarif. S = particulier/public. null = tarif non renseigné.",
+    "syncedFromCatalog": "2026-06-05"
+  },
+  "skus": {
+    "XHG3T": {
+      "S": 89,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3M": {
+      "S": 95,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3MX": {
+      "S": 118,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3ML": {
+      "S": 142,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3MXL": {
+      "S": 178,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3S": {
+      "S": 78,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3SX": {
+      "S": 108,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3L": {
+      "S": 168,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3XL": {
+      "S": 198,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3M2": {
+      "S": 102,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XHG3M2L": {
+      "S": 158,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "KJ6AFSEF1": {
+      "S": 4.14,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "CR6ASSTPOH0.5GS": {
+      "S": 2.43,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "DTIMP4RJ45": {
+      "S": 21.5,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "DTIO2": {
+      "S": 16.83,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "DTIO4": {
+      "S": 16.83,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "SPLITF-2": {
+      "S": 3.44,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "SPLITF-3": {
+      "S": 4.56,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "SPLITF-4": {
+      "S": 5.46,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "SPLITF-6": {
+      "S": 11.13,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "SPLITF-8": {
+      "S": 12.74,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "BMT-PRD": {
+      "S": 3.09,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "PC45X45": {
+      "S": 4.14,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XH-ET-LXL": {
+      "S": 13.87,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XH-S-CAPOT": {
+      "S": 26.66,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XH-SX-CAPOT": {
+      "S": 38.63,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    },
+    "XH-L-PORTE-HQ": {
+      "S": null,
+      "M": null,
+      "B": null,
+      "A": null,
+      "Z": null
+    }
+  }
+}

@@ -14,6 +14,7 @@ import {
 /**
  * @param {{
  *   bom: Array,
+ *   pricingTierCode?: string,
  *   hasGamme?: boolean,
  *   optionsStepComplete?: boolean,
  *   onPreviewPdf: () => void,
@@ -23,6 +24,7 @@ import {
  */
 export function RecapTable({
   bom,
+  pricingTierCode,
   hasGamme = false,
   optionsStepComplete = false,
   onPreviewPdf,
@@ -33,7 +35,7 @@ export function RecapTable({
   const lineCount = bom.length;
   const showPrices = hasPricedLines(bom);
   const totalHT = showPrices ? getPricedTotalHT(bom) : 0;
-  const pricingDisclaimer = showPrices ? getPricingDisclaimer() : "";
+  const pricingDisclaimer = showPrices ? getPricingDisclaimer(pricingTierCode) : "";
 
   return (
     <aside className="panel recap-panel" id="recap-panel">

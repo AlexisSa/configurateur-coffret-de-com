@@ -92,7 +92,7 @@ const initialInternal = () => ({
   telephone: "",
 });
 
-export function useCoffretConfiguration() {
+export function useCoffretConfiguration(pricingTierCode) {
   const [state, setState] = useState(initialState);
   const [internal, setInternal] = useState(initialInternal);
   const [toasts, setToasts] = useState([]);
@@ -226,7 +226,10 @@ export function useCoffretConfiguration() {
   }, []);
 
   const visibleGroups = useMemo(() => getVisibleGroups(state), [state]);
-  const bom = useMemo(() => buildBom(state), [state]);
+  const bom = useMemo(
+    () => buildBom(state, pricingTierCode),
+    [state, pricingTierCode]
+  );
   const configCode = useMemo(() => generateConfigCode(state), [state]);
 
   const getOptionState = useCallback(
@@ -258,7 +261,7 @@ export function useCoffretConfiguration() {
   useEffect(() => () => revokePdfPreviewUrl(), [revokePdfPreviewUrl]);
 
   const openPdfPreview = useCallback(async () => {
-    const blob = await createBomPdfBlob(state, internal);
+    const blob = await createBomPdfBlob(state, internal, pricingTierCode);
     if (!blob) {
       addToast("error", "Erreur", "Sélectionnez une gamme");
       return;
@@ -267,17 +270,17 @@ export function useCoffretConfiguration() {
     const url = URL.createObjectURL(blob);
     pdfPreviewUrlRef.current = url;
     setPdfPreviewUrl(url);
-  }, [state, internal, addToast, revokePdfPreviewUrl]);
+  }, [state, internal, pricingTierCode, addToast, revokePdfPreviewUrl]);
 
   const closePdfPreview = useCallback(() => {
     revokePdfPreviewUrl();
   }, [revokePdfPreviewUrl]);
 
   const downloadPdf = useCallback(async () => {
-    const ok = await downloadBomPdf(state, internal);
+    const ok = await downloadBomPdf(state, internal, pricingTierCode);
     if (ok) addToast("success", "PDF téléchargé", "");
     else addToast("error", "Erreur", "Sélectionnez une gamme");
-  }, [state, internal, addToast]);
+  }, [state, internal, pricingTierCode, addToast]);
 
   const copyToClipboard = useCallback(
     async (text, successTitle, successMessage) => {
@@ -305,11 +308,11 @@ export function useCoffretConfiguration() {
 
   const copyRecap = useCallback(() => {
     copyToClipboard(
-      buildQuoteText(state, internal, bom),
+      buildQuoteText(state, internal, bom, pricingTierCode),
       "Récapitulatif copié",
       "Collez-le dans un email ou un document."
     );
-  }, [state, internal, bom, copyToClipboard]);
+  }, [state, internal, bom, pricingTierCode, copyToClipboard]);
 
   const resetConfiguration = useCallback(() => {
     clearStoredConfig();
@@ -328,13 +331,13 @@ export function useCoffretConfiguration() {
     const body = [
       "Bonjour,",
       "",
-      buildQuoteText(state, internal, bom),
+      buildQuoteText(state, internal, bom, pricingTierCode),
       "",
       "Cordialement",
     ].join("\n");
 
     return `mailto:commercial@xeilom.fr?subject=${subject}&body=${encodeURIComponent(body)}`;
-  }, [configCode, state, internal, bom]);
+  }, [configCode, state, internal, bom, pricingTierCode]);
 
   return {
     state,

@@ -24,9 +24,10 @@ import { getRj45QuantityError, parseRj45Quantity } from "./rj45.js";
 
 /**
  * @param {import('./compatibility.js').ConfigState} state
+ * @param {string} [pricingTierCode]
  * @returns {BomLine[]}
  */
-export function buildBom(state) {
+export function buildBom(state, pricingTierCode) {
   if (!isConfigurationComplete(state)) return [];
 
   const gamme = getGammeById(state.gammeId);
@@ -95,7 +96,7 @@ export function buildBom(state) {
           quantity: line.quantity * coffretCount,
         }));
 
-  return applyPricingToBom(scaled);
+  return applyPricingToBom(scaled, pricingTierCode);
 }
 
 /**

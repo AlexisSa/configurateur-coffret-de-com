@@ -15,7 +15,7 @@ import {
  * @param {import('./bomBuilder.js').BomLine[]} bom
  * @returns {string}
  */
-export function buildQuoteText(state, internal, bom) {
+export function buildQuoteText(state, internal, bom, pricingTierCode) {
   const lines = [
     "Demande de devis pour :",
     getConfigurationSummary(state),
@@ -37,7 +37,7 @@ export function buildQuoteText(state, internal, bom) {
     lines.push(
       `Total TTC (${formatVatLabel()}) : ${formatPriceHT(getTotalTTC(totalHT))}`
     );
-    const disclaimer = getPricingDisclaimer();
+    const disclaimer = getPricingDisclaimer(pricingTierCode);
     if (disclaimer) lines.push(disclaimer);
     lines.push("");
   }

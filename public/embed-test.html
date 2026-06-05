@@ -17,9 +17,24 @@
         padding: 1rem 1.5rem;
       }
 
+      .toolbar {
+        max-width: 1200px;
+        margin: 1rem auto 0;
+        padding: 0 1rem;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .toolbar label {
+        font-size: 0.875rem;
+        color: #334155;
+      }
+
       .configurateur-embed {
         max-width: 1200px;
-        margin: 1.5rem auto;
+        margin: 1rem auto 1.5rem;
         padding: 0 1rem;
       }
 
@@ -36,6 +51,17 @@
       <strong>Simulation page Oxatis</strong> — test du configurateur en iframe
     </header>
 
+    <div class="toolbar">
+      <label for="pricing-tier">Catégorie client (Oxatis) :</label>
+      <select id="pricing-tier" aria-label="Catégorie tarifaire">
+        <option value="3394217">S — Particulier / public (3394217)</option>
+        <option value="3394220">M (3394220)</option>
+        <option value="3394218">B (3394218)</option>
+        <option value="3394154">A (3394154)</option>
+        <option value="3394219">Z — Pro le plus avantageux (3394219)</option>
+      </select>
+    </div>
+
     <div class="configurateur-embed">
       <iframe
         id="configurateur-coffret"
@@ -51,10 +77,26 @@
     <script>
       (function () {
         var IFRAME_ORIGIN = window.location.origin;
+        var frame = document.getElementById("configurateur-coffret");
+        var tierSelect = document.getElementById("pricing-tier");
+
+        function sendPricingContext() {
+          if (!frame.contentWindow) return;
+          frame.contentWindow.postMessage(
+            {
+              type: "coffret-context",
+              categoryId: tierSelect.value,
+            },
+            IFRAME_ORIGIN
+          );
+        }
+
+        frame.addEventListener("load", sendPricingContext);
+        tierSelect.addEventListener("change", sendPricingContext);
+
         window.addEventListener("message", function (event) {
           if (event.origin !== IFRAME_ORIGIN) return;
           if (!event.data || event.data.type !== "coffret-resize") return;
-          var frame = document.getElementById("configurateur-coffret");
           if (frame && event.data.height > 0) {
             frame.style.height = event.data.height + "px";
           }
