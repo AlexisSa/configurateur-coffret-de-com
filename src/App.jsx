@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { useCoffretConfiguration } from "./hooks/useCoffretConfiguration.js";
+import { useEmbedResize } from "./hooks/useEmbedResize.js";
+import { isEmbedMode } from "./utils/embedMode.js";
 import { getGroupMeta } from "./utils/bomBuilder.js";
 import { getVisibleGroups } from "./utils/compatibility.js";
 import {
@@ -8,7 +10,6 @@ import {
   isOptionsStepComplete,
 } from "./utils/progress.js";
 import {
-  Header,
   GammeSelector,
   OptionGroup,
   Rj45QuantityGroup,
@@ -24,6 +25,9 @@ import {
 } from "./components/index.js";
 
 function App() {
+  const embedMode = isEmbedMode();
+  useEmbedResize();
+
   const {
     state,
     internal,
@@ -162,9 +166,7 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <Header />
-
+    <div className={embedMode ? "app app--embed" : "app"}>
       <main className="app-main">
         <div className="layout">
           <div className="wizard-column">

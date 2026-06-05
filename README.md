@@ -89,6 +89,63 @@ chmod +x scripts/fetch-gamme-images.sh scripts/fetch-option-images.sh
 - Bouton **Partager** : copie un lien (`?config=…`) rouvrant la configuration
 - Reprise automatique de la dernière configuration (sauvegarde `localStorage`)
 
+## Intégration Oxatis (iframe)
+
+Le configurateur peut être intégré sur [www.xeilom.fr](https://www.xeilom.fr) via une page sur mesure Oxatis.
+
+### Back-office Oxatis
+
+1. **Contenu → Pages sur mesure → Ajouter**
+2. Mise en page pleine largeur, URL suggérée : `/configurateur-coffrets-xhsystem`
+3. Insérer un bloc HTML avec le code ci-dessous
+4. Ajouter la page au menu du site
+
+```html
+<div class="configurateur-embed">
+  <iframe
+    id="configurateur-coffret"
+    src="https://configurateur-coffret-de-com.vercel.app/?embed=1"
+    title="Configurateur coffrets XH'system"
+    width="100%"
+    style="border:0; min-height:720px; display:block; width:100%;"
+    loading="lazy"
+    allow="clipboard-write"
+  ></iframe>
+</div>
+
+<script>
+(function () {
+  var IFRAME_ORIGIN = "https://configurateur-coffret-de-com.vercel.app";
+  window.addEventListener("message", function (event) {
+    if (event.origin !== IFRAME_ORIGIN) return;
+    if (!event.data || event.data.type !== "coffret-resize") return;
+    var frame = document.getElementById("configurateur-coffret");
+    if (frame && event.data.height > 0) {
+      frame.style.height = event.data.height + "px";
+    }
+  });
+})();
+</script>
+```
+
+CSS optionnel (Configuration → Design → Points d'insertion HTML) :
+
+```css
+.configurateur-embed iframe {
+  max-width: 100%;
+}
+```
+
+### Mode embed (`?embed=1`)
+
+- Masque le header Xeilom (déjà présent sur le site Oxatis)
+- Envoie la hauteur au parent via `postMessage` pour éviter le double scroll
+- Les liens « Partager » pointent vers l'URL Vercel (comportement voulu)
+
+### Test local
+
+Après `npm run build && npm run preview`, ouvrir `/embed-test.html` pour simuler la page Oxatis.
+
 ## Structure
 
 ```

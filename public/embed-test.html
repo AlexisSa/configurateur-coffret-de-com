@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test intégration iframe — Xeilom</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #f4f4f5;
+      }
+
+      header {
+        background: #1e293b;
+        color: #fff;
+        padding: 1rem 1.5rem;
+      }
+
+      .configurateur-embed {
+        max-width: 1200px;
+        margin: 1.5rem auto;
+        padding: 0 1rem;
+      }
+
+      .configurateur-embed iframe {
+        max-width: 100%;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>Simulation page Oxatis</strong> — test du configurateur en iframe
+    </header>
+
+    <div class="configurateur-embed">
+      <iframe
+        id="configurateur-coffret"
+        src="/?embed=1"
+        title="Configurateur coffrets XH'system"
+        width="100%"
+        style="border: 0; min-height: 720px; display: block; width: 100%"
+        loading="lazy"
+        allow="clipboard-write"
+      ></iframe>
+    </div>
+
+    <script>
+      (function () {
+        var IFRAME_ORIGIN = window.location.origin;
+        window.addEventListener("message", function (event) {
+          if (event.origin !== IFRAME_ORIGIN) return;
+          if (!event.data || event.data.type !== "coffret-resize") return;
+          var frame = document.getElementById("configurateur-coffret");
+          if (frame && event.data.height > 0) {
+            frame.style.height = event.data.height + "px";
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

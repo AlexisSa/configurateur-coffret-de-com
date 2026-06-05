@@ -1,7 +1,6 @@
 /* Index des styles — découpé par section/composant dans ./styles/.
    L'ordre est significatif : base (variables) en premier. */
 @import "./styles/base.css";
-@import "./styles/header.css";
 @import "./styles/layout.css";
 @import "./styles/panels.css";
 @import "./styles/gamme.css";
@@ -16,3 +15,4 @@
 @import "./styles/accordion.css";
 @import "./styles/confirm-modal.css";
 @import "./styles/animations.css";
+@import "./styles/embed.css";

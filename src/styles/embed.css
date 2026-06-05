@@ -1,0 +1,10 @@
+/* —— Mode embed (iframe Oxatis) —— */
+.app--embed .app-main {
+  padding: 1rem 1rem 2rem;
+}
+
+.app--embed .sidebar-column {
+  position: static;
+  top: auto;
+  max-height: none;
+}
