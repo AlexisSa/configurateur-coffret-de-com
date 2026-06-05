@@ -47,6 +47,12 @@ export function ContactForm({
   const showPhoneError = touched.telephone && phoneFilled && !phoneValid;
   const canSend = nameFilled && societeFilled && emailValid && phoneValid;
 
+  const handleSendEmail = () => {
+    const mailtoUrl = buildMailtoLink();
+    const target = window.top ?? window;
+    target.location.href = mailtoUrl;
+  };
+
   return (
     <section className="panel" id="contact-form">
       <div className="panel-header">
@@ -115,10 +121,10 @@ export function ContactForm({
 
       <div className="form-actions">
         {canSend ? (
-          <a href={buildMailtoLink()} className="btn primary">
+          <button type="button" className="btn primary" onClick={handleSendEmail}>
             <Mail size={18} strokeWidth={2} />
             Envoyer par email
-          </a>
+          </button>
         ) : (
           <button
             type="button"

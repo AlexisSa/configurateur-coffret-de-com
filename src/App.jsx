@@ -20,7 +20,6 @@ import {
   RecapTable,
   ContactForm,
   ToastContainer,
-  MobileSummaryBar,
   PdfPreviewModal,
   OptionAccordion,
 } from "./components/index.js";
@@ -103,13 +102,6 @@ function App() {
     (group) => clearOption(group),
     [clearOption]
   );
-
-  const handleScrollToContact = () => {
-    document.getElementById("contact-form")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
 
   const renderOptionGroupContent = (group) => {
     if (group === "rj45") {
@@ -245,14 +237,6 @@ function App() {
           </aside>
         </div>
       </main>
-
-      <MobileSummaryBar
-        bom={bom}
-        showContactCta={showContactForm}
-        onScrollToContact={handleScrollToContact}
-        onPreviewPdf={openPdfPreview}
-        onShare={shareConfig}
-      />
 
       <PdfPreviewModal
         open={pdfPreviewUrl != null}
