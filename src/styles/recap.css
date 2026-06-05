@@ -1,0 +1,204 @@
+/* —— Nomenclature —— */
+.recap-panel {
+  padding: 1.15rem 1.2rem 1.2rem;
+}
+
+.recap-panel .panel-header {
+  display: none;
+}
+
+.recap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.recap-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.recap-count {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.recap-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin-right: -0.2rem;
+  padding-right: 0.2rem;
+}
+
+.recap-footer {
+  flex-shrink: 0;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.recap-empty {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.bom-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bom-line {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.bom-line:first-child {
+  padding-top: 0;
+}
+
+.bom-line:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bom-line-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.bom-line-top {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.15rem;
+}
+
+.bom-line-sku {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.bom-line-link {
+  display: inline-flex;
+  color: var(--text-subtle);
+  transition: color var(--transition);
+}
+
+.bom-line-link:hover {
+  color: var(--brand);
+}
+
+.bom-line-desc {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.bom-line-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  flex-shrink: 0;
+  padding-top: 0.05rem;
+}
+
+.bom-line-qty {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.bom-line-price {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.recap-totals {
+  margin-bottom: 0.75rem;
+}
+
+.recap-total-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.recap-total-line + .recap-total-line {
+  margin-top: 0.25rem;
+}
+
+.recap-total-line span:last-child {
+  font-variant-numeric: tabular-nums;
+}
+
+.recap-total-line--highlight {
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.recap-total-line--highlight span:last-child {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.recap-disclaimer {
+  margin: 0.55rem 0 0;
+  font-size: 0.65rem;
+  line-height: 1.4;
+  color: var(--text-subtle);
+}
+
+.recap-actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.recap-actions .btn.primary {
+  flex: 1;
+}
+
+.recap-share-btn {
+  width: auto;
+  min-width: 2.75rem;
+  padding-left: 0.85rem;
+  padding-right: 0.85rem;
+}
+
+.recap-panel .btn {
+  width: auto;
+}
+
+.wizard-column .btn {
+  width: 100%;
+}

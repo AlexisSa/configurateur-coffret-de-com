@@ -1,0 +1,18 @@
+/* Index des styles — découpé par section/composant dans ./styles/.
+   L'ordre est significatif : base (variables) en premier. */
+@import "./styles/base.css";
+@import "./styles/header.css";
+@import "./styles/layout.css";
+@import "./styles/panels.css";
+@import "./styles/gamme.css";
+@import "./styles/options.css";
+@import "./styles/options-quantity.css";
+@import "./styles/coffret-quantity.css";
+@import "./styles/recap.css";
+@import "./styles/forms-buttons.css";
+@import "./styles/toasts.css";
+@import "./styles/mobile-bar.css";
+@import "./styles/pdf-preview.css";
+@import "./styles/accordion.css";
+@import "./styles/confirm-modal.css";
+@import "./styles/animations.css";

@@ -1,0 +1,101 @@
+# Configurateur coffrets de communication
+
+Outil web pour composer un coffret **XH'system** (gamme [Xeilom](https://www.xeilom.fr/coffrets-de-communication-c102x4344918)) et obtenir une **nomenclature technique** (références, quantités) avec **estimation tarifaire HT** (coffret + options).
+
+Le catalogue (`src/data/catalog.json`) reprend le comparatif des coffrets XH'system : dimensions, grade TV 3 uniquement, capot/porte, emplacement box, plafond RJ45.
+
+## Prérequis
+
+- Node.js 18+
+
+## Installation
+
+```bash
+npm install
+```
+
+## Lancement
+
+```bash
+npm run dev
+```
+
+Ouvrir l’URL affichée (par défaut `http://localhost:5173`).
+
+## Tests
+
+```bash
+npm run test:run
+```
+
+## Build production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Mettre à jour le catalogue produit
+
+Éditer [`src/data/catalog.json`](src/data/catalog.json) :
+
+- **gammes** : châssis (id, label, `baseSku` type **XHG3** + code gamme, ex. `XHG3M`, plaque P → **T** : `XHG3T`, `unitPriceHT`, dimensions, matériaux, groupes d’options)
+- **options** : accessoires (sku, `unitPriceHT`, group, règles d’exclusion / compatibilité gamme)
+- **rules** : règles globales (masquer un groupe pour une gamme, etc.)
+
+Recharger l’application après modification — aucun redéploiement de code si seul le JSON change (rebuild nécessaire en production).
+
+### Tarifs HT
+
+Tous les prix sont dans [`src/data/catalog.json`](src/data/catalog.json), champ **`unitPriceHT`** (nombre en euros, HT).
+
+| Produit | Où éditer | Exemple |
+|--------|-----------|---------|
+| **Coffret (châssis)** | Tableau `gammes[]`, une entrée par gamme | `"baseSku": "XHG3M"` + `"unitPriceHT": 95` sur `xh-m-250` |
+| **Options / accessoires** | Tableau `options[]` | `"unitPriceHT": 21.5` sur le DTI RJ45 |
+| **Embases RJ45** | Objet `components.embaseRj45` | `"unitPriceHT": 4.14` (lot ×24 calculé automatiquement) |
+
+Prix coffret actuels : **provisoires** (ordre de grandeur par taille de gamme). Pour les remplacer par les tarifs Xeilom ou votre grille pro, modifiez uniquement `unitPriceHT` sur chaque gamme concernée, puis `npm run dev` (ou `npm run build` en prod).
+
+```json
+{
+  "id": "xh-m-250",
+  "label": "M 250",
+  "baseSku": "XHG3M",
+  "unitPriceHT": 95,
+  ...
+}
+```
+
+Références châssis : **XHG3** + code gamme (`M`, `MX`, `MXL`, `L`, `XL`, `M2`, `M2L`, `S`, `SX`…), **sans** le suffixe variante après le tiret. La plaque **P** utilise **T** (`XHG3T`). Le champ `imageSku` conserve la référence complète catalogue Xeilom (ex. `XHG3M-4RJ`) pour les visuels. Le moteur (`src/utils/pricing.js`) lit le prix via `baseSku`.
+
+### Images (gammes et options)
+
+Les visuels sont stockés dans `public/gammes/` et `public/options/` (CDN Xeilom, champs `image` / `imageSource` et `productUrl` dans `src/data/catalog.json`).
+
+Pour les rafraîchir :
+
+```bash
+chmod +x scripts/fetch-gamme-images.sh scripts/fetch-option-images.sh
+./scripts/fetch-gamme-images.sh
+./scripts/fetch-option-images.sh
+```
+
+## Fonctionnalités
+
+- Choix de la gamme puis des options (grade 3 TV automatique)
+- Nomenclature en temps réel avec PU HT / total HT (coffret + options)
+- Export PDF et demande de devis par email (totaux inclus)
+- Bouton **Partager** : copie un lien (`?config=…`) rouvrant la configuration
+- Reprise automatique de la dernière configuration (sauvegarde `localStorage`)
+
+## Structure
+
+```
+src/
+  data/catalog.json      # Données produit
+  utils/                 # Moteur BOM, compatibilité, PDF, partage, stockage
+  hooks/                 # État React
+  components/            # Interface
+  styles/                # CSS découpé par section (importé via App.css)
+```

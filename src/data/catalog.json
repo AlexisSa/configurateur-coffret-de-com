@@ -1,0 +1,628 @@
+{
+  "meta": {
+    "source": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+    "brand": "XH'system",
+    "norme": "NF C 15-100",
+    "pricing": {
+      "currency": "EUR",
+      "type": "publicHT",
+      "vatRate": 0.2,
+      "source": "https://www.xeilom.fr",
+      "updated": "2026-06-04"
+    },
+    "defaultProductUrls": {
+      "dti_rj45": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "dti_fibre": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "tv": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "terre": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "prise": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918"
+    }
+  },
+  "components": {
+    "embaseRj45": {
+      "sku": "KJ6AFSEF1",
+      "skuLot24": "KJ6AFSEF1-24",
+      "label": "Embase RJ45 femelle Cat. 6A S/FTP avec volet",
+      "brand": "UNIKKERN",
+      "format": "Keystone",
+      "productUrl": "https://www.xeilom.fr/embase-rj45-femelle-cat-6a-s-ftp-avec-volet-unikkern-c2x40698694",
+      "image": "/options/kj6afsef1.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/21/KJ6AFSEF1.png",
+      "unitPriceHT": 4.14
+    }
+  },
+  "optionGroups": {
+    "dti_rj45": { "label": "DTI RJ45", "type": "single", "optional": true, "description": "Point d'arrivée et de brassage de la ligne opérateur (téléphone / internet)." },
+    "dti_fibre": { "label": "DTI fibre", "type": "single", "optional": true, "description": "Point d'arrivée et de raccordement de la fibre optique (DTIO)." },
+    "rj45": { "label": "Embases RJ45", "type": "quantity", "optional": true, "description": "Embases à clipser pour câbler les prises réseau du logement." },
+    "cordon_rj45": { "label": "Cordons RJ45", "type": "quantity", "optional": true, "description": "Cordons de brassage RJ45/RJ45 pour relier le DTI, la box ou les équipements du coffret." },
+    "tv": { "label": "Répartiteur TV", "type": "single", "optional": true, "description": "Distribue le signal TV (antenne / satellite) vers plusieurs prises." },
+    "terre": { "label": "Bornier de mise à la terre", "type": "single", "optional": true, "description": "Bornier de mise à la terre des équipements, fixé sur rail DIN." },
+    "prise": { "label": "Prise 2P+T", "type": "quantity", "optional": true, "description": "Prise de courant pour alimenter la box ou les équipements du coffret." },
+    "etagere_box": { "label": "Étagère / support box", "type": "single", "optional": true, "description": "Support pour poser la box opérateur à l'intérieur du coffret." },
+    "capot": { "label": "Capot de protection", "type": "single", "optional": true, "description": "Capot de protection des connexions du coffret." },
+    "porte": { "label": "Porte", "type": "single", "optional": true, "description": "Porte de fermeture du coffret." }
+  },
+  "gammeSegments": [
+    {
+      "id": "encastrement",
+      "label": "Tableaux pour bac d'encastrement",
+      "items": [
+        { "gammeId": "xh-p-300" },
+        { "placeholder": "Kits de communication" }
+      ]
+    },
+    {
+      "id": "modules-13",
+      "label": "Coffrets 13 modules",
+      "items": [
+        { "gammeId": "xh-m-250" },
+        { "gammeId": "xh-ml-500" },
+        { "gammeId": "xh-mx-350" },
+        { "gammeId": "xh-mxl-615" }
+      ]
+    },
+    {
+      "id": "modules-18",
+      "label": "Coffrets 18 modules",
+      "items": [
+        { "gammeId": "xh-m2-250" },
+        { "gammeId": "xh-m2l-500" }
+      ]
+    },
+    {
+      "id": "support-box",
+      "label": "Coffrets avec support box",
+      "items": [
+        { "gammeId": "xh-s-250" },
+        { "gammeId": "xh-sx-350" }
+      ]
+    },
+    {
+      "id": "avec-porte",
+      "label": "Coffrets avec porte",
+      "items": [
+        { "gammeId": "xh-l-500" },
+        { "gammeId": "xh-xl-625" }
+      ]
+    },
+    {
+      "id": "10-pouces",
+      "label": "Coffrets 10 pouces",
+      "items": [
+        { "placeholder": "Coffrets 6U" },
+        { "placeholder": "Coffrets 9U" }
+      ]
+    }
+  ],
+  "gammes": [
+    {
+      "id": "xh-p-300",
+      "label": "Plaque EASY P 300",
+      "description": "250×250 à 300 mm — installation en bac d'encastrement (GTL). 10 RJ45 max.",
+      "baseSku": "XHG3T",
+      "unitPriceHT": 89,
+      "dimensions": "250 × 250–300 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-p-300.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/12/XHG3T-1z.png",
+      "imageSku": "XHG3T-4RJ",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 300,
+        "badge": "Encastrement GTL",
+        "maxRj45": 10,
+        "modules": 13,
+        "capotMode": "non",
+        "porteMode": "non",
+        "emplacementBox": false,
+        "priseMode": "option",
+        "encastrement": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "specificOptionGroups": []
+    },
+    {
+      "id": "xh-m-250",
+      "label": "M 250",
+      "description": "250×250 mm — modulaire 13 modules, saillie ou gaine. 10 RJ45 max.",
+      "baseSku": "XHG3M",
+      "unitPriceHT": 95,
+      "dimensions": "250 × 250 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-m-250.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/02/XHG2M-4RJ_1x1200.jpg",
+      "imageSku": "XHG3M-4RJ",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 250,
+        "maxRj45": 10,
+        "modules": 13,
+        "badge": "Modulaire 13M",
+        "capotMode": "non",
+        "porteMode": "non",
+        "emplacementBox": false,
+        "priseMode": "option",
+        "encastrement": true,
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "specificOptionGroups": []
+    },
+    {
+      "id": "xh-mx-350",
+      "label": "MX 350",
+      "description": "250×350 mm — porte incluse, emplacement box. 10 RJ45 max.",
+      "baseSku": "XHG3MX",
+      "unitPriceHT": 118,
+      "dimensions": "250 × 350 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-mx-350.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/23/XHG2MX-4RJ_1.png",
+      "imageSku": "XHG3MX-4RJ",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 350,
+        "badge": "Porte incluse",
+        "maxRj45": 10,
+        "modules": 13,
+        "capotMode": "non",
+        "porteMode": "included",
+        "emplacementBox": true,
+        "priseMode": "option",
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "specificOptionGroups": []
+    },
+    {
+      "id": "xh-ml-500",
+      "label": "ML 500",
+      "description": "250×500 mm — emplacement box, 2 prises 2P+T. 10 RJ45 max.",
+      "baseSku": "XHG3ML",
+      "unitPriceHT": 142,
+      "dimensions": "250 × 500 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-ml-500.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/14/XHGxML-xRJ_1x1200.jpg",
+      "imageSku": "XHG3ML-4RJTV",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 500,
+        "badge": "18 modules",
+        "maxRj45": 10,
+        "modules": 18,
+        "capotMode": "non",
+        "porteMode": "non",
+        "emplacementBox": true,
+        "priseMode": "included",
+        "priseCount": 2,
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "specificOptionGroups": []
+    },
+    {
+      "id": "xh-mxl-615",
+      "label": "MXL 615",
+      "description": "250×615 mm — emplacement box. 10 RJ45 max.",
+      "baseSku": "XHG3MXL",
+      "unitPriceHT": 178,
+      "dimensions": "250 × 615 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-mxl-615.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/21/XHGxMXL_V2_1x1200.jpg",
+      "imageSku": "XHG3MXL-4RJTV",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 615,
+        "badge": "Hauteur 615 mm",
+        "maxRj45": 10,
+        "modules": 13,
+        "capotMode": "non",
+        "porteMode": "non",
+        "emplacementBox": true,
+        "priseMode": "option",
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "specificOptionGroups": []
+    },
+    {
+      "id": "xh-s-250",
+      "label": "S 250",
+      "description": "250×250 mm — avec support box, capot en option. 10 RJ45 max.",
+      "baseSku": "XHG3S",
+      "unitPriceHT": 78,
+      "dimensions": "250 × 250 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-s-250.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/12/XHGxS-xRJ-1.png",
+      "imageSku": "XHG3S-4RJ",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 250,
+        "badge": "Support box",
+        "maxRj45": 10,
+        "modules": 13,
+        "capotMode": "option",
+        "porteMode": "non",
+        "emplacementBox": true,
+        "priseMode": "option",
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "specificOptionGroups": ["capot"]
+    },
+    {
+      "id": "xh-sx-350",
+      "label": "SX 350",
+      "description": "250×350 mm — support box, capot en option. 10 RJ45 max.",
+      "baseSku": "XHG3SX",
+      "unitPriceHT": 108,
+      "dimensions": "250 × 350 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-sx-350.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/09/XHGxSX-xRJ-2.png",
+      "imageSku": "XHG3SX-4RJ",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 350,
+        "badge": "Support box",
+        "maxRj45": 10,
+        "modules": 13,
+        "capotMode": "option",
+        "porteMode": "non",
+        "emplacementBox": true,
+        "priseMode": "option",
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "specificOptionGroups": ["capot"]
+    },
+    {
+      "id": "xh-l-500",
+      "label": "L 500",
+      "description": "250×500 mm — avec porte, 3 prises 2P+T. 20 RJ45 max.",
+      "baseSku": "XHG3L",
+      "unitPriceHT": 168,
+      "dimensions": "250 × 500 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-l-500.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/19/XHGxL-xRJTVP-4Z.png",
+      "imageSku": "XHG3L-4RJTVP",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 500,
+        "badge": "Avec porte",
+        "maxRj45": 20,
+        "modules": 18,
+        "capotMode": "non",
+        "porteMode": "included",
+        "emplacementBox": true,
+        "priseMode": "included",
+        "priseCount": 3,
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "specificOptionGroups": ["etagere_box"]
+    },
+    {
+      "id": "xh-xl-625",
+      "label": "XL 625",
+      "description": "250×625 mm — grande capacité, porte incluse, 20 RJ45 max.",
+      "baseSku": "XHG3XL",
+      "unitPriceHT": 198,
+      "dimensions": "250 × 625 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-xl-625.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/01/XHGxXL-xRJTVP-4z.png",
+      "imageSku": "XHG3XL-8RJTVP",
+      "attributes": {
+        "largeurMm": 250,
+        "hauteurMm": 625,
+        "badge": "Grande capacité",
+        "maxRj45": 20,
+        "modules": 18,
+        "capotMode": "non",
+        "porteMode": "included",
+        "emplacementBox": true,
+        "priseMode": "included",
+        "priseCount": 3,
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "specificOptionGroups": ["etagere_box"]
+    },
+    {
+      "id": "xh-m2-250",
+      "label": "M2 250",
+      "description": "360×250 mm — format large, porte incluse. 10 RJ45 max.",
+      "baseSku": "XHG3M2",
+      "unitPriceHT": 102,
+      "dimensions": "360 × 250 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-m2-250.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/16/XHG2M2-4RJTV_1x1200.jpg",
+      "imageSku": "XHG3M2-4RJTV",
+      "attributes": {
+        "largeurMm": 360,
+        "hauteurMm": 250,
+        "badge": "Format 360 mm",
+        "maxRj45": 10,
+        "modules": 18,
+        "capotMode": "non",
+        "porteMode": "included",
+        "emplacementBox": false,
+        "priseMode": "non",
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "specificOptionGroups": []
+    },
+    {
+      "id": "xh-m2l-500",
+      "label": "M2L 500",
+      "description": "360×500 mm — format large, porte incluse, 3 prises 2P+T. 10 RJ45 max.",
+      "baseSku": "XHG3M2L",
+      "unitPriceHT": 158,
+      "dimensions": "360 × 500 mm (L×H)",
+      "productUrl": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
+      "image": "/gammes/xh-m2l-500.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/23/XHG2M2L-4RJTVP_1x1200.jpg",
+      "imageSku": "XHG3M2L-4RJTVP",
+      "attributes": {
+        "largeurMm": 360,
+        "hauteurMm": 500,
+        "badge": "Format 360 mm",
+        "maxRj45": 10,
+        "modules": 18,
+        "capotMode": "non",
+        "porteMode": "included",
+        "emplacementBox": true,
+        "priseMode": "included",
+        "priseCount": 3,
+        "saillie": true
+      },
+      "materiaux": [
+        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+      ],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "specificOptionGroups": []
+    }
+  ],
+  "options": [
+    {
+      "id": "cordon-rj45-050",
+      "group": "cordon_rj45",
+      "label": "Cordon RJ45 / RJ45 Cat. 6A — 0,50 m",
+      "sku": "CR6ASSTPOH0.5GS",
+      "productUrl": "https://www.xeilom.fr/cordon-rj45-cat-6a-s-ftp-lszh-gris-050m-c2x31033486",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/02/CR6ASSTPOHxxGS-1-big.png",
+      "unitPriceHT": 2.43
+    },
+    {
+      "id": "dti-rj45-4precable",
+      "group": "dti_rj45",
+      "label": "DTI RJ45 pré-câblé 4 RJ45 0,40 m",
+      "sku": "DTIMP4RJ45",
+      "productUrl": "https://www.xeilom.fr/boitier-dti-rj45-modulaire-pre-cable-avec-4-rj45-040m-c2x25738999",
+      "image": "/options/dtimp4rj45.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/09/DTIMP4RJ45_1.jpg",
+      "unitPriceHT": 21.5,
+      "rules": { "maxPerConfig": 1 }
+    },
+    {
+      "id": "dti-fibre-2",
+      "group": "dti_fibre",
+      "label": "DTI fibre optique — 2 prises (DTIO2)",
+      "sku": "DTIO2",
+      "productUrl": "https://www.xeilom.fr/dtio-avec-2-traversees-sc-apc-ip40-c2x25739002",
+      "image": "/options/dtio-2.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/23/DTIO-4_1.jpg",
+      "unitPriceHT": 16.83,
+      "rules": {
+        "maxPerConfig": 1,
+        "excludes": ["dti-fibre-4"]
+      }
+    },
+    {
+      "id": "dti-fibre-4",
+      "group": "dti_fibre",
+      "label": "DTI fibre optique — 4 prises (DTIO4)",
+      "sku": "DTIO4",
+      "productUrl": "https://www.xeilom.fr/dtio-avec-4-traversees-sc-apc-ip40-c2x25739003",
+      "image": "/options/dtio-4.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/23/DTIO-4_1.jpg",
+      "unitPriceHT": 16.83,
+      "rules": {
+        "maxPerConfig": 1,
+        "excludes": ["dti-fibre-2"]
+      }
+    },
+    {
+      "id": "tv-2",
+      "group": "tv",
+      "label": "Répartiteur TV 2 sorties F",
+      "sku": "SPLITF-2",
+      "productUrl": "https://www.xeilom.fr/repartiteur-tv-2-sorties-connecteurs-f-c2x25740371",
+      "image": "/options/splitf-2.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/17/SPLIT-F2-1-big.jpg",
+      "unitPriceHT": 3.44,
+      "rules": { "excludes": ["tv-3", "tv-4", "tv-6", "tv-8"], "maxPerConfig": 1 }
+    },
+    {
+      "id": "tv-3",
+      "group": "tv",
+      "label": "Répartiteur TV 3 sorties F",
+      "sku": "SPLITF-3",
+      "productUrl": "https://www.xeilom.fr/repartiteur-tv-3-sorties-connecteurs-f-c2x25740372",
+      "image": "/options/splitf-3.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/22/SPLITF-3-1-big.png",
+      "unitPriceHT": 4.56,
+      "rules": { "excludes": ["tv-2", "tv-4", "tv-6", "tv-8"], "maxPerConfig": 1 }
+    },
+    {
+      "id": "tv-4",
+      "group": "tv",
+      "label": "Répartiteur TV 4 sorties F",
+      "sku": "SPLITF-4",
+      "productUrl": "https://www.xeilom.fr/repartiteur-tv-4-sorties-connecteurs-f-c2x25740373",
+      "image": "/options/splitf-4.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/11/SPLIT-F4-1-big.jpg",
+      "unitPriceHT": 5.46,
+      "rules": { "excludes": ["tv-2", "tv-3", "tv-6", "tv-8"], "maxPerConfig": 1 }
+    },
+    {
+      "id": "tv-6",
+      "group": "tv",
+      "label": "Répartiteur TV 6 sorties F",
+      "sku": "SPLITF-6",
+      "productUrl": "https://www.xeilom.fr/repartiteur-tv-6-sorties-connecteurs-f-c2x25740374",
+      "image": "/options/splitf-6.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/05/SPLIT-F6-1-big.jpg",
+      "unitPriceHT": 11.13,
+      "rules": { "excludes": ["tv-2", "tv-3", "tv-4", "tv-8"], "maxPerConfig": 1 }
+    },
+    {
+      "id": "tv-8",
+      "group": "tv",
+      "label": "Répartiteur TV 8 sorties F",
+      "sku": "SPLITF-8",
+      "productUrl": "https://www.xeilom.fr/repartiteur-tv-8-sorties-connecteurs-f-c2x25740375",
+      "image": "/options/splitf-8.jpg",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/15/SPLIT-F8-1-big.jpg",
+      "unitPriceHT": 12.74,
+      "rules": { "excludes": ["tv-2", "tv-3", "tv-4", "tv-6"], "maxPerConfig": 1 }
+    },
+    {
+      "id": "terre-bmt",
+      "group": "terre",
+      "label": "Bornier mise à la terre rail DIN",
+      "sku": "BMT-PRD",
+      "productUrl": "https://www.xeilom.fr/bornier-de-mise-a-la-terre-fixation-sur-rail-din-c2x25737541",
+      "image": "/options/bmt-prd.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/11/BMT-PRD-1.png",
+      "unitPriceHT": 3.09,
+      "rules": { "maxPerConfig": 1 }
+    },
+    {
+      "id": "prise-2pt",
+      "group": "prise",
+      "label": "Prise 2P+T modulaire",
+      "sku": "PC45X45",
+      "productUrl": "https://www.xeilom.fr/prise-simple-2pt-16a-format-45-c2x32592151",
+      "image": "/options/pc45x45.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/24/PC45X45_1.png",
+      "unitPriceHT": 4.14,
+      "rules": { "maxPerConfig": 2, "requireGammeAttribute": { "priseMode": "option" } }
+    },
+    {
+      "id": "etagere-box",
+      "group": "etagere_box",
+      "label": "Étagère à fixer dans les coffrets",
+      "sku": "XH-ET-LXL",
+      "productUrl": "https://www.xeilom.fr/etagere-a-fixer-dans-les-coffrets-c2x26864981",
+      "image": "/options/xh-et-lxl.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/20/XH-ET-LXL-1-small.png",
+      "unitPriceHT": 13.87,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-l-500", "xh-xl-625"]
+      }
+    },
+    {
+      "id": "capot-s250",
+      "group": "capot",
+      "label": "Capot S 250",
+      "sku": "XH-S-CAPOT",
+      "productUrl": "https://www.xeilom.fr/capot-pour-coffret-de-communication-s-250-c2x25740641",
+      "image": "/options/xh-s-capot.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/25/XH-S-CAPOT-3.png",
+      "unitPriceHT": 26.66,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-s-250"],
+        "requireGammeAttribute": { "capotMode": "option" }
+      }
+    },
+    {
+      "id": "capot-sx350",
+      "group": "capot",
+      "label": "Capot SX 350",
+      "sku": "XH-SX-CAPOT",
+      "productUrl": "https://www.xeilom.fr/capot-pour-coffret-de-communication-sx-350-c2x26865233",
+      "image": "/options/xh-sx-capot.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/17/XH-SX-CAPOT-3.png",
+      "unitPriceHT": 38.63,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-sx-350"],
+        "requireGammeAttribute": { "capotMode": "option" }
+      }
+    },
+    {
+      "id": "porte-l500",
+      "group": "porte",
+      "label": "Porte 500×250 mm (coffret L)",
+      "sku": "XH-L-PORTE-HQ",
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-l-500"],
+        "requireGammeAttribute": { "porteMode": "option" }
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "hide-capot-if-not-option",
+      "if": { "gammeAttribute": "capotMode", "not": "option" },
+      "hideGroups": ["capot"]
+    },
+    {
+      "id": "hide-porte-if-not-option",
+      "if": { "gammeAttribute": "porteMode", "not": "option" },
+      "hideGroups": ["porte"]
+    },
+    {
+      "id": "hide-prise-if-included",
+      "if": { "gammeAttribute": "priseMode", "eq": "included" },
+      "hideGroups": ["prise"]
+    },
+    {
+      "id": "hide-prise-if-unavailable",
+      "if": { "gammeAttribute": "priseMode", "eq": "non" },
+      "hideGroups": ["prise"]
+    }
+  ]
+}
