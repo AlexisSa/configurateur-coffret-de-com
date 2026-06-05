@@ -131,7 +131,13 @@ Le configurateur peut être intégré sur [www.xeilom.fr](https://www.xeilom.fr)
 CSS optionnel (Configuration → Design → Points d'insertion HTML) :
 
 ```css
+.configurateur-embed {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 .configurateur-embed iframe {
+  width: 100%;
   max-width: 100%;
 }
 ```

@@ -10,6 +10,13 @@
   grid-template-columns: minmax(0, 1fr) minmax(340px, 400px);
   gap: 1.5rem;
   align-items: start;
+  min-width: 0;
+}
+
+.wizard-column,
+.sidebar-column {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .sidebar-column {
@@ -50,7 +57,7 @@
 
 @media (max-width: 960px) {
   .layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .sidebar-column {

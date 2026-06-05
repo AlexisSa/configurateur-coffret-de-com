@@ -1,6 +1,28 @@
 /* —— Mode embed (iframe Oxatis) —— */
+.app--embed {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
 .app--embed .app-main {
   padding: 1rem 1rem 2rem;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.app--embed .panel {
+  max-width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 640px) {
+  .app--embed .app-main {
+    padding: 0.75rem 0.75rem 2rem;
+  }
+
+  .app--embed .panel {
+    padding: 1.15rem 1rem;
+  }
 }
 
 @media (min-width: 961px) {

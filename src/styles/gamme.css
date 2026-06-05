@@ -25,9 +25,12 @@
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
   padding-bottom: 0.15rem;
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 768px) {

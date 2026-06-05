@@ -6,6 +6,12 @@
   margin-bottom: 1.15rem;
 }
 
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 .form-grid label {
   display: flex;
