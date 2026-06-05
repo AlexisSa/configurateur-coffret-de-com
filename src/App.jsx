@@ -54,9 +54,7 @@ function App() {
 
   const showOptions = Boolean(state.gammeId && state.materiau);
   const optionsStepComplete = isOptionsStepComplete(state);
-  const nomenclatureReady =
-    isConfigurationComplete && bom.length > 0 && optionsStepComplete;
-  const showContactForm = nomenclatureReady;
+  const showContactForm = isConfigurationComplete && bom.length > 0;
 
   useEffect(() => {
     if (!state.gammeId) {
