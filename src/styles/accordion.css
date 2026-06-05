@@ -1,11 +1,4 @@
 /* —— Accordéons options —— */
-.options-hint {
-  margin: -0.35rem 0 1rem;
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: var(--text-muted);
-}
-
 .options-stack--accordion {
   gap: 0.55rem;
 }

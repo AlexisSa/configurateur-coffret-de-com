@@ -51,10 +51,9 @@ function App() {
   } = useCoffretConfiguration();
 
   const [openGroup, setOpenGroup] = useState(null);
-  const [optionsSkipped, setOptionsSkipped] = useState(false);
 
   const showOptions = Boolean(state.gammeId && state.materiau);
-  const optionsStepComplete = isOptionsStepComplete(state, { optionsSkipped });
+  const optionsStepComplete = isOptionsStepComplete(state);
   const nomenclatureReady =
     isConfigurationComplete && bom.length > 0 && optionsStepComplete;
   const showContactForm = nomenclatureReady;
@@ -62,7 +61,6 @@ function App() {
   useEffect(() => {
     if (!state.gammeId) {
       setOpenGroup(null);
-      setOptionsSkipped(false);
       return;
     }
     const groups = getVisibleGroups(state);
@@ -71,61 +69,32 @@ function App() {
       groups[0] ??
       null;
     setOpenGroup(firstOpen);
-    setOptionsSkipped(false);
   }, [state.gammeId]);
 
-  const markOptionsTouched = useCallback(() => {
-    setOptionsSkipped(false);
-  }, []);
-
   const handleSetOption = useCallback(
-    (group, optionId) => {
-      markOptionsTouched();
-      setOption(group, optionId);
-    },
-    [markOptionsTouched, setOption]
+    (group, optionId) => setOption(group, optionId),
+    [setOption]
   );
 
   const handleSetRj45Quantity = useCallback(
-    (value) => {
-      markOptionsTouched();
-      setRj45Quantity(value);
-    },
-    [markOptionsTouched, setRj45Quantity]
+    (value) => setRj45Quantity(value),
+    [setRj45Quantity]
   );
 
   const handleSetPriseQuantity = useCallback(
-    (value) => {
-      markOptionsTouched();
-      setPriseQuantity(value);
-    },
-    [markOptionsTouched, setPriseQuantity]
+    (value) => setPriseQuantity(value),
+    [setPriseQuantity]
   );
 
   const handleSetCordonRj45Quantity = useCallback(
-    (value) => {
-      markOptionsTouched();
-      setCordonRj45Quantity(value);
-    },
-    [markOptionsTouched, setCordonRj45Quantity]
+    (value) => setCordonRj45Quantity(value),
+    [setCordonRj45Quantity]
   );
 
   const handleClearOption = useCallback(
-    (group) => {
-      markOptionsTouched();
-      clearOption(group);
-    },
-    [markOptionsTouched, clearOption]
+    (group) => clearOption(group),
+    [clearOption]
   );
-
-  const handleSkipOptions = () => {
-    setOptionsSkipped(true);
-    setOpenGroup(null);
-    document.getElementById("recap-panel")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
 
   const handleScrollToContact = () => {
     document.getElementById("contact-form")?.scrollIntoView({
@@ -212,21 +181,6 @@ function App() {
                   <h2 className="section-title">Options</h2>
                   <span className="section-badge">Étape 2</span>
                 </div>
-
-                {!optionsStepComplete && (
-                  <p className="options-hint">
-                    Toutes les options sont facultatives. Configurez les
-                    équipements souhaités ou{" "}
-                    <button
-                      type="button"
-                      className="link-btn"
-                      onClick={handleSkipOptions}
-                    >
-                      passez directement à la nomenclature
-                    </button>
-                    .
-                  </p>
-                )}
 
                 <div className="options-stack options-stack--accordion">
                   {visibleGroups.map((group) => {
