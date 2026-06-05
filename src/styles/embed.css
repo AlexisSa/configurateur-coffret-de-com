@@ -3,8 +3,10 @@
   padding: 1rem 1rem 2rem;
 }
 
-.app--embed .sidebar-column {
-  position: static;
-  top: auto;
-  max-height: none;
+@media (min-width: 961px) {
+  .app--embed .sidebar-column {
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
 }
