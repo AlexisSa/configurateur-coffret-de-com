@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Check, ChevronDown } from "lucide-react";
 
 /**
@@ -23,6 +24,8 @@ export function OptionAccordion({
   onClear,
   children,
 }) {
+  const bodyId = useId();
+
   return (
     <div
       className={`option-accordion ${expanded ? "option-accordion--open" : ""} ${isConfigured ? "option-accordion--configured" : ""}`}
@@ -33,6 +36,7 @@ export function OptionAccordion({
           className="option-accordion-trigger"
           onClick={onToggle}
           aria-expanded={expanded}
+          aria-controls={bodyId}
         >
           <span className="option-accordion-status" aria-hidden>
             {isConfigured ? (
@@ -60,7 +64,11 @@ export function OptionAccordion({
           </button>
         )}
       </div>
-      {expanded && <div className="option-accordion-body">{children}</div>}
+      {expanded && (
+        <div id={bodyId} role="region" className="option-accordion-body">
+          {children}
+        </div>
+      )}
     </div>
   );
 }

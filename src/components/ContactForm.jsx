@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { ClipboardCopy, Mail } from "lucide-react";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,6 +29,8 @@ export function ContactForm({
   buildMailtoLink,
   onCopyRecap,
 }) {
+  const emailErrorId = useId();
+  const phoneErrorId = useId();
   const [touched, setTouched] = useState({
     email: false,
     telephone: false,
@@ -80,11 +82,14 @@ export function ContactForm({
             onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
             autoComplete="email"
             aria-invalid={showEmailError}
+            aria-describedby={showEmailError ? emailErrorId : undefined}
             className={showEmailError ? "invalid" : undefined}
             required
           />
           {showEmailError && (
-            <span className="field-error">Adresse email invalide</span>
+            <span id={emailErrorId} className="field-error">
+              Adresse email invalide
+            </span>
           )}
         </label>
         <label>
@@ -96,11 +101,14 @@ export function ContactForm({
             onBlur={() => setTouched((prev) => ({ ...prev, telephone: true }))}
             autoComplete="tel"
             aria-invalid={showPhoneError}
+            aria-describedby={showPhoneError ? phoneErrorId : undefined}
             className={showPhoneError ? "invalid" : undefined}
             required
           />
           {showPhoneError && (
-            <span className="field-error">Numéro de téléphone invalide</span>
+            <span id={phoneErrorId} className="field-error">
+              Numéro de téléphone invalide
+            </span>
           )}
         </label>
       </div>

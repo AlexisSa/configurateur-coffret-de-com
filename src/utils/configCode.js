@@ -30,7 +30,6 @@ export function decodeConfig(code) {
 
 /**
  * @param {import('./compatibility.js').ConfigState} state
- * @param {Object} [internal]
  */
 export function generateConfigCode(state) {
   const gamme = state.gammeId?.replace(/^coffret-/, "").toUpperCase() ?? "???";
@@ -50,16 +49,17 @@ export function generateConfigCode(state) {
 }
 
 /**
+ * Construit un lien de partage de la configuration produit.
+ * Les coordonnées client (internal) sont volontairement exclues : un lien
+ * partagé ne doit pas divulguer le nom, l'email ou le téléphone du client.
  * @param {import('./compatibility.js').ConfigState} state
- * @param {Object} internal
  */
-export function buildShareUrl(state, internal = {}) {
+export function buildShareUrl(state) {
   const encoded = encodeConfig({
     gammeId: state.gammeId,
     materiau: state.materiau,
     coffretCount: state.coffretCount,
     options: state.options,
-    internal,
   });
   const url = new URL(window.location.href);
   url.searchParams.set("config", encoded);

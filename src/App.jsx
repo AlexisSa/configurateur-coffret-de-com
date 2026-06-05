@@ -74,6 +74,9 @@ function App() {
       groups[0] ??
       null;
     setOpenGroup(firstOpen);
+    // Ne se déclenche qu'au changement de gamme : on lit `state` au moment du
+    // recalcul mais on ne veut pas rouvrir l'accordéon à chaque option cochée.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.gammeId]);
 
   const handleSetOption = useCallback(

@@ -96,9 +96,11 @@ export function useCoffretConfiguration(pricingTierCode) {
   const [state, setState] = useState(initialState);
   const [internal, setInternal] = useState(initialInternal);
   const [toasts, setToasts] = useState([]);
+  const toastIdRef = useRef(0);
 
   const addToast = useCallback((type, title, message) => {
-    const id = Date.now();
+    toastIdRef.current += 1;
+    const id = toastIdRef.current;
     setToasts((prev) => [...prev, { id, type, title, message }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -300,11 +302,11 @@ export function useCoffretConfiguration(pricingTierCode) {
 
   const shareConfig = useCallback(() => {
     copyToClipboard(
-      buildShareUrl(state, internal),
+      buildShareUrl(state),
       "Lien copié",
       "Le lien de configuration est dans le presse-papiers."
     );
-  }, [state, internal, copyToClipboard]);
+  }, [state, copyToClipboard]);
 
   const copyRecap = useCallback(() => {
     copyToClipboard(

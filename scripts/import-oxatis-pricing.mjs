@@ -31,14 +31,6 @@ const emptyTierPrices = () =>
   Object.fromEntries(TIER_CODES.map((code) => [code, null]));
 
 /**
- * @param {string} raw
- * @returns {BufferEncoding}
- */
-function detectEncoding(raw) {
-  return raw.includes("\uFFFD") ? "latin1" : "utf8";
-}
-
-/**
  * @returns {Record<string, string>}
  */
 function buildConfigurateurSkuMap() {

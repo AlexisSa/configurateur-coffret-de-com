@@ -1,4 +1,3 @@
-import jsPDF from "jspdf";
 import { loadBrandLogoForPdf } from "./brandLogo.js";
 import { buildBom } from "./bomBuilder.js";
 import { catalog } from "./catalog.js";
@@ -553,6 +552,7 @@ export async function buildBomPdf(state, internal = {}, pricingTierCode) {
   const bom = buildBom(state, pricingTierCode);
   if (bom.length === 0) return null;
 
+  const { default: jsPDF } = await import("jspdf");
   const logo = await loadBrandLogoForPdf();
   const showPrices = hasPricedLines(bom);
   const doc = new jsPDF({ unit: "mm", format: "a4" });
