@@ -4,7 +4,7 @@ import { getUnitPriceHT } from "../utils/pricing.js";
 
 describe("pricingMatrix", () => {
   it("lit le tarif S par SKU depuis la matrice", () => {
-    expect(getSkuTierPriceHT("XHG3M", "S")).toBe(95);
+    expect(getSkuTierPriceHT("XHG3M", "S")).toBe(62);
     expect(getSkuTierPriceHT("DTIMP4RJ45", "S")).toBe(21.5);
   });
 
@@ -13,7 +13,12 @@ describe("pricingMatrix", () => {
   });
 
   it("n'affiche pas de prix pro tant que le tarif n'est pas renseigné", () => {
-    expect(getSkuTierPriceHT("XHG3M", "Z")).toBeNull();
+    expect(getSkuTierPriceHT("SKU-INCONNU", "Z")).toBeNull();
+  });
+
+  it("lit les tarifs pro importés depuis Oxatis", () => {
+    expect(getSkuTierPriceHT("DTIMP4RJ45", "Z")).not.toBeNull();
+    expect(getSkuTierPriceHT("XHG3M", "S")).not.toBeNull();
   });
 
   it("expose getUnitPriceHT via la matrice", () => {

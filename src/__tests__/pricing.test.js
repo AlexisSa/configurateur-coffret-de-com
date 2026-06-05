@@ -26,7 +26,7 @@ const state = {
 
 describe("pricing", () => {
   it("lit les prix publics HT du catalogue par SKU", () => {
-    expect(getUnitPriceHT("XHG3M")).toBe(95);
+    expect(getUnitPriceHT("XHG3M")).toBe(62);
     expect(getUnitPriceHT("PC45X45")).toBe(4.14);
     expect(getUnitPriceHT("DTIMP4RJ45")).toBe(21.5);
     expect(getUnitPriceHT("KJ6AFSEF1-24")).toBe(99.36);
@@ -56,8 +56,8 @@ describe("pricing", () => {
   it("applique le prix provisoire du châssis (catalogue gammes)", () => {
     const bom = buildBom(state);
     const base = bom.find((l) => l.sku === "XHG3M");
-    expect(base?.unitPriceHT).toBe(95);
-    expect(base?.lineTotalHT).toBe(190);
+    expect(base?.unitPriceHT).toBe(62);
+    expect(base?.lineTotalHT).toBe(124);
   });
 
   it("calcule les totaux de ligne et le total général", () => {

@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
-    "sync:pricing": "node scripts/sync-pricing-matrix.mjs"
+    "sync:pricing": "node scripts/sync-pricing-matrix.mjs",
+    "import:pricing": "node scripts/import-oxatis-pricing.mjs"
   },
   "dependencies": {
     "jspdf": "^3.0.3",
