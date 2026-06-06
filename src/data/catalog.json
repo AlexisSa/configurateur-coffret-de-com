@@ -48,8 +48,7 @@
       "id": "encastrement",
       "label": "Tableaux pour bac d'encastrement",
       "items": [
-        { "gammeId": "xh-p-300" },
-        { "placeholder": "Kits de communication" }
+        { "gammeId": "xh-p-300" }
       ]
     },
     {
@@ -84,14 +83,6 @@
       "items": [
         { "gammeId": "xh-l-500" },
         { "gammeId": "xh-xl-625" }
-      ]
-    },
-    {
-      "id": "10-pouces",
-      "label": "Coffrets 10 pouces",
-      "items": [
-        { "placeholder": "Coffrets 6U" },
-        { "placeholder": "Coffrets 9U" }
       ]
     }
   ],

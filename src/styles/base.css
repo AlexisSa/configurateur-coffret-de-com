@@ -4,11 +4,11 @@
   --brand-light: #ecedf9;
   --brand-muted: rgb(54 59 199 / 0.14);
 
-  --bg: #f7f7f8;
-  --bg-accent: linear-gradient(180deg, #ffffff 0%, #f7f7f8 55%, #f0f0f2 100%);
+  --bg: #ffffff;
+  --bg-accent: #ffffff;
   --surface: #ffffff;
-  --surface-alt: #f3f3f5;
-  --surface-muted: #ebebed;
+  --surface-alt: #f8f8f9;
+  --surface-muted: #f3f3f5;
   --text: #18181b;
   --text-muted: #71717a;
   --text-subtle: #a1a1aa;

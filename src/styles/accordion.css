@@ -9,22 +9,22 @@
 }
 
 .option-accordion {
-  border: 1px solid var(--border);
+  border: none;
   border-radius: var(--radius);
-  background: var(--surface);
+  background: var(--surface-alt);
   overflow: hidden;
   transition:
-    border-color var(--transition),
+    background var(--transition),
     box-shadow var(--transition);
 }
 
 .option-accordion--open {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-sm);
+  background: var(--surface-alt);
+  box-shadow: none;
 }
 
 .option-accordion--configured {
-  border-color: var(--brand-muted);
+  background: var(--brand-light);
 }
 
 .option-accordion-header {
@@ -48,8 +48,8 @@
 }
 
 .option-accordion:not(.option-accordion--open):hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-sm);
+  background: var(--surface-muted);
+  box-shadow: none;
 }
 
 .option-accordion:not(.option-accordion--open) .option-accordion-header:hover {
@@ -72,14 +72,13 @@
   height: 1.35rem;
   border-radius: 50%;
   flex-shrink: 0;
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
+  background: rgb(255 255 255 / 0.6);
+  border: none;
   color: var(--brand);
 }
 
 .option-accordion--configured .option-accordion-status {
-  background: var(--brand-light);
-  border-color: var(--brand-muted);
+  background: rgb(255 255 255 / 0.8);
 }
 
 .option-accordion-status-dot {
@@ -129,5 +128,5 @@
 
 .option-accordion-body {
   padding: 1.1rem 1.1rem 1.25rem;
-  border-top: 1px solid var(--border);
+  border-top: none;
 }

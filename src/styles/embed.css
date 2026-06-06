@@ -2,6 +2,7 @@
 .app--embed {
   overflow-x: clip;
   max-width: 100%;
+  background: #ffffff;
 }
 
 .app--embed .app-main {

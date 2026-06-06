@@ -7,7 +7,7 @@
 
 .option-group {
   padding: 1.35rem 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: none;
 }
 
 .option-group:last-child {

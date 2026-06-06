@@ -113,9 +113,12 @@ export function formatPriceHT(amount) {
  */
 export function getPricingDisclaimer(pricingTierCode = getDefaultPricingTierCode()) {
   const text = catalog.meta?.pricing?.disclaimer?.trim();
-  const tierLabel = getPricingTierLabel(pricingTierCode);
-  const tierNote = `Tarif appliqué : ${tierLabel}.`;
+  const isPublicTier = pricingTierCode === "S";
+  const tierNote = isPublicTier
+    ? `Tarif appliqué : ${getPricingTierLabel(pricingTierCode)}.`
+    : "";
 
   if (!text) return tierNote;
+  if (!tierNote) return text;
   return `${text} ${tierNote}`;
 }
