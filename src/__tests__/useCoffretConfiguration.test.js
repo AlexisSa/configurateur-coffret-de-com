@@ -86,7 +86,13 @@ describe("useCoffretConfiguration", () => {
       materiau: "grade3",
       coffretCount: 1,
       options: { ...baseOptions, tv: "tv-4" },
-      internal: { clientName: "", societe: "", email: "", telephone: "" },
+      internal: {
+        clientName: "",
+        societe: "",
+        email: "",
+        telephone: "",
+        commentaire: "",
+      },
     });
     const encoded = encodeConfig({
       gammeId: "xh-m-250",

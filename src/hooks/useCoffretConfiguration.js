@@ -42,6 +42,7 @@ const initialInternal = () => ({
   societe: "",
   email: "",
   telephone: "",
+  commentaire: "",
 });
 
 export function useCoffretConfiguration(pricingTierCode) {
@@ -65,6 +66,7 @@ export function useCoffretConfiguration(pricingTierCode) {
         societe: source.internal.societe ?? "",
         email: source.internal.email ?? "",
         telephone: source.internal.telephone ?? "",
+        commentaire: source.internal.commentaire ?? "",
       }));
     }
     if (result.warnings.length > 0) {

@@ -44,6 +44,11 @@ function buildShortMailBody(state, internal, bom, pricingTierCode, shareUrl) {
   if (internal.email) lines.push(`Email : ${internal.email}`);
   if (internal.telephone) lines.push(`Téléphone : ${internal.telephone}`);
 
+  const commentaire = internal.commentaire?.trim();
+  if (commentaire) {
+    lines.push("", "Commentaire :", commentaire);
+  }
+
   lines.push("", "Cordialement");
   return lines.join("\n");
 }
@@ -51,7 +56,7 @@ function buildShortMailBody(state, internal, bom, pricingTierCode, shareUrl) {
 /**
  * @param {{
  *   state: import('./compatibility.js').ConfigState,
- *   internal: { clientName?: string, societe?: string, email?: string, telephone?: string },
+ *   internal: { clientName?: string, societe?: string, email?: string, telephone?: string, commentaire?: string },
  *   bom: import('./bomBuilder.js').BomLine[],
  *   pricingTierCode: string,
  *   configCode: string,

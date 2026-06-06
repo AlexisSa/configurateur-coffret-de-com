@@ -22,7 +22,12 @@
   color: var(--text-muted);
 }
 
-.form-grid input {
+.form-grid label.form-grid-full {
+  grid-column: 1 / -1;
+}
+
+.form-grid input,
+.form-grid textarea {
   padding: 0.7rem 0.85rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -34,16 +39,25 @@
     box-shadow var(--transition);
 }
 
-.form-grid input:hover {
+.form-grid input:hover,
+.form-grid textarea:hover {
   border-color: var(--border-strong);
   background: var(--surface-hover);
 }
 
-.form-grid input:focus {
+.form-grid input:focus,
+.form-grid textarea:focus {
   border-color: var(--brand);
   background: var(--surface);
   box-shadow: 0 0 0 4px var(--brand-muted);
   outline: none;
+}
+
+.form-grid textarea {
+  min-height: 5.5rem;
+  resize: vertical;
+  line-height: 1.45;
+  font-family: inherit;
 }
 
 .form-grid input.invalid {

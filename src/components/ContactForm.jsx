@@ -117,6 +117,15 @@ export function ContactForm({
             </span>
           )}
         </label>
+        <label className="form-grid-full">
+          Commentaire
+          <textarea
+            value={internal.commentaire}
+            onChange={(e) => updateInternal("commentaire", e.target.value)}
+            rows={4}
+            placeholder="Précisions sur le projet, contraintes d'installation, délais souhaités…"
+          />
+        </label>
       </div>
 
       <div className="form-actions">

@@ -10,7 +10,7 @@ const DEBOUNCE_MS = 400;
  *   materiau: string,
  *   coffretCount: number,
  *   options: Record<string, string>,
- *   internal: { clientName: string, societe: string, email: string, telephone: string },
+ *   internal: { clientName: string, societe: string, email: string, telephone: string, commentaire: string },
  * }} payload
  */
 export function useConfigPersistence({

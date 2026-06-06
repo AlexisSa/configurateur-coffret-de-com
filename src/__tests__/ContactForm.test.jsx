@@ -8,6 +8,7 @@ const emptyInternal = {
   societe: "",
   email: "",
   telephone: "",
+  commentaire: "",
 };
 
 describe("ContactForm", () => {
@@ -60,6 +61,24 @@ describe("ContactForm", () => {
     await user.tab();
 
     expect(screen.getByText(/adresse email invalide/i)).toBeInTheDocument();
+  });
+
+  it("permet de saisir un commentaire optionnel", async () => {
+    const user = userEvent.setup();
+    const updateInternal = vi.fn();
+
+    render(
+      <ContactForm
+        internal={emptyInternal}
+        updateInternal={updateInternal}
+        buildMailtoLink={() => "mailto:test@example.com"}
+      />
+    );
+
+    const textarea = screen.getByLabelText(/commentaire/i);
+    expect(textarea).toBeInTheDocument();
+    await user.type(textarea, "Livraison urgente");
+    expect(updateInternal).toHaveBeenCalled();
   });
 
   it("affiche une erreur téléphone après blur sur un numéro trop court", async () => {

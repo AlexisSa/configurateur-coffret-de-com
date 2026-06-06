@@ -277,7 +277,7 @@ function drawPageHeader(doc, continuation, logo = null) {
 /**
  * @param {jsPDF} doc
  * @param {number} y
- * @param {{ societe?: string, clientName?: string, email?: string, telephone?: string }} internal
+ * @param {{ societe?: string, clientName?: string, email?: string, telephone?: string, commentaire?: string }} internal
  */
 function drawClientBlock(doc, y, internal) {
   const rows = [
@@ -285,6 +285,10 @@ function drawClientBlock(doc, y, internal) {
     internal.societe && { label: "Société", value: internal.societe },
     internal.email && { label: "Email", value: internal.email },
     internal.telephone && { label: "Téléphone", value: internal.telephone },
+    internal.commentaire?.trim() && {
+      label: "Commentaire",
+      value: internal.commentaire.trim(),
+    },
   ].filter(Boolean);
 
   if (rows.length === 0) return y;
