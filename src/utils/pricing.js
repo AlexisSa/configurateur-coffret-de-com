@@ -66,6 +66,16 @@ export function getPricedTotalHT(bom) {
 }
 
 /**
+ * Total commande à partir du prix d'un coffret configuré.
+ * @param {number} unitTotalHT
+ * @param {number} coffretCount
+ */
+export function getOrderTotalHT(unitTotalHT, coffretCount) {
+  const count = Math.max(1, coffretCount);
+  return Math.round(unitTotalHT * count * 100) / 100;
+}
+
+/**
  * @param {import('./bomBuilder.js').BomLine[]} bom
  */
 export function hasPricedLines(bom) {

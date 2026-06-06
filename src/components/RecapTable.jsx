@@ -2,18 +2,14 @@ import { useState } from "react";
 import { ExternalLink, Eye, RotateCcw, Share2 } from "lucide-react";
 import { ConfirmModal } from "./ConfirmModal.jsx";
 import { getBomShortDesignation } from "../utils/bomDisplay.js";
-import {
-  formatPriceHT,
-  formatVatLabel,
-  getPricedTotalHT,
-  getPricingDisclaimer,
-  getTotalTTC,
-  hasPricedLines,
-} from "../utils/pricing.js";
+import { getOrderPricingLines } from "../utils/orderPricing.js";
+import { formatPriceHT, getPricingDisclaimer, hasPricedLines } from "../utils/pricing.js";
+import { normalizeCoffretCount, DEFAULT_COFFRET_COUNT } from "../utils/coffretQuantity.js";
 
 /**
  * @param {{
  *   bom: Array,
+ *   coffretCount?: number,
  *   pricingTierCode?: string,
  *   hasGamme?: boolean,
  *   optionsStepComplete?: boolean,
@@ -24,6 +20,7 @@ import {
  */
 export function RecapTable({
   bom,
+  coffretCount = DEFAULT_COFFRET_COUNT,
   pricingTierCode,
   hasGamme = false,
   optionsStepComplete = false,
@@ -34,7 +31,9 @@ export function RecapTable({
   const [confirmResetOpen, setConfirmResetOpen] = useState(false);
   const lineCount = bom.length;
   const showPrices = hasPricedLines(bom);
-  const totalHT = showPrices ? getPricedTotalHT(bom) : 0;
+  const pricingLines = showPrices
+    ? getOrderPricingLines(bom, normalizeCoffretCount(coffretCount))
+    : [];
   const pricingDisclaimer = showPrices ? getPricingDisclaimer(pricingTierCode) : "";
 
   return (
@@ -121,14 +120,19 @@ export function RecapTable({
           <div className="recap-footer">
             {showPrices && (
               <div className="recap-totals">
-                <div className="recap-total-line">
-                  <span>Total HT</span>
-                  <span>{formatPriceHT(totalHT)}</span>
-                </div>
-                <div className="recap-total-line recap-total-line--highlight">
-                  <span>TTC · {formatVatLabel()}</span>
-                  <span>{formatPriceHT(getTotalTTC(totalHT))}</span>
-                </div>
+                {pricingLines.map((line) => (
+                  <div
+                    key={line.label}
+                    className={
+                      line.highlight
+                        ? "recap-total-line recap-total-line--highlight"
+                        : "recap-total-line"
+                    }
+                  >
+                    <span>{line.label}</span>
+                    <span>{formatPriceHT(line.amount)}</span>
+                  </div>
+                ))}
                 {pricingDisclaimer && (
                   <p className="recap-disclaimer">{pricingDisclaimer}</p>
                 )}

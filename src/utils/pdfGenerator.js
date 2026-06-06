@@ -1,6 +1,8 @@
 import { loadBrandLogoForPdf } from "./brandLogo.js";
 import { buildBom } from "./bomBuilder.js";
 import { catalog } from "./catalog.js";
+import { getOrderPricingLines } from "./orderPricing.js";
+import { normalizeCoffretCount } from "./coffretQuantity.js";
 import {
   formatVatLabel,
   getPricedTotalHT,
@@ -447,19 +449,28 @@ function drawTableRow(doc, y, line, layout, striped, showPrices) {
  * @param {number} y
  * @param {import("./bomBuilder.js").BomLine[]} bom
  */
-function drawTotalsBlock(doc, y, bom, pricingTierCode) {
-  const totalHT = getPricedTotalHT(bom);
+function drawTotalsBlock(doc, y, bom, pricingTierCode, coffretCount) {
+  const pricingLines = getOrderPricingLines(
+    bom,
+    normalizeCoffretCount(coffretCount)
+  );
   const innerX = MARGIN + BOX_PAD;
   const valueX = CONTENT_RIGHT - BOX_PAD;
   const labelMaxW = CONTENT_W - BOX_PAD * 2 - 40;
 
+  const wrappedRows = pricingLines.map((line) => ({
+    ...line,
+    labelLines: wrapText(doc, line.label, labelMaxW),
+  }));
+
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
-  const ttcLabel = `Total TTC (${formatVatLabel()})`;
-  const ttcLabelLines = wrapText(doc, ttcLabel, labelMaxW);
   const rowGap = 4;
   const titleH = 5;
-  const rowsH = 8.5 + rowGap + ttcLabelLines.length * 3.8 + 2;
+  const rowsH = wrappedRows.reduce((sum, row) => {
+    const lineH = Math.max(8.5, row.labelLines.length * 3.8);
+    return sum + lineH + rowGap;
+  }, 0);
   const disclaimer = getPricingDisclaimer(pricingTierCode);
   const noteLines = disclaimer
     ? wrapText(doc, disclaimer, CONTENT_W - BOX_PAD * 2)
@@ -482,31 +493,23 @@ function drawTotalsBlock(doc, y, bom, pricingTierCode) {
   doc.text("ESTIMATION INDICATIVE", innerX, cursorY + 3.5);
   cursorY += titleH;
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(8.5);
-  setText(doc, COLORS.muted);
-  doc.text("Total HT", innerX, cursorY + BASELINE);
-  doc.setFont("helvetica", "bold");
-  setText(doc, COLORS.accent);
-  doc.text(formatPdfPrice(totalHT), valueX, cursorY + BASELINE, {
-    align: "right",
-  });
-  cursorY += 8.5;
-
-  doc.setFont("helvetica", "normal");
-  setText(doc, COLORS.muted);
-  let ttcY = cursorY + BASELINE;
-  for (const line of ttcLabelLines) {
-    doc.text(line, innerX, ttcY);
-    ttcY += 3.8;
+  for (const row of wrappedRows) {
+    const lineH = Math.max(8.5, row.labelLines.length * 3.8);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(row.highlight ? 10 : 8.5);
+    setText(doc, COLORS.muted);
+    let labelY = cursorY + BASELINE;
+    for (const labelLine of row.labelLines) {
+      doc.text(labelLine, innerX, labelY);
+      labelY += 3.8;
+    }
+    doc.setFont("helvetica", "bold");
+    setText(doc, COLORS.accent);
+    doc.text(formatPdfPrice(row.amount), valueX, cursorY + BASELINE, {
+      align: "right",
+    });
+    cursorY += lineH + rowGap;
   }
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(10);
-  setText(doc, COLORS.accent);
-  doc.text(formatPdfPrice(getTotalTTC(totalHT)), valueX, cursorY + BASELINE, {
-    align: "right",
-  });
-  cursorY += Math.max(8.5, ttcLabelLines.length * 3.8) + 2;
 
   if (noteLines.length > 0) {
     doc.setFont("helvetica", "normal");
@@ -585,7 +588,7 @@ export async function buildBomPdf(state, internal = {}, pricingTierCode) {
       doc.addPage();
       y = drawPageHeader(doc, true);
     }
-    drawTotalsBlock(doc, y, bom, pricingTierCode);
+    drawTotalsBlock(doc, y, bom, pricingTierCode, state.coffretCount);
   }
 
   drawFooters(doc);

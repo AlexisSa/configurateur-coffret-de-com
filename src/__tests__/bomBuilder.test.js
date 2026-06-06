@@ -76,10 +76,10 @@ describe("bomBuilder", () => {
     expect(summary).toContain("Répartiteur TV 4");
   });
 
-  it("multiplie les quantités par le nombre de coffrets", () => {
+  it("garde la nomenclature unitaire et indique le nombre de coffrets au résumé", () => {
     const bom = buildBom({ ...state, coffretCount: 3 });
-    expect(bom.find((l) => l.sku === "XHG3M")?.quantity).toBe(3);
-    expect(bom.find((l) => l.sku === "KJ6AFSEF1")?.quantity).toBe(12);
+    expect(bom.find((l) => l.sku === "XHG3M")?.quantity).toBe(1);
+    expect(bom.find((l) => l.sku === "KJ6AFSEF1")?.quantity).toBe(4);
     expect(getConfigurationSummary({ ...state, coffretCount: 3 })).toContain("3×");
   });
 

@@ -1,12 +1,7 @@
 import { getConfigurationSummary } from "./bomBuilder.js";
-import {
-  formatPriceHT,
-  formatVatLabel,
-  getPricedTotalHT,
-  getPricingDisclaimer,
-  getTotalTTC,
-  hasPricedLines,
-} from "./pricing.js";
+import { formatOrderPricingText } from "./orderPricing.js";
+import { formatPriceHT, getPricingDisclaimer, hasPricedLines } from "./pricing.js";
+import { normalizeCoffretCount } from "./coffretQuantity.js";
 
 /**
  * Texte de récapitulatif partagé entre le mail de devis et la copie presse-papiers.
@@ -32,10 +27,8 @@ export function buildQuoteText(state, internal, bom, pricingTierCode) {
   ];
 
   if (hasPricedLines(bom)) {
-    const totalHT = getPricedTotalHT(bom);
-    lines.push(`Total HT : ${formatPriceHT(totalHT)}`);
     lines.push(
-      `Total TTC (${formatVatLabel()}) : ${formatPriceHT(getTotalTTC(totalHT))}`
+      formatOrderPricingText(bom, normalizeCoffretCount(state.coffretCount))
     );
     const disclaimer = getPricingDisclaimer(pricingTierCode);
     if (disclaimer) lines.push(disclaimer);

@@ -107,16 +107,7 @@ export function buildBom(state, pricingTierCode) {
     lines.push(...buildOptionBomLines(option, count));
   }
 
-  const coffretCount = normalizeCoffretCount(state.coffretCount);
-  const scaled =
-    coffretCount <= 1
-      ? lines
-      : lines.map((line) => ({
-          ...line,
-          quantity: line.quantity * coffretCount,
-        }));
-
-  return applyPricingToBom(scaled, pricingTierCode);
+  return applyPricingToBom(lines, pricingTierCode);
 }
 
 /**

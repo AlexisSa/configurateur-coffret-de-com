@@ -10,7 +10,7 @@ import {
 const state = {
   gammeId: "xh-m-250",
   materiau: "grade3",
-  coffretCount: 2,
+  coffretCount: 3,
   options: {
     dti_rj45: "dti-rj45-4precable",
     dti_fibre: "",
@@ -52,14 +52,13 @@ describe("pricing", () => {
     expect(etagere?.lineTotalHT).toBe(getUnitPriceHT("XH-ET-LXL"));
   });
 
-  it("multiplie le prix unitaire du châssis par le nombre de coffrets", () => {
+  it("tarifie le châssis à l'unité dans la nomenclature", () => {
     const bom = buildBom(state);
     const base = bom.find((l) => l.sku === "XHG3M");
     const unit = getUnitPriceHT("XHG3M");
+    expect(base?.quantity).toBe(1);
     expect(base?.unitPriceHT).toBe(unit);
-    expect(base?.lineTotalHT).toBe(
-      Math.round(unit * state.coffretCount * 100) / 100
-    );
+    expect(base?.lineTotalHT).toBe(unit);
   });
 
   it("calcule chaque ligne comme prix unitaire × quantité", () => {

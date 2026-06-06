@@ -7,7 +7,7 @@ describe("quote", () => {
       {
         gammeId: "xh-m-250",
         materiau: "grade3",
-        coffretCount: 1,
+        coffretCount: 3,
         options: {
           dti_rj45: "",
           dti_fibre: "",
@@ -44,5 +44,7 @@ describe("quote", () => {
 
     expect(text).toContain("Commentaire :");
     expect(text).toContain("Installation prévue en juillet");
+    expect(text).toContain("Prix unitaire HT");
+    expect(text).toContain("Total HT (3 coffrets)");
   });
 });

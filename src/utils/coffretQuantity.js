@@ -1,6 +1,6 @@
-export const MIN_COFFRET_COUNT = 1;
+export const MIN_COFFRET_COUNT = 3;
 export const MAX_COFFRET_COUNT = 1000;
-export const DEFAULT_COFFRET_COUNT = 1;
+export const DEFAULT_COFFRET_COUNT = MIN_COFFRET_COUNT;
 
 /**
  * @param {unknown} value

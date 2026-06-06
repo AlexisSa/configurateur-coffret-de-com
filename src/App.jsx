@@ -184,12 +184,13 @@ function App() {
           <aside className="sidebar-column">
             {showOptions && (
               <CoffretQuantitySelector
-                count={state.coffretCount ?? 1}
+                count={state.coffretCount}
                 onChange={setCoffretCount}
               />
             )}
             <RecapTable
               bom={bom}
+              coffretCount={state.coffretCount}
               pricingTierCode={pricingTierCode}
               hasGamme={Boolean(state.gammeId)}
               optionsStepComplete={optionsStepComplete}

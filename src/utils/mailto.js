@@ -1,14 +1,9 @@
 import { getConfigurationSummary } from "./bomBuilder.js";
 import { buildShareUrl } from "./configCode.js";
 import { buildQuoteText } from "./quote.js";
-import {
-  formatPriceHT,
-  formatVatLabel,
-  getPricedTotalHT,
-  getPricingDisclaimer,
-  getTotalTTC,
-  hasPricedLines,
-} from "./pricing.js";
+import { formatOrderPricingText } from "./orderPricing.js";
+import { getPricingDisclaimer, hasPricedLines } from "./pricing.js";
+import { normalizeCoffretCount } from "./coffretQuantity.js";
 
 const MAX_MAILTO_BODY_ENCODED = 1800;
 const MAILTO_RECIPIENT = "commercial@xeilom.fr";
@@ -29,10 +24,8 @@ function buildShortMailBody(state, internal, bom, pricingTierCode, shareUrl) {
   ];
 
   if (hasPricedLines(bom)) {
-    const totalHT = getPricedTotalHT(bom);
-    lines.push(`Total HT : ${formatPriceHT(totalHT)}`);
     lines.push(
-      `Total TTC (${formatVatLabel()}) : ${formatPriceHT(getTotalTTC(totalHT))}`
+      formatOrderPricingText(bom, normalizeCoffretCount(state.coffretCount))
     );
     const disclaimer = getPricingDisclaimer(pricingTierCode);
     if (disclaimer) lines.push(disclaimer);
