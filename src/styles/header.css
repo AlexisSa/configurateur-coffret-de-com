@@ -4,7 +4,7 @@
   top: 0;
   z-index: 100;
   background: rgb(255 255 255 / 0.92);
-  border-bottom: 1px solid var(--border);
+  border-bottom: none;
   backdrop-filter: saturate(160%) blur(16px);
 }
 
