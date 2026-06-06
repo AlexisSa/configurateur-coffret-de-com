@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { catalog } from "../utils/catalog.js";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   getVisibleGroups,
   getIncompatibilityReason,
@@ -11,72 +10,24 @@ import {
   generateConfigCode,
   buildShareUrl,
 } from "../utils/configCode.js";
-import {
-  createBomPdfBlob,
-  downloadBomPdf,
-} from "../utils/pdfGenerator.js";
 import { buildQuoteText } from "../utils/quote.js";
-import { getMaxPriseCount, normalizePriseValue } from "../utils/prise.js";
+import { normalizeCoffretCount, DEFAULT_COFFRET_COUNT } from "../utils/coffretQuantity.js";
+import { loadStoredConfig, clearStoredConfig } from "../utils/storage.js";
 import {
-  normalizeCordonRj45Value,
-  parseCordonRj45Quantity,
-} from "../utils/cordonRj45.js";
-import { getMaxRj45Count, normalizeRj45Value } from "../utils/rj45.js";
+  emptyOptions,
+  DEFAULT_MATERIAU,
+  validateAndNormalizeConfig,
+  applyOptionSelection,
+} from "../utils/configSanitizer.js";
 import {
-  DEFAULT_COFFRET_COUNT,
-  normalizeCoffretCount,
-} from "../utils/coffretQuantity.js";
-import {
-  loadStoredConfig,
-  saveStoredConfig,
-  clearStoredConfig,
-} from "../utils/storage.js";
-
-const emptyOptions = () => {
-  const opts = {};
-  for (const group of Object.keys(catalog.optionGroups)) {
-    opts[group] = "";
-  }
-  return opts;
-};
-
-function normalizeLegacyDti(options) {
-  const legacy = options.dti;
-  if (!legacy) return options;
-  const next = { ...options };
-  delete next.dti;
-  if (legacy === "dti-rj45-4precable" && !next.dti_rj45) {
-    next.dti_rj45 = legacy;
-  } else if (legacy.startsWith("dti-fibre") && !next.dti_fibre) {
-    next.dti_fibre = legacy;
-  }
-  return next;
-}
-
-function normalizeOptions(options, gammeId = "") {
-  const base = { ...emptyOptions(), ...normalizeLegacyDti(options) };
-  base.rj45 = normalizeRj45Value(base.rj45);
-  base.cordon_rj45 = normalizeCordonRj45Value(base.cordon_rj45, gammeId);
-  base.prise = normalizePriseValue(base.prise);
-  const maxRj45 = getMaxRj45Count(gammeId);
-  const rj45Qty = Number.parseInt(base.rj45, 10);
-  if (base.rj45 && rj45Qty > maxRj45) base.rj45 = String(maxRj45);
-  const maxPrise = getMaxPriseCount(gammeId);
-  const priseQty = Number.parseInt(base.prise, 10);
-  if (base.prise && priseQty > maxPrise) base.prise = String(maxPrise);
-  return base;
-}
-
-const DEFAULT_MATERIAU = "grade3";
-
-function withDefaultMateriau(state) {
-  if (!state.gammeId) return state;
-  const materiau =
-    state.materiau === "grade2" || !state.materiau
-      ? DEFAULT_MATERIAU
-      : state.materiau;
-  return materiau === state.materiau ? state : { ...state, materiau };
-}
+  isQuantityGroup,
+  clampQuantityForGroup,
+  quantityGroupHandlers,
+} from "../utils/quantityGroups.js";
+import { buildMailtoLink } from "../utils/mailto.js";
+import { useToasts } from "./useToasts.js";
+import { usePdfPreview } from "./usePdfPreview.js";
+import { useConfigPersistence } from "./useConfigPersistence.js";
 
 const initialState = () => ({
   gammeId: "",
@@ -95,34 +46,17 @@ const initialInternal = () => ({
 export function useCoffretConfiguration(pricingTierCode) {
   const [state, setState] = useState(initialState);
   const [internal, setInternal] = useState(initialInternal);
-  const [toasts, setToasts] = useState([]);
-  const toastIdRef = useRef(0);
-
-  const addToast = useCallback((type, title, message) => {
-    toastIdRef.current += 1;
-    const id = toastIdRef.current;
-    setToasts((prev) => [...prev, { id, type, title, message }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4000);
-  }, []);
-
-  const removeToast = useCallback((id) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
+  const { toasts, addToast, removeToast } = useToasts();
 
   useEffect(() => {
     const fromUrl = loadConfigFromUrl();
     const source = fromUrl?.gammeId ? fromUrl : loadStoredConfig();
     if (!source?.gammeId) return;
-    setState(
-      withDefaultMateriau({
-        gammeId: source.gammeId,
-        materiau: source.materiau ?? DEFAULT_MATERIAU,
-        options: normalizeOptions(source.options ?? {}, source.gammeId),
-        coffretCount: normalizeCoffretCount(source.coffretCount),
-      })
-    );
+
+    const result = validateAndNormalizeConfig(source);
+    if (!result) return;
+
+    setState(result.state);
     if (source.internal) {
       setInternal((current) => ({
         ...current,
@@ -132,18 +66,22 @@ export function useCoffretConfiguration(pricingTierCode) {
         telephone: source.internal.telephone ?? "",
       }));
     }
-  }, []);
+    if (result.warnings.length > 0) {
+      addToast(
+        "warning",
+        "Configuration ajustée",
+        "Certaines options ne sont plus compatibles et ont été retirées."
+      );
+    }
+  }, [addToast]);
 
-  useEffect(() => {
-    if (!state.gammeId) return;
-    saveStoredConfig({
-      gammeId: state.gammeId,
-      materiau: state.materiau,
-      coffretCount: state.coffretCount,
-      options: state.options,
-      internal,
-    });
-  }, [state, internal]);
+  useConfigPersistence({
+    gammeId: state.gammeId,
+    materiau: state.materiau,
+    coffretCount: state.coffretCount,
+    options: state.options,
+    internal,
+  });
 
   const setGamme = useCallback((gammeId) => {
     setState({
@@ -155,13 +93,7 @@ export function useCoffretConfiguration(pricingTierCode) {
   }, []);
 
   const setOption = useCallback((group, optionId) => {
-    setState((prev) => ({
-      ...prev,
-      options: {
-        ...prev.options,
-        [group]: prev.options[group] === optionId ? "" : optionId,
-      },
-    }));
+    setState((prev) => applyOptionSelection(prev, group, optionId));
   }, []);
 
   const setCoffretCount = useCallback((count) => {
@@ -178,44 +110,34 @@ export function useCoffretConfiguration(pricingTierCode) {
     }));
   }, []);
 
-  const setRj45Quantity = useCallback((quantity) => {
+  const setQuantityForGroup = useCallback((group, quantity) => {
     setState((prev) => {
-      const max = getMaxRj45Count(prev.gammeId);
-      const current = Number.parseInt(prev.options.rj45, 10);
-      const clamped = Math.min(Math.max(1, quantity), max);
+      const handler = quantityGroupHandlers[group];
+      if (!handler) return prev;
+      const current = handler.parse(prev.options[group]);
+      const clamped = clampQuantityForGroup(group, prev.gammeId, quantity);
       if (current === clamped) return prev;
       return {
         ...prev,
-        options: { ...prev.options, rj45: String(clamped) },
+        options: { ...prev.options, [group]: String(clamped) },
       };
     });
   }, []);
 
-  const setPriseQuantity = useCallback((quantity) => {
-    setState((prev) => {
-      const max = getMaxPriseCount(prev.gammeId);
-      const current = Number.parseInt(prev.options.prise, 10);
-      const clamped = Math.min(Math.max(1, quantity), max);
-      if (current === clamped) return prev;
-      return {
-        ...prev,
-        options: { ...prev.options, prise: String(clamped) },
-      };
-    });
-  }, []);
+  const setRj45Quantity = useCallback(
+    (quantity) => setQuantityForGroup("rj45", quantity),
+    [setQuantityForGroup]
+  );
 
-  const setCordonRj45Quantity = useCallback((quantity) => {
-    setState((prev) => {
-      const max = getMaxRj45Count(prev.gammeId);
-      const current = parseCordonRj45Quantity(prev.options.cordon_rj45);
-      const clamped = Math.min(Math.max(1, quantity), max);
-      if (current === clamped) return prev;
-      return {
-        ...prev,
-        options: { ...prev.options, cordon_rj45: String(clamped) },
-      };
-    });
-  }, []);
+  const setPriseQuantity = useCallback(
+    (quantity) => setQuantityForGroup("prise", quantity),
+    [setQuantityForGroup]
+  );
+
+  const setCordonRj45Quantity = useCallback(
+    (quantity) => setQuantityForGroup("cordon_rj45", quantity),
+    [setQuantityForGroup]
+  );
 
   const updateInternal = useCallback((field, value) => {
     setInternal((prev) => ({ ...prev, [field]: value }));
@@ -243,40 +165,8 @@ export function useCoffretConfiguration(pricingTierCode) {
     [state]
   );
 
-  const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
-  const pdfPreviewUrlRef = useRef(null);
-
-  const revokePdfPreviewUrl = useCallback(() => {
-    if (pdfPreviewUrlRef.current) {
-      URL.revokeObjectURL(pdfPreviewUrlRef.current);
-      pdfPreviewUrlRef.current = null;
-    }
-    setPdfPreviewUrl(null);
-  }, []);
-
-  useEffect(() => () => revokePdfPreviewUrl(), [revokePdfPreviewUrl]);
-
-  const openPdfPreview = useCallback(async () => {
-    const blob = await createBomPdfBlob(state, internal, pricingTierCode);
-    if (!blob) {
-      addToast("error", "Erreur", "Sélectionnez une gamme");
-      return;
-    }
-    revokePdfPreviewUrl();
-    const url = URL.createObjectURL(blob);
-    pdfPreviewUrlRef.current = url;
-    setPdfPreviewUrl(url);
-  }, [state, internal, pricingTierCode, addToast, revokePdfPreviewUrl]);
-
-  const closePdfPreview = useCallback(() => {
-    revokePdfPreviewUrl();
-  }, [revokePdfPreviewUrl]);
-
-  const downloadPdf = useCallback(async () => {
-    const ok = await downloadBomPdf(state, internal, pricingTierCode);
-    if (ok) addToast("success", "PDF téléchargé", "");
-    else addToast("error", "Erreur", "Sélectionnez une gamme");
-  }, [state, internal, pricingTierCode, addToast]);
+  const { pdfPreviewUrl, openPdfPreview, closePdfPreview, downloadPdf } =
+    usePdfPreview({ state, internal, pricingTierCode, addToast });
 
   const copyToClipboard = useCallback(
     async (text, successTitle, successMessage) => {
@@ -322,18 +212,17 @@ export function useCoffretConfiguration(pricingTierCode) {
     addToast("success", "Configuration réinitialisée", "");
   }, [addToast]);
 
-  const buildMailtoLink = useCallback(() => {
-    const subject = encodeURIComponent(`Devis coffret — ${configCode}`);
-    const body = [
-      "Bonjour,",
-      "",
-      buildQuoteText(state, internal, bom, pricingTierCode),
-      "",
-      "Cordialement",
-    ].join("\n");
-
-    return `mailto:commercial@xeilom.fr?subject=${subject}&body=${encodeURIComponent(body)}`;
-  }, [configCode, state, internal, bom, pricingTierCode]);
+  const buildMailtoLinkFn = useCallback(
+    () =>
+      buildMailtoLink({
+        state,
+        internal,
+        bom,
+        pricingTierCode,
+        configCode,
+      }),
+    [configCode, state, internal, bom, pricingTierCode]
+  );
 
   return {
     state,
@@ -344,6 +233,7 @@ export function useCoffretConfiguration(pricingTierCode) {
     setRj45Quantity,
     setCordonRj45Quantity,
     setPriseQuantity,
+    setQuantityForGroup,
     clearOption,
     updateInternal,
     visibleGroups,
@@ -354,11 +244,12 @@ export function useCoffretConfiguration(pricingTierCode) {
     openPdfPreview,
     closePdfPreview,
     downloadPdf,
-    buildMailtoLink,
+    buildMailtoLink: buildMailtoLinkFn,
     shareConfig,
     copyRecap,
     resetConfiguration,
     toasts,
     removeToast,
+    isQuantityGroup,
   };
 }

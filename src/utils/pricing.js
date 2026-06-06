@@ -1,3 +1,4 @@
+// @ts-check
 import { catalog } from "./catalog.js";
 import { getDefaultPricingTierCode, getPricingTierLabel } from "./pricingTier.js";
 import { getSkuTierPriceHT } from "./pricingMatrix.js";

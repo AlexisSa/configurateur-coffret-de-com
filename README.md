@@ -47,27 +47,29 @@ Recharger l’application après modification — aucun redéploiement de code s
 
 ### Tarifs HT
 
-Tous les prix sont dans [`src/data/catalog.json`](src/data/catalog.json), champ **`unitPriceHT`** (nombre en euros, HT).
+Les prix affichés viennent de la **matrice tarifaire** [`src/data/pricingMatrix.json`](src/data/pricingMatrix.json) : un prix HT par SKU et par grille client (S, M, B, A, Z). La correspondance ID catégorie Oxatis ↔ code tarif est dans [`src/data/pricingTiers.json`](src/data/pricingTiers.json).
 
-| Produit | Où éditer | Exemple |
-|--------|-----------|---------|
-| **Coffret (châssis)** | Tableau `gammes[]`, une entrée par gamme | `"baseSku": "XHG3M"` + `"unitPriceHT": 95` sur `xh-m-250` |
-| **Options / accessoires** | Tableau `options[]` | `"unitPriceHT": 21.5` sur le DTI RJ45 |
-| **Embases RJ45** | Objet `components.embaseRj45` | `"unitPriceHT": 4.14` (lot ×24 calculé automatiquement) |
+| Source | Rôle |
+|--------|------|
+| **`pricingMatrix.json`** | Prix HT affichés (source de vérité en production) |
+| **`pricingTiers.json`** | Mapping catégories Oxatis → codes tarif |
+| **`catalog.json`** (`unitPriceHT`) | Référence produit / fallback pour la colonne S |
 
-Prix coffret actuels : **provisoires** (ordre de grandeur par taille de gamme). Pour les remplacer par les tarifs Xeilom ou votre grille pro, modifiez uniquement `unitPriceHT` sur chaque gamme concernée, puis `npm run dev` (ou `npm run build` en prod).
+**Mettre à jour les tarifs depuis Oxatis :**
 
-```json
-{
-  "id": "xh-m-250",
-  "label": "M 250",
-  "baseSku": "XHG3M",
-  "unitPriceHT": 95,
-  ...
-}
+```bash
+# CSV Oxatis → pricingMatrix.json (grilles S à Z)
+npm run import:pricing
+
+# Fallback : recopie unitPriceHT du catalogue vers la colonne S
+npm run sync:pricing
 ```
 
-Références châssis : **XHG3** + code gamme (`M`, `MX`, `MXL`, `L`, `XL`, `M2`, `M2L`, `S`, `SX`…), **sans** le suffixe variante après le tiret. La plaque **P** utilise **T** (`XHG3T`). Le champ `imageSku` conserve la référence complète catalogue Xeilom (ex. `XHG3M-4RJ`) pour les visuels. Le moteur (`src/utils/pricing.js`) lit le prix via `baseSku`.
+Guide complet : [`docs/integration-oxatis-embed-tarifs.md`](docs/integration-oxatis-embed-tarifs.md).
+
+Le moteur ([`src/utils/pricing.js`](src/utils/pricing.js)) résout le prix via `getSkuTierPriceHT(sku, tierCode)`.
+
+Références châssis : **XHG3** + code gamme (`M`, `MX`, `MXL`, `L`, `XL`, `M2`, `M2L`, `S`, `SX`…), **sans** le suffixe variante après le tiret. La plaque **P** utilise **T** (`XHG3T`). Le champ `imageSku` conserve la référence complète catalogue Xeilom (ex. `XHG3M-4RJ`) pour les visuels.
 
 ### Images (gammes et options)
 

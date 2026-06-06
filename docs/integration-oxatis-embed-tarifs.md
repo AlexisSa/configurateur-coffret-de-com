@@ -320,6 +320,8 @@ Hook `useEmbedContext` :
 2. Écoute `postMessage` avec vérification d'origine (`xeilom.fr`, referrer en dev).
 3. Expose `pricingTierCode` (`"S"` … `"Z"`) passé au moteur de prix et à l'UI.
 
+> **Note développement** : en mode `DEV` (`import.meta.env.DEV`), `isAllowedEmbedOrigin` dans `embedOrigins.js` accepte toute origine pour faciliter les tests locaux (`embed-test.html`, Vitest). En production, seules les origines Xeilom (et le referrer) sont autorisées.
+
 Résolution ID → code (`pricingTier.js`) :
 
 ```javascript

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { useCoffretConfiguration } from "./hooks/useCoffretConfiguration.js";
 import { useEmbedResize } from "./hooks/useEmbedResize.js";
@@ -9,6 +9,7 @@ import { getVisibleGroups } from "./utils/compatibility.js";
 import {
   isGroupConfigured,
   isOptionsStepComplete,
+  canClearQuantityGroup,
 } from "./utils/progress.js";
 import {
   GammeSelector,
@@ -23,6 +24,12 @@ import {
   PdfPreviewModal,
   OptionAccordion,
 } from "./components/index.js";
+
+const QUANTITY_GROUP_COMPONENTS = {
+  rj45: Rj45QuantityGroup,
+  cordon_rj45: CordonRj45QuantityGroup,
+  prise: PriseQuantityGroup,
+};
 
 function App() {
   const embedMode = isEmbedMode();
@@ -54,6 +61,7 @@ function App() {
     resetConfiguration,
     toasts,
     removeToast,
+    isQuantityGroup,
   } = useCoffretConfiguration(pricingTierCode);
 
   const [openGroup, setOpenGroup] = useState(null);
@@ -78,59 +86,21 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.gammeId]);
 
-  const handleSetOption = useCallback(
-    (group, optionId) => setOption(group, optionId),
-    [setOption]
-  );
-
-  const handleSetRj45Quantity = useCallback(
-    (value) => setRj45Quantity(value),
-    [setRj45Quantity]
-  );
-
-  const handleSetPriseQuantity = useCallback(
-    (value) => setPriseQuantity(value),
-    [setPriseQuantity]
-  );
-
-  const handleSetCordonRj45Quantity = useCallback(
-    (value) => setCordonRj45Quantity(value),
-    [setCordonRj45Quantity]
-  );
-
-  const handleClearOption = useCallback(
-    (group) => clearOption(group),
-    [clearOption]
-  );
+  const quantityHandlers = {
+    rj45: setRj45Quantity,
+    cordon_rj45: setCordonRj45Quantity,
+    prise: setPriseQuantity,
+  };
 
   const renderOptionGroupContent = (group) => {
-    if (group === "rj45") {
+    const QuantityComponent = QUANTITY_GROUP_COMPONENTS[group];
+    if (QuantityComponent) {
       return (
-        <Rj45QuantityGroup
+        <QuantityComponent
           headerless
           state={state}
-          onQuantityChange={handleSetRj45Quantity}
-          onClear={() => handleClearOption("rj45")}
-        />
-      );
-    }
-    if (group === "cordon_rj45") {
-      return (
-        <CordonRj45QuantityGroup
-          headerless
-          state={state}
-          onQuantityChange={handleSetCordonRj45Quantity}
-          onClear={() => handleClearOption("cordon_rj45")}
-        />
-      );
-    }
-    if (group === "prise") {
-      return (
-        <PriseQuantityGroup
-          headerless
-          state={state}
-          onQuantityChange={handleSetPriseQuantity}
-          onClear={() => handleClearOption("prise")}
+          onQuantityChange={quantityHandlers[group]}
+          onClear={() => clearOption(group)}
         />
       );
     }
@@ -139,28 +109,21 @@ function App() {
         headerless
         group={group}
         state={state}
-        onSelect={handleSetOption}
-        onClear={handleClearOption}
+        onSelect={setOption}
+        onClear={clearOption}
         getOptionState={getOptionState}
       />
     );
   };
 
   const getAccordionClear = (group) => {
-    if (group === "rj45") {
-      const qty = Number.parseInt(state.options.rj45, 10);
-      return qty > 0 ? () => handleClearOption("rj45") : undefined;
-    }
-    if (group === "cordon_rj45") {
-      const qty = Number.parseInt(state.options.cordon_rj45, 10);
-      return qty > 0 ? () => handleClearOption("cordon_rj45") : undefined;
-    }
-    if (group === "prise") {
-      const qty = Number.parseInt(state.options.prise, 10);
-      return qty > 0 ? () => handleClearOption("prise") : undefined;
+    if (isQuantityGroup(group)) {
+      return canClearQuantityGroup(group, state)
+        ? () => clearOption(group)
+        : undefined;
     }
     const selected = state.options[group];
-    return selected ? () => handleClearOption(group) : undefined;
+    return selected ? () => clearOption(group) : undefined;
   };
 
   return (

@@ -1,7 +1,9 @@
 import { getVisibleGroups } from "./compatibility.js";
-import { parseCordonRj45Quantity } from "./cordonRj45.js";
-import { parsePriseQuantity } from "./prise.js";
-import { parseRj45Quantity } from "./rj45.js";
+import {
+  isQuantityGroup,
+  isQuantityGroupConfigured,
+  hasQuantityGroupValue,
+} from "./quantityGroups.js";
 
 /**
  * Indique si un groupe d'options a une sélection explicite (hors défaut « aucun »).
@@ -10,14 +12,8 @@ import { parseRj45Quantity } from "./rj45.js";
  * @returns {boolean}
  */
 export function isGroupConfigured(group, state) {
-  if (group === "rj45") {
-    return parseRj45Quantity(state.options.rj45) > 0;
-  }
-  if (group === "prise") {
-    return parsePriseQuantity(state.options.prise) > 0;
-  }
-  if (group === "cordon_rj45") {
-    return parseCordonRj45Quantity(state.options.cordon_rj45) > 0;
+  if (isQuantityGroup(group)) {
+    return isQuantityGroupConfigured(group, state);
   }
   return Boolean(state.options[group]);
 }
@@ -34,10 +30,18 @@ export function hasConfiguredOptions(state) {
 /**
  * Étape options considérée comme terminée.
  * @param {import('./compatibility.js').ConfigState} state
- * @param {{ optionsSkipped?: boolean }} [opts]
  * @returns {boolean}
  */
-export function isOptionsStepComplete(state, opts = {}) {
+export function isOptionsStepComplete(state) {
   if (!state.gammeId) return false;
-  return hasConfiguredOptions(state) || Boolean(opts.optionsSkipped);
+  return hasConfiguredOptions(state);
+}
+
+/**
+ * Indique si le bouton « Aucun » doit être affiché pour un groupe quantité.
+ * @param {string} group
+ * @param {import('./compatibility.js').ConfigState} state
+ */
+export function canClearQuantityGroup(group, state) {
+  return isQuantityGroup(group) && hasQuantityGroupValue(group, state);
 }

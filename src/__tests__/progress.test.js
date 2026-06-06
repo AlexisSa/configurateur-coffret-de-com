@@ -13,6 +13,7 @@ const baseState = {
     dti_rj45: "",
     dti_fibre: "",
     rj45: "",
+    cordon_rj45: "",
     tv: "",
     terre: "",
     prise: "",
@@ -49,10 +50,13 @@ describe("progress", () => {
     ).toBe(true);
   });
 
-  it("isOptionsStepComplete inclut le passage volontaire", () => {
+  it("isOptionsStepComplete exige au moins une option", () => {
     expect(isOptionsStepComplete(baseState)).toBe(false);
-    expect(isOptionsStepComplete(baseState, { optionsSkipped: true })).toBe(
-      true
-    );
+    expect(
+      isOptionsStepComplete({
+        ...baseState,
+        options: { ...baseState.options, tv: "tv-2" },
+      })
+    ).toBe(true);
   });
 });

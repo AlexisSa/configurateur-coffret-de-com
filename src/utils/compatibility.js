@@ -1,3 +1,4 @@
+// @ts-check
 import { catalog, getGammeById, getOptionById, getGroupsForGamme } from "./catalog.js";
 
 /**

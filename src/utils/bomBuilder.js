@@ -1,6 +1,11 @@
+// @ts-check
 import { catalog, getGammeById, getOptionById } from "./catalog.js";
 import { buildGammeSku } from "./gammeSku.js";
-import { isConfigurationComplete } from "./compatibility.js";
+import {
+  isConfigurationComplete,
+  isGroupHidden,
+  isOptionSelectable,
+} from "./compatibility.js";
 import { normalizeCoffretCount } from "./coffretQuantity.js";
 import { applyPricingToBom } from "./pricing.js";
 import {
@@ -10,6 +15,7 @@ import {
 } from "./cordonRj45.js";
 import { getPriseOption, getPriseQuantityError, parsePriseQuantity } from "./prise.js";
 import { getRj45QuantityError, parseRj45Quantity } from "./rj45.js";
+import { isQuantityGroup } from "./quantityGroups.js";
 
 /**
  * @typedef {Object} BomLine
@@ -44,40 +50,44 @@ export function buildBom(state, pricingTierCode) {
     productUrl: gamme.productUrl,
   });
 
-  const rj45Qty = parseRj45Quantity(state.options.rj45);
-  if (rj45Qty > 0 && !getRj45QuantityError(rj45Qty, state.gammeId)) {
-    lines.push(...buildEmbaseRj45Lines(rj45Qty));
+  if (!isGroupHidden("rj45", state)) {
+    const rj45Qty = parseRj45Quantity(state.options.rj45);
+    if (rj45Qty > 0 && !getRj45QuantityError(rj45Qty, state.gammeId)) {
+      lines.push(...buildEmbaseRj45Lines(rj45Qty));
+    }
   }
 
-  const priseQty = parsePriseQuantity(state.options.prise);
-  const priseOption = getPriseOption(state);
-  if (
-    priseOption &&
-    priseQty > 0 &&
-    !getPriseQuantityError(priseQty, state.gammeId)
-  ) {
-    lines.push(...buildOptionBomLines(priseOption, priseQty));
+  if (!isGroupHidden("prise", state)) {
+    const priseQty = parsePriseQuantity(state.options.prise);
+    const priseOption = getPriseOption(state);
+    if (
+      priseOption &&
+      priseQty > 0 &&
+      !getPriseQuantityError(priseQty, state.gammeId)
+    ) {
+      lines.push(...buildOptionBomLines(priseOption, priseQty));
+    }
   }
 
-  const cordonQty = parseCordonRj45Quantity(state.options.cordon_rj45);
-  const cordonOption = getCordonRj45Option(state);
-  if (
-    cordonOption &&
-    cordonQty > 0 &&
-    !getCordonRj45QuantityError(cordonQty, state.gammeId)
-  ) {
-    lines.push(...buildOptionBomLines(cordonOption, cordonQty));
+  if (!isGroupHidden("cordon_rj45", state)) {
+    const cordonQty = parseCordonRj45Quantity(state.options.cordon_rj45);
+    const cordonOption = getCordonRj45Option(state);
+    if (
+      cordonOption &&
+      cordonQty > 0 &&
+      !getCordonRj45QuantityError(cordonQty, state.gammeId)
+    ) {
+      lines.push(...buildOptionBomLines(cordonOption, cordonQty));
+    }
   }
 
   const selectedIds = Object.entries(state.options)
-    .filter(
-      ([group, id]) =>
-        group !== "rj45" && group !== "prise" && group !== "cordon_rj45" && id
-    )
+    .filter(([group, id]) => !isQuantityGroup(group) && id)
     .map(([, id]) => id);
   const counts = {};
 
   for (const optionId of selectedIds) {
+    if (!isOptionSelectable(optionId, state)) continue;
     counts[optionId] = (counts[optionId] ?? 0) + 1;
   }
 
@@ -135,6 +145,10 @@ export function buildEmbaseRj45Lines(quantity) {
   return lines;
 }
 
+/**
+ * @param {import('./catalog.js').ReturnType<typeof getOptionById>} option
+ * @param {number} quantity
+ */
 function buildOptionBomLines(option, quantity) {
   return [
     {
@@ -188,14 +202,14 @@ export function getConfigurationSummary(state) {
     }
 
     const opt = getOptionById(optionId);
-    if (opt) parts.push(opt.label);
+    if (opt && isOptionSelectable(optionId, state)) parts.push(opt.label);
   }
 
   return parts.join(" · ");
 }
 
 /**
- * @param {import('./compatibility.js').ConfigState} state
+ * @param {string} group
  */
 export function getGroupMeta(group) {
   return catalog.optionGroups[group] ?? { label: group, type: "single", optional: true };
