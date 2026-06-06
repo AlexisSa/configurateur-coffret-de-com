@@ -149,11 +149,13 @@ export function QuantityOptionPanel({
                     setCustomDraft(raw);
                     if (raw === "") return;
                     const n = Number.parseInt(raw, 10);
-                    if (Number.isFinite(n) && n >= 1) onSelectQuantity(n);
+                    if (Number.isFinite(n) && n >= 1 && n !== quantity) {
+                      onSelectQuantity(n);
+                    }
                   }}
-                  onBlur={() => {
+                  onBlur={(e) => {
                     setCustomFocused(false);
-                    const raw = customDraft.trim();
+                    const raw = e.target.value.trim();
                     if (raw === "") {
                       if (customSelected) onClear();
                       setCustomDraft("");
@@ -165,7 +167,7 @@ export function QuantityOptionPanel({
                       return;
                     }
                     const clamped = Math.min(max, Math.max(1, n));
-                    onSelectQuantity(clamped);
+                    if (clamped !== quantity) onSelectQuantity(clamped);
                     setCustomDraft(String(clamped));
                   }}
                 />

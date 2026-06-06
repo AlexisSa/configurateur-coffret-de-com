@@ -182,10 +182,8 @@ export function useCoffretConfiguration(pricingTierCode) {
     setState((prev) => {
       const max = getMaxRj45Count(prev.gammeId);
       const current = Number.parseInt(prev.options.rj45, 10);
-      if (current === quantity) {
-        return { ...prev, options: { ...prev.options, rj45: "" } };
-      }
       const clamped = Math.min(Math.max(1, quantity), max);
+      if (current === clamped) return prev;
       return {
         ...prev,
         options: { ...prev.options, rj45: String(clamped) },
@@ -197,10 +195,8 @@ export function useCoffretConfiguration(pricingTierCode) {
     setState((prev) => {
       const max = getMaxPriseCount(prev.gammeId);
       const current = Number.parseInt(prev.options.prise, 10);
-      if (current === quantity) {
-        return { ...prev, options: { ...prev.options, prise: "" } };
-      }
       const clamped = Math.min(Math.max(1, quantity), max);
+      if (current === clamped) return prev;
       return {
         ...prev,
         options: { ...prev.options, prise: String(clamped) },
@@ -212,10 +208,8 @@ export function useCoffretConfiguration(pricingTierCode) {
     setState((prev) => {
       const max = getMaxRj45Count(prev.gammeId);
       const current = parseCordonRj45Quantity(prev.options.cordon_rj45);
-      if (current === quantity) {
-        return { ...prev, options: { ...prev.options, cordon_rj45: "" } };
-      }
       const clamped = Math.min(Math.max(1, quantity), max);
+      if (current === clamped) return prev;
       return {
         ...prev,
         options: { ...prev.options, cordon_rj45: String(clamped) },
