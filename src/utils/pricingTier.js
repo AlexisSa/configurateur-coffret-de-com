@@ -6,7 +6,16 @@ const tiers = /** @type {PricingTier[]} */ (pricingTiersData.tiers);
 const defaultTierCode = pricingTiersData.defaultTier ?? "S";
 
 const tierByCode = new Map(tiers.map((tier) => [tier.code, tier]));
-const tierByCategoryId = new Map(tiers.map((tier) => [tier.categoryId, tier]));
+const tierByCategoryId = new Map();
+
+for (const tier of tiers) {
+  const id = String(tier.categoryId).trim();
+  tierByCategoryId.set(id, tier);
+  const numericId = Number(id);
+  if (Number.isFinite(numericId)) {
+    tierByCategoryId.set(numericId, tier);
+  }
+}
 
 /**
  * @returns {string}

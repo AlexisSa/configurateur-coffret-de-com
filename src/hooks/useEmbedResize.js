@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { isEmbedMode } from "../utils/embedMode.js";
 import { getAllowedEmbedOrigins } from "../utils/embedOrigins.js";
-
-const RESIZE_MESSAGE_TYPE = "coffret-resize";
+import { EMBED_RESIZE_MESSAGE_TYPE } from "../utils/embedMessages.js";
 
 /**
  * @returns {string[]}
@@ -20,7 +19,7 @@ function getPostMessageTargets() {
  */
 function postEmbedHeight() {
   const height = document.documentElement.scrollHeight;
-  const payload = { type: RESIZE_MESSAGE_TYPE, height };
+  const payload = { type: EMBED_RESIZE_MESSAGE_TYPE, height };
 
   for (const origin of getPostMessageTargets()) {
     window.parent.postMessage(payload, origin);

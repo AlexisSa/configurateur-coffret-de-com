@@ -269,6 +269,8 @@ window.oxInfos.oxUser.catid[0]
     return user.catid[0];
   }
 
+  var retryTimer = null;
+
   function sendPricingContext() {
     if (!frame || !frame.contentWindow) return;
     var categoryId = getOxatisCategoryId();
@@ -280,14 +282,31 @@ window.oxInfos.oxUser.catid[0]
     );
   }
 
+  function startPricingContextRetry() {
+    sendPricingContext();
+    if (retryTimer) clearInterval(retryTimer);
+    var attempts = 0;
+    retryTimer = setInterval(function () {
+      sendPricingContext();
+      attempts += 1;
+      if (attempts >= 20) clearInterval(retryTimer);
+    }, 500);
+  }
+
   if (frame) {
-    frame.addEventListener("load", sendPricingContext);
+    frame.addEventListener("load", startPricingContextRetry);
   }
 
   window.addEventListener("message", function (event) {
     if (event.origin !== IFRAME_ORIGIN) return;
-    if (!event.data || event.data.type !== "coffret-resize") return;
-    if (frame && event.data.height > 0) {
+    if (!event.data || !event.data.type) return;
+
+    if (event.data.type === "coffret-request-context") {
+      sendPricingContext();
+      return;
+    }
+
+    if (event.data.type === "coffret-resize" && frame && event.data.height > 0) {
       frame.style.height = event.data.height + "px";
     }
   });
@@ -300,7 +319,10 @@ window.oxInfos.oxUser.catid[0]
 | Direction | Type | Payload | Rôle |
 |-----------|------|---------|------|
 | Parent → iframe | `coffret-context` | `{ categoryId: "3394219" }` ou `{ pricingTier: "Z" }` | Applique le tarif client |
+| iframe → Parent | `coffret-request-context` | `{}` | Demande la catégorie (évite la course au chargement) |
 | iframe → Parent | `coffret-resize` | `{ height: 1234 }` | Ajuste la hauteur iframe |
+
+> **Important** : `oxInfos.oxUser.catid` peut ne pas être disponible au premier `load` de l'iframe, et l'app React peut ne pas encore écouter les messages. Le script parent réessaie pendant 10 s et répond aussi à `coffret-request-context` envoyé par l'iframe une fois prête.
 
 ### Alternative : paramètre URL
 

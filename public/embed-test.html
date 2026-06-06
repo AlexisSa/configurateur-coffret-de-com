@@ -81,9 +81,10 @@
         var IFRAME_ORIGIN = window.location.origin;
         var frame = document.getElementById("configurateur-coffret");
         var tierSelect = document.getElementById("pricing-tier");
+        var retryTimer = null;
 
         function sendPricingContext() {
-          if (!frame.contentWindow) return;
+          if (!frame || !frame.contentWindow) return;
           frame.contentWindow.postMessage(
             {
               type: "coffret-context",
@@ -93,13 +94,32 @@
           );
         }
 
-        frame.addEventListener("load", sendPricingContext);
+        function startPricingContextRetry() {
+          sendPricingContext();
+          if (retryTimer) clearInterval(retryTimer);
+          var attempts = 0;
+          retryTimer = setInterval(function () {
+            sendPricingContext();
+            attempts += 1;
+            if (attempts >= 20) clearInterval(retryTimer);
+          }, 500);
+        }
+
+        if (frame) {
+          frame.addEventListener("load", startPricingContextRetry);
+        }
         tierSelect.addEventListener("change", sendPricingContext);
 
         window.addEventListener("message", function (event) {
           if (event.origin !== IFRAME_ORIGIN) return;
-          if (!event.data || event.data.type !== "coffret-resize") return;
-          if (frame && event.data.height > 0) {
+          if (!event.data || !event.data.type) return;
+
+          if (event.data.type === "coffret-request-context") {
+            sendPricingContext();
+            return;
+          }
+
+          if (event.data.type === "coffret-resize" && event.data.height > 0) {
             frame.style.height = event.data.height + "px";
           }
         });
