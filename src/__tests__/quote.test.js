@@ -42,10 +42,10 @@ describe("quote", () => {
       "S"
     );
 
-    expect(text.indexOf("--- COORDONNÉES CLIENT ---")).toBeLessThan(
-      text.indexOf("--- CONFIGURATION DEMANDÉE ---")
+    expect(text.indexOf("--- COORDONNÉES ---")).toBeLessThan(
+      text.indexOf("--- QUANTITÉ DEMANDÉE ---")
     );
-    expect(text.indexOf("--- CONFIGURATION DEMANDÉE ---")).toBeLessThan(
+    expect(text.indexOf("--- QUANTITÉ DEMANDÉE ---")).toBeLessThan(
       text.indexOf("--- NOMENCLATURE (PAR COFFRET) ---")
     );
     expect(text.indexOf("--- NOMENCLATURE (PAR COFFRET) ---")).toBeLessThan(

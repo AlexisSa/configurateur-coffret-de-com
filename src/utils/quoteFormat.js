@@ -93,11 +93,8 @@ export function buildCommentSectionLines(commentaire) {
 export function buildStructuredQuoteBody({ state, internal, bom, pricingTierCode }) {
   const coffretCount = normalizeCoffretCount(state.coffretCount);
   const sections = [
-    ...formatQuoteSection("Coordonnées client", buildClientSectionLines(internal)),
-    ...formatQuoteSection(
-      "Configuration demandée",
-      buildConfigurationSectionLines(state)
-    ),
+    ...formatQuoteSection("Coordonnées", buildClientSectionLines(internal)),
+    ...formatQuoteSection("Quantité demandée", buildConfigurationSectionLines(state)),
     ...formatQuoteSection(
       "Nomenclature (par coffret)",
       buildBomSectionLines(bom)

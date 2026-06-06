@@ -48,8 +48,8 @@ describe("quoteFormat", () => {
       pricingTierCode: "S",
     });
 
-    expect(text.indexOf("COORDONNÉES CLIENT")).toBeLessThan(
-      text.indexOf("CONFIGURATION DEMANDÉE")
+    expect(text.indexOf("COORDONNÉES")).toBeLessThan(
+      text.indexOf("QUANTITÉ DEMANDÉE")
     );
     expect(text).toContain("Email : jean@acme.fr");
   });
@@ -62,7 +62,7 @@ describe("quoteFormat", () => {
       pricingTierCode: "S",
     });
 
-    expect(text).toContain("--- CONFIGURATION DEMANDÉE ---");
+    expect(text).toContain("--- QUANTITÉ DEMANDÉE ---");
     expect(text).toContain("Nombre de coffrets : 3");
     expect(text).not.toContain("Résumé :");
     expect(text).not.toContain("DTIO4");
