@@ -1,6 +1,8 @@
 /* —— Accordéons options —— */
 .options-stack--accordion {
-  gap: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
 }
 
 .option-group--embedded {
@@ -9,22 +11,24 @@
 }
 
 .option-accordion {
-  border: none;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-alt);
   overflow: hidden;
   transition:
+    border-color var(--transition),
     background var(--transition),
     box-shadow var(--transition);
 }
 
 .option-accordion--open {
-  background: var(--surface-alt);
-  box-shadow: none;
+  background: var(--surface);
+  border-color: var(--border-strong);
 }
 
-.option-accordion--configured {
-  background: var(--brand-light);
+.option-accordion--configured:not(.option-accordion--open) {
+  border-color: var(--brand-muted);
+  background: var(--surface);
 }
 
 .option-accordion-header {
@@ -32,7 +36,6 @@
   align-items: center;
   gap: 0.5rem;
   padding-right: 0.65rem;
-  transition: background var(--transition);
 }
 
 .option-accordion-trigger {
@@ -48,16 +51,7 @@
 }
 
 .option-accordion:not(.option-accordion--open):hover {
-  background: var(--surface-muted);
-  box-shadow: none;
-}
-
-.option-accordion:not(.option-accordion--open) .option-accordion-header:hover {
-  background: var(--brand-light);
-}
-
-.option-accordion--open .option-accordion-header:hover {
-  background: var(--surface-alt);
+  border-color: var(--border-strong);
 }
 
 .option-accordion-header:hover .option-accordion-chevron {
@@ -72,13 +66,15 @@
   height: 1.35rem;
   border-radius: 50%;
   flex-shrink: 0;
-  background: rgb(255 255 255 / 0.6);
-  border: none;
-  color: var(--brand);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-subtle);
 }
 
 .option-accordion--configured .option-accordion-status {
-  background: rgb(255 255 255 / 0.8);
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
 }
 
 .option-accordion-status-dot {
@@ -103,6 +99,10 @@
   color: var(--text);
 }
 
+.option-accordion--configured:not(.option-accordion--open) .option-accordion-title {
+  color: var(--brand-dark);
+}
+
 .option-accordion-desc {
   font-size: 0.72rem;
   line-height: 1.35;
@@ -120,6 +120,7 @@
 
 .option-accordion--open .option-accordion-chevron {
   transform: rotate(180deg);
+  color: var(--brand);
 }
 
 .option-accordion-clear {
@@ -127,6 +128,7 @@
 }
 
 .option-accordion-body {
-  padding: 1.1rem 1.1rem 1.25rem;
-  border-top: none;
+  padding: 1rem 1.1rem 1.15rem;
+  background: var(--surface-alt);
+  border-top: 1px solid var(--border);
 }

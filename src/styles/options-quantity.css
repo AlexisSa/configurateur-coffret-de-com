@@ -1,18 +1,19 @@
 /* —— Option à quantité (produit + choix dans une même carte) —— */
 .qty-option-panel {
-  border: none;
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--surface-alt);
+  background: var(--surface);
   box-shadow: none;
   overflow: hidden;
   transition:
-    background var(--transition),
-    box-shadow var(--transition);
+    border-color var(--transition),
+    background var(--transition);
 }
 
 .qty-option-panel--active {
-  background: var(--brand-light);
-  box-shadow: none;
+  border-color: var(--brand);
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
 .qty-option-product {
@@ -20,8 +21,8 @@
   align-items: flex-start;
   gap: 0.9rem;
   padding: 1rem 1.1rem;
-  background: transparent;
-  border-bottom: none;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
 }
 
 .qty-option-visual {
@@ -32,8 +33,8 @@
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 8px;
-  background: #fff;
-  border: none;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
   overflow: hidden;
 }
 
@@ -97,6 +98,7 @@
 
 .qty-option-controls {
   padding: 0.85rem 1.1rem 1rem;
+  background: var(--surface-alt);
 }
 
 .qty-option-controls-label {
@@ -130,25 +132,27 @@
   gap: 0.1rem;
   min-height: 2.85rem;
   padding: 0.45rem 0.85rem;
-  border: none;
+  border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface);
   color: var(--text);
   font: inherit;
   cursor: pointer;
   transition:
+    border-color var(--transition),
     background var(--transition),
     box-shadow var(--transition);
 }
 
 .qty-segment:hover {
-  background: var(--brand-light);
-  box-shadow: none;
+  border-color: var(--border-strong);
+  background: var(--surface);
 }
 
 .qty-segment--selected {
+  border-color: var(--brand);
   background: var(--brand-light);
-  box-shadow: none;
+  box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
 .qty-segment--none {
@@ -159,6 +163,7 @@
 
 .qty-segment--none.qty-segment--selected {
   color: var(--text-muted);
+  border-color: var(--border-strong);
   background: var(--surface-muted);
   box-shadow: none;
 }
@@ -191,14 +196,18 @@
 }
 
 .qty-segment--custom:hover {
+  border-color: var(--border);
   background: var(--surface);
 }
 
 .qty-segment--custom.qty-segment--selected {
+  border-color: var(--brand);
   background: var(--brand-light);
+  box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
 .qty-segment--custom.qty-segment--selected:hover {
+  border-color: var(--brand);
   background: var(--brand-light);
 }
 
@@ -246,24 +255,26 @@
 .option-tile {
   display: flex;
   flex-direction: column;
-  border: none;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--surface-alt);
+  background: var(--surface);
   overflow: hidden;
   box-shadow: none;
   transition:
+    border-color var(--transition),
     background var(--transition),
     box-shadow var(--transition);
 }
 
 .option-tile:hover:not(.disabled) {
-  background: var(--surface-muted);
-  box-shadow: none;
+  border-color: var(--border-strong);
+  background: var(--surface);
 }
 
 .option-tile.selected {
+  border-color: var(--brand);
   background: var(--brand-light);
-  box-shadow: none;
+  box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
 .option-tile.disabled {
@@ -342,6 +353,12 @@
   color: #94a3b8;
 }
 
+.option-tile--none.selected {
+  border-color: var(--border-strong);
+  background: var(--surface-muted);
+  box-shadow: none;
+}
+
 .option-tile--quantity .option-tile-label {
   padding-top: 0.2rem;
   font-size: 0.65rem;
@@ -402,21 +419,23 @@
   font-weight: 600;
   color: var(--brand);
   text-decoration: none;
-  border-top: none;
-  background: transparent;
+  border-top: 1px solid var(--border);
+  background: rgb(255 255 255 / 0.6);
 }
 
 .option-tile-link:hover {
   color: var(--brand-dark);
-  background: rgb(255 255 255 / 0.5);
+  background: var(--surface);
 }
 
 .option-tile--custom {
-  background: var(--surface-muted);
+  background: var(--surface);
 }
 
 .option-tile--custom.selected {
+  border-color: var(--brand);
   background: var(--brand-light);
+  box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
 .option-tile-main--custom {
@@ -477,4 +496,3 @@
   white-space: nowrap;
   border: 0;
 }
-
