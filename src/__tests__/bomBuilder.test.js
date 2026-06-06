@@ -15,6 +15,7 @@ const state = {
     etagere_box: "",
     capot: "",
     porte: "",
+    brassage: "brassage-interieur",
   },
 };
 
@@ -80,5 +81,17 @@ describe("bomBuilder", () => {
     expect(bom.find((l) => l.sku === "XHG3M")?.quantity).toBe(3);
     expect(bom.find((l) => l.sku === "KJ6AFSEF1")?.quantity).toBe(12);
     expect(getConfigurationSummary({ ...state, coffretCount: 3 })).toContain("3×");
+  });
+
+  it("utilise le châssis -E pour le brassage extérieur", () => {
+    const exteriorState = {
+      ...state,
+      options: { ...state.options, brassage: "brassage-exterieur" },
+    };
+    const bom = buildBom(exteriorState);
+    expect(bom.find((l) => l.type === "base")?.sku).toBe("XHG3M-E");
+    expect(bom.find((l) => l.type === "base")?.label).toContain("brassage extérieur");
+    expect(bom.some((l) => l.label?.includes("Brassage extérieur"))).toBe(false);
+    expect(getConfigurationSummary(exteriorState)).toContain("Brassage extérieur");
   });
 });

@@ -21,6 +21,7 @@ const state = {
     etagere_box: "",
     capot: "",
     porte: "",
+    brassage: "",
   },
 };
 

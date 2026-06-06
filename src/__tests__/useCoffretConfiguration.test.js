@@ -15,6 +15,7 @@ const baseOptions = {
   etagere_box: "",
   capot: "",
   porte: "",
+  brassage: "",
 };
 
 describe("useCoffretConfiguration", () => {

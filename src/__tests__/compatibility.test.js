@@ -26,6 +26,7 @@ const baseState = {
     etagere_box: "",
     capot: "",
     porte: "",
+    brassage: "brassage-interieur",
   },
 };
 
@@ -110,6 +111,17 @@ describe("compatibility", () => {
     ).toBe(false);
   });
 
+  it("propose les étagères extension sur M 250, MX 350 et M2 250", () => {
+    for (const gammeId of ["xh-m-250", "xh-mx-350", "xh-m2-250"]) {
+      const state = { ...baseState, gammeId };
+      expect(isGroupHidden("etagere_box", state)).toBe(false);
+      expect(isOptionSelectable("etagere-extl", state)).toBe(true);
+      expect(isOptionSelectable("etagere-extl-1pc", state)).toBe(true);
+      expect(isOptionSelectable("etagere-extl-2pc", state)).toBe(true);
+      expect(isOptionSelectable("etagere-box", state)).toBe(false);
+    }
+  });
+
   it("masque les prises si déjà incluses (ML 500)", () => {
     const state = { ...baseState, gammeId: "xh-ml-500" };
     expect(isGroupHidden("prise", state)).toBe(true);
@@ -137,5 +149,28 @@ describe("compatibility", () => {
     const state = { ...baseState, gammeId: "xh-mxl-615" };
     expect(isGroupHidden("capot", state)).toBe(true);
     expect(isGroupHidden("etagere_box", state)).toBe(true);
+  });
+
+  it("propose le brassage intérieur/extérieur sur M 250, ML 500 et MXL 615", () => {
+    for (const gammeId of ["xh-m-250", "xh-ml-500", "xh-mxl-615"]) {
+      const state = { ...baseState, gammeId };
+      expect(isGroupHidden("brassage", state)).toBe(false);
+      expect(getVisibleGroups(state)[0]).toBe("brassage");
+      expect(getVisibleGroups(state)).toContain("brassage");
+      expect(isOptionSelectable("brassage-interieur", state)).toBe(true);
+      expect(isOptionSelectable("brassage-exterieur", state)).toBe(true);
+    }
+    expect(isGroupHidden("brassage", { ...baseState, gammeId: "xh-mx-350" })).toBe(
+      true
+    );
+  });
+
+  it("applique le châssis -E au BOM pour le brassage extérieur", () => {
+    const bom = buildBom({
+      ...baseState,
+      gammeId: "xh-ml-500",
+      options: { ...baseState.options, brassage: "brassage-exterieur" },
+    });
+    expect(bom.find((l) => l.type === "base")?.sku).toBe("XHG3ML-E");
   });
 });

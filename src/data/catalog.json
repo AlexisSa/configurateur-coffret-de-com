@@ -39,6 +39,7 @@
     "tv": { "label": "Répartiteur TV", "type": "single", "optional": true, "description": "Distribue le signal TV (antenne / satellite) vers plusieurs prises." },
     "terre": { "label": "Bornier de mise à la terre", "type": "single", "optional": true, "description": "Bornier de mise à la terre des équipements, fixé sur rail DIN." },
     "prise": { "label": "Prise 2P+T", "type": "quantity", "optional": true, "description": "Prise de courant pour alimenter la box ou les équipements du coffret." },
+    "brassage": { "label": "Brassage", "type": "single", "optional": false, "description": "Emplacement du brassage réseau : à l'intérieur du coffret (standard) ou à l'extérieur pour un accès facilité aux câbles." },
     "etagere_box": { "label": "Étagère / support box", "type": "single", "optional": true, "description": "Support pour poser la box opérateur à l'intérieur du coffret." },
     "capot": { "label": "Capot de protection", "type": "single", "optional": true, "description": "Capot de protection des connexions du coffret." },
     "porte": { "label": "Porte", "type": "single", "optional": true, "description": "Porte de fermeture du coffret." }
@@ -144,7 +145,7 @@
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
       "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
-      "specificOptionGroups": []
+      "specificOptionGroups": ["brassage", "etagere_box"]
     },
     {
       "id": "xh-mx-350",
@@ -173,7 +174,7 @@
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
       "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
-      "specificOptionGroups": []
+      "specificOptionGroups": ["etagere_box"]
     },
     {
       "id": "xh-ml-500",
@@ -203,7 +204,7 @@
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
       "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
-      "specificOptionGroups": []
+      "specificOptionGroups": ["brassage"]
     },
     {
       "id": "xh-mxl-615",
@@ -232,7 +233,7 @@
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
       "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
-      "specificOptionGroups": []
+      "specificOptionGroups": ["brassage"]
     },
     {
       "id": "xh-s-250",
@@ -379,7 +380,7 @@
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
       "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
-      "specificOptionGroups": []
+      "specificOptionGroups": ["etagere_box"]
     },
     {
       "id": "xh-m2l-500",
@@ -539,6 +540,29 @@
       "rules": { "maxPerConfig": 2, "requireGammeAttribute": { "priseMode": "option" } }
     },
     {
+      "id": "brassage-interieur",
+      "group": "brassage",
+      "label": "Brassage intérieur",
+      "rules": {
+        "maxPerConfig": 1,
+        "virtual": true,
+        "gammes": ["xh-m-250", "xh-ml-500", "xh-mxl-615"],
+        "excludes": ["brassage-exterieur"]
+      }
+    },
+    {
+      "id": "brassage-exterieur",
+      "group": "brassage",
+      "label": "Brassage extérieur",
+      "rules": {
+        "maxPerConfig": 1,
+        "virtual": true,
+        "chassisSkuSuffix": "-E",
+        "gammes": ["xh-m-250", "xh-ml-500", "xh-mxl-615"],
+        "excludes": ["brassage-interieur"]
+      }
+    },
+    {
       "id": "etagere-box",
       "group": "etagere_box",
       "label": "Étagère à fixer dans les coffrets",
@@ -550,6 +574,48 @@
       "rules": {
         "maxPerConfig": 1,
         "gammes": ["xh-l-500", "xh-xl-625"]
+      }
+    },
+    {
+      "id": "etagere-extl",
+      "group": "etagere_box",
+      "label": "Étagère extension 250×300 — sans prise",
+      "sku": "XH-ETEXTL",
+      "productUrl": "https://www.xeilom.fr/etagere-extension-pour-coffret-250-avec-box-de-rangement-c2x37068487",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/07/XH-ETEXTL_1.jpg",
+      "unitPriceHT": 20.8,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-m-250", "xh-mx-350", "xh-m2-250"],
+        "excludes": ["etagere-extl-1pc", "etagere-extl-2pc"]
+      }
+    },
+    {
+      "id": "etagere-extl-1pc",
+      "group": "etagere_box",
+      "label": "Étagère extension 250×300 — 1 prise 2P+T",
+      "sku": "XH-ETEXTL-1PC",
+      "productUrl": "https://www.xeilom.fr/etagere-rangement-box-internet-250-x-300-mm-1pc-2pt-c2x38220380",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/24/XH-ETEXTL-1PC_1.jpg",
+      "unitPriceHT": 26.74,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-m-250", "xh-mx-350", "xh-m2-250"],
+        "excludes": ["etagere-extl", "etagere-extl-2pc"]
+      }
+    },
+    {
+      "id": "etagere-extl-2pc",
+      "group": "etagere_box",
+      "label": "Étagère extension 250×300 — 2 prises 2P+T",
+      "sku": "XH-ETEXTL-2PC",
+      "productUrl": "https://www.xeilom.fr/etagere-rangement-box-internet-250-x-300-mm-2pc-2pt-c2x38220381",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/17/XH-ETEXTL-2PC_1.jpg",
+      "unitPriceHT": 31.2,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-m-250", "xh-mx-350", "xh-m2-250"],
+        "excludes": ["etagere-extl", "etagere-extl-1pc"]
       }
     },
     {

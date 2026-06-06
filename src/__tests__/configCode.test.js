@@ -22,6 +22,7 @@ describe("configCode", () => {
       etagere_box: "",
       capot: "",
       porte: "",
+      brassage: "",
     },
   };
 

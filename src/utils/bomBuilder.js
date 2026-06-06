@@ -1,5 +1,5 @@
 // @ts-check
-import { catalog, getGammeById, getOptionById } from "./catalog.js";
+import { catalog, getGammeById, getGroupsForGamme, getOptionById } from "./catalog.js";
 import { buildGammeSku } from "./gammeSku.js";
 import {
   isConfigurationComplete,
@@ -42,9 +42,19 @@ export function buildBom(state, pricingTierCode) {
   const materiau = gamme.materiaux.find((m) => m.id === state.materiau);
   const lines = [];
 
+  const brassageOption = state.options.brassage
+    ? getOptionById(state.options.brassage)
+    : null;
+
   lines.push({
-    sku: buildGammeSku(gamme, materiau),
-    label: `${gamme.label}${materiau ? ` — ${materiau.label}` : ""}`,
+    sku: buildGammeSku(gamme, materiau, state.options),
+    label: [
+      gamme.label,
+      materiau?.label,
+      brassageOption?.id === "brassage-exterieur" ? "brassage extérieur" : null,
+    ]
+      .filter(Boolean)
+      .join(" — "),
     quantity: 1,
     type: "base",
     productUrl: gamme.productUrl,
@@ -93,7 +103,7 @@ export function buildBom(state, pricingTierCode) {
 
   for (const [optionId, count] of Object.entries(counts)) {
     const option = getOptionById(optionId);
-    if (!option) continue;
+    if (!option || option.rules?.virtual) continue;
     lines.push(...buildOptionBomLines(option, count));
   }
 
@@ -175,7 +185,7 @@ export function getConfigurationSummary(state) {
   else parts.push(gamme.label);
   if (materiau) parts.push(materiau.label);
 
-  for (const group of [...gamme.optionGroups, ...gamme.specificOptionGroups]) {
+  for (const group of getGroupsForGamme(gamme)) {
     const optionId = state.options[group];
     if (!optionId) continue;
 

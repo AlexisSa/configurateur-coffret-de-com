@@ -15,6 +15,7 @@ import { normalizeCoffretCount, DEFAULT_COFFRET_COUNT } from "../utils/coffretQu
 import { loadStoredConfig, clearStoredConfig } from "../utils/storage.js";
 import {
   emptyOptions,
+  defaultOptionsForGamme,
   DEFAULT_MATERIAU,
   validateAndNormalizeConfig,
   applyOptionSelection,
@@ -88,7 +89,7 @@ export function useCoffretConfiguration(pricingTierCode) {
       ...initialState(),
       gammeId,
       materiau: DEFAULT_MATERIAU,
-      options: emptyOptions(),
+      options: defaultOptionsForGamme(gammeId),
     });
   }, []);
 

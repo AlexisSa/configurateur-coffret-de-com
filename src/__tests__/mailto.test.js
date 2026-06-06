@@ -23,6 +23,7 @@ describe("mailto", () => {
         etagere_box: "",
         capot: "",
         porte: "",
+        brassage: "",
       },
     },
     internal: {

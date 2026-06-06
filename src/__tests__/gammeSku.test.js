@@ -1,6 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { getGammeById } from "../utils/catalog.js";
-import { buildGammeSku, getGammeLetterCode } from "../utils/gammeSku.js";
+import {
+  buildGammeSku,
+  getChassisSkuSuffixFromOptions,
+  getGammeLetterCode,
+} from "../utils/gammeSku.js";
 
 describe("gammeSku", () => {
   it("dérive le code lettre (P → T)", () => {
@@ -17,5 +21,19 @@ describe("gammeSku", () => {
     expect(buildGammeSku(gamme, materiau)).toBe("XHG3M");
     expect(buildGammeSku(getGammeById("xh-p-300"), materiau)).toBe("XHG3T");
     expect(buildGammeSku(getGammeById("xh-xl-625"), materiau)).toBe("XHG3XL");
+  });
+
+  it("ajoute le suffixe -E pour le brassage extérieur", () => {
+    const gamme = getGammeById("xh-m-250");
+    const materiau = gamme.materiaux[0];
+    const options = { brassage: "brassage-exterieur" };
+    expect(getChassisSkuSuffixFromOptions(options)).toBe("-E");
+    expect(buildGammeSku(gamme, materiau, options)).toBe("XHG3M-E");
+    expect(buildGammeSku(getGammeById("xh-ml-500"), materiau, options)).toBe(
+      "XHG3ML-E"
+    );
+    expect(buildGammeSku(getGammeById("xh-mxl-615"), materiau, options)).toBe(
+      "XHG3MXL-E"
+    );
   });
 });

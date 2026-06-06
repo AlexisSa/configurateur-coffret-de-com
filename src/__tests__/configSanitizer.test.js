@@ -16,6 +16,7 @@ const baseOptions = {
   etagere_box: "",
   capot: "",
   porte: "",
+  brassage: "",
 };
 
 describe("configSanitizer", () => {
@@ -64,6 +65,15 @@ describe("configSanitizer", () => {
     const skus = bom.map((l) => l.sku);
     expect(skus).toContain("SPLITF-4");
     expect(skus).not.toContain("XH-S-CAPOT");
+  });
+
+  it("applique le brassage intérieur par défaut sur M 250", () => {
+    const result = validateAndNormalizeConfig({
+      gammeId: "xh-m-250",
+      materiau: "grade3",
+      options: baseOptions,
+    });
+    expect(result?.state.options.brassage).toBe("brassage-interieur");
   });
 
   it("sanitizeOptionsForState conserve les options compatibles", () => {

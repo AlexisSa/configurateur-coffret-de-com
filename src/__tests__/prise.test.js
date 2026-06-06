@@ -20,6 +20,7 @@ const baseState = {
     etagere_box: "",
     capot: "",
     porte: "",
+    brassage: "",
   },
 };
 

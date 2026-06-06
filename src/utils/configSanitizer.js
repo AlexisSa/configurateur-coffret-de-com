@@ -25,6 +25,20 @@ export function emptyOptions() {
 }
 
 /**
+ * Options par défaut selon la gamme (ex. brassage intérieur sur M / ML / MXL).
+ * @param {string} gammeId
+ * @returns {Record<string, string>}
+ */
+export function defaultOptionsForGamme(gammeId) {
+  const opts = emptyOptions();
+  const gamme = getGammeById(gammeId);
+  if (gamme?.specificOptionGroups?.includes("brassage")) {
+    opts.brassage = "brassage-interieur";
+  }
+  return opts;
+}
+
+/**
  * @param {Record<string, string>} options
  */
 export function normalizeLegacyDti(options) {
@@ -124,6 +138,13 @@ export function sanitizeOptionsForState(state) {
     } else {
       warnings.push(`Option incompatible retirée : ${option.label ?? value}`);
     }
+  }
+
+  if (
+    getGammeById(state.gammeId)?.specificOptionGroups?.includes("brassage") &&
+    !accepted.brassage
+  ) {
+    accepted.brassage = "brassage-interieur";
   }
 
   return { options: accepted, warnings };
