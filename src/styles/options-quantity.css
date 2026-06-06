@@ -33,7 +33,7 @@
   width: 4.5rem;
   height: 4.5rem;
   border-radius: 8px;
-  background: var(--surface-alt);
+  background: #fff;
   border: 1px solid var(--border);
   overflow: hidden;
 }
@@ -151,7 +151,7 @@
 
 .qty-segment--selected {
   border-color: var(--brand);
-  background: var(--brand-light);
+  background: #fff;
   box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
@@ -202,13 +202,13 @@
 
 .qty-segment--custom.qty-segment--selected {
   border-color: var(--brand);
-  background: var(--brand-light);
+  background: #fff;
   box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
 .qty-segment--custom.qty-segment--selected:hover {
   border-color: var(--brand);
-  background: var(--brand-light);
+  background: #fff;
 }
 
 .qty-segment-custom-label {
@@ -273,7 +273,7 @@
 
 .option-tile.selected {
   border-color: var(--brand);
-  background: var(--brand-light);
+  background: #fff;
   box-shadow: 0 0 0 1px var(--brand-muted);
 }
 
@@ -434,7 +434,7 @@
 
 .option-tile--custom.selected {
   border-color: var(--brand);
-  background: var(--brand-light);
+  background: #fff;
   box-shadow: 0 0 0 1px var(--brand-muted);
 }
 

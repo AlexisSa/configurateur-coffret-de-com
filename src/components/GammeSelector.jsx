@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Check } from "lucide-react";
 import { catalog, getGammeById } from "../utils/catalog.js";
 import {
   formatGammeDimensions,
@@ -135,14 +136,32 @@ export function GammeSelector({ onSelect, selectedId }) {
               <button
                 key={segment.id}
                 type="button"
-                className={`gamme-picker-nav-item ${isActive ? "active" : ""} ${hasSelection ? "has-selection" : ""}`}
+                className={[
+                  "gamme-picker-nav-item",
+                  isActive && "active",
+                  hasSelection && "has-selection",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
                 onClick={() => setActiveSegmentId(segment.id)}
                 aria-current={isActive ? "true" : undefined}
+                title={
+                  hasSelection && !isActive
+                    ? "Coffret sélectionné dans cette famille"
+                    : undefined
+                }
               >
                 <span className="gamme-picker-nav-label">{segment.label}</span>
-                {count > 0 && (
-                  <span className="gamme-picker-nav-count">{count}</span>
-                )}
+                <span className="gamme-picker-nav-meta">
+                  {hasSelection && !isActive && (
+                    <span className="gamme-picker-nav-selected" aria-hidden>
+                      <Check size={12} strokeWidth={2.5} />
+                    </span>
+                  )}
+                  {count > 0 && (
+                    <span className="gamme-picker-nav-count">{count}</span>
+                  )}
+                </span>
               </button>
             );
           })}

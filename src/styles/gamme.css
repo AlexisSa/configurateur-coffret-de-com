@@ -59,14 +59,14 @@
   text-align: left;
   flex-shrink: 0;
   padding: 0.65rem 0.85rem;
-  border: none;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-alt);
   color: var(--text);
   cursor: pointer;
   transition:
     background var(--transition),
-    box-shadow var(--transition);
+    border-color var(--transition);
 }
 
 @media (min-width: 768px) {
@@ -81,9 +81,10 @@
   background: var(--surface-muted);
 }
 
+/* Famille actuellement affichée dans le panneau */
 .gamme-picker-nav-item.active {
-  background: var(--brand-light);
-  box-shadow: none;
+  background: #fff;
+  border-color: var(--border-strong);
 }
 
 .gamme-picker-nav-label {
@@ -91,6 +92,24 @@
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: -0.01em;
+}
+
+.gamme-picker-nav-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.gamme-picker-nav-selected {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: var(--radius-pill);
+  background: var(--success-light);
+  color: var(--success);
 }
 
 .gamme-picker-nav-count {
@@ -110,6 +129,31 @@
 }
 
 .gamme-picker-nav-item.active .gamme-picker-nav-count {
+  background: var(--surface-muted);
+  color: var(--text-muted);
+}
+
+/* Famille contenant le coffret sélectionné (panneau non affiché) */
+.gamme-picker-nav-item.has-selection:not(.active) {
+  background: var(--surface-alt);
+}
+
+.gamme-picker-nav-item.has-selection:not(.active) .gamme-picker-nav-label {
+  color: var(--brand-dark);
+}
+
+.gamme-picker-nav-item.has-selection:not(.active) .gamme-picker-nav-count {
+  background: var(--brand-light);
+  color: var(--brand-dark);
+}
+
+/* Famille affichée ET coffret sélectionné dedans */
+.gamme-picker-nav-item.active.has-selection {
+  background: #fff;
+  border-color: var(--brand);
+}
+
+.gamme-picker-nav-item.active.has-selection .gamme-picker-nav-count {
   background: var(--brand);
   color: #fff;
 }
@@ -174,15 +218,6 @@
 .gamme-card--compact .gamme-dims {
   font-size: 0.68rem;
   margin-top: 0.15rem;
-}
-
-.gamme-picker-nav-item.has-selection:not(.active) {
-  background: var(--brand-light);
-}
-
-.gamme-picker-nav-item.has-selection:not(.active) .gamme-picker-nav-count {
-  background: var(--brand);
-  color: #fff;
 }
 
 /* —— Gamme grid (legacy / preview card) —— */
@@ -261,8 +296,8 @@
 }
 
 .gamme-card.selected {
-  background: var(--brand-light);
-  box-shadow: none;
+  background: #fff;
+  box-shadow: 0 0 0 2px var(--brand);
 }
 
 .gamme-card-image {
