@@ -57,6 +57,7 @@ describe("quote", () => {
 
     expect(text).toContain("Nom : Jean Dupont");
     expect(text).toContain("Nombre de coffrets : 3");
+    expect(text).not.toContain("Résumé :");
     expect(text).toContain("  • 1× XHG3M");
     expect(text).toContain("Prix unitaire HT");
     expect(text).toContain("Total HT (3 coffrets)");

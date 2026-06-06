@@ -1,11 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { buildMailtoLink } from "../utils/mailto.js";
-
-vi.mock("../utils/quoteFormat.js", () => ({
-  buildStructuredQuoteBody: vi.fn(({ mode, shareUrl }) =>
-    mode === "full" ? "x".repeat(3000) : `short body\n${shareUrl ?? ""}`
-  ),
-}));
 
 describe("mailto", () => {
   const baseParams = {
@@ -36,30 +30,38 @@ describe("mailto", () => {
     bom: [
       {
         sku: "XHG3M",
-        label: "M 250",
+        label: "M 250 — Grade 3 TV",
         quantity: 1,
         type: "base",
-        unitPriceHT: 95,
-        lineTotalHT: 95,
+        unitPriceHT: 62,
+        lineTotalHT: 62,
+      },
+      {
+        sku: "SPLITF-4",
+        label: "Répartiteur TV 4 sorties F",
+        quantity: 1,
+        type: "option",
+        unitPriceHT: 5.46,
+        lineTotalHT: 5.46,
       },
     ],
     pricingTierCode: "S",
     configCode: "COF-XH-M-250|GRA|tv:4",
   };
 
-  it("tronque le corps si le récapitulatif complet est trop long", () => {
-    const href = buildMailtoLink(baseParams);
-    expect(href).toContain("mailto:commercial@xeilom.fr");
-    expect(decodeURIComponent(href)).toContain("config=");
-    expect(href.length).toBeLessThan(4000);
-  });
-
-  it("utilise une version courte hiérarchisée avec lien de configuration", () => {
+  it("inclut toujours la nomenclature détaillée sans lien de repli", () => {
     const href = decodeURIComponent(buildMailtoLink(baseParams));
+
+    expect(href).toContain("mailto:commercial@xeilom.fr");
     expect(href).toContain("Bonjour,");
-    expect(href).toContain("configurateur XH'system");
-    expect(href).toContain("short body");
-    expect(href).toContain("config=");
+    expect(href).not.toContain("configurateur XH");
+    expect(href).not.toContain("lien de configuration");
+    expect(href).not.toContain("config=");
+    expect(href).toContain("--- NOMENCLATURE (PAR COFFRET) ---");
+    expect(href).toContain("• 1× XHG3M");
+    expect(href).toContain("• 1× SPLITF-4");
+    expect(href).toContain("Nombre de coffrets : 3");
+    expect(href).not.toContain("Résumé :");
     expect(href).toContain("Cordialement");
   });
 });

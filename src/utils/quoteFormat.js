@@ -1,4 +1,3 @@
-import { getConfigurationSummary } from "./bomBuilder.js";
 import { getOrderPricingLines } from "./orderPricing.js";
 import { formatPriceHT, getPricingDisclaimer, hasPricedLines } from "./pricing.js";
 import { normalizeCoffretCount } from "./coffretQuantity.js";
@@ -35,14 +34,8 @@ export function buildClientSectionLines(internal) {
  * @returns {string[]}
  */
 export function buildConfigurationSectionLines(state) {
-  const summary = getConfigurationSummary(state);
   const coffretCount = normalizeCoffretCount(state.coffretCount);
-  const lines = [];
-
-  if (summary) lines.push(`Résumé : ${summary}`);
-  lines.push(`Nombre de coffrets : ${coffretCount}`);
-
-  return lines;
+  return [`Nombre de coffrets : ${coffretCount}`];
 }
 
 /**
@@ -94,19 +87,10 @@ export function buildCommentSectionLines(commentaire) {
  *   internal: { clientName?: string, societe?: string, email?: string, telephone?: string, commentaire?: string },
  *   bom: import('./bomBuilder.js').BomLine[],
  *   pricingTierCode: string,
- *   mode?: 'full' | 'short',
- *   shareUrl?: string,
  * }} params
  * @returns {string}
  */
-export function buildStructuredQuoteBody({
-  state,
-  internal,
-  bom,
-  pricingTierCode,
-  mode = "full",
-  shareUrl = "",
-}) {
+export function buildStructuredQuoteBody({ state, internal, bom, pricingTierCode }) {
   const coffretCount = normalizeCoffretCount(state.coffretCount);
   const sections = [
     ...formatQuoteSection("Coordonnées client", buildClientSectionLines(internal)),
@@ -114,25 +98,10 @@ export function buildStructuredQuoteBody({
       "Configuration demandée",
       buildConfigurationSectionLines(state)
     ),
-  ];
-
-  if (mode === "full") {
-    sections.push(
-      ...formatQuoteSection(
-        "Nomenclature (par coffret)",
-        buildBomSectionLines(bom)
-      )
-    );
-  } else if (shareUrl) {
-    sections.push(
-      ...formatQuoteSection("Nomenclature", [
-        "Le détail des références est disponible via le lien de configuration :",
-        shareUrl,
-      ])
-    );
-  }
-
-  sections.push(
+    ...formatQuoteSection(
+      "Nomenclature (par coffret)",
+      buildBomSectionLines(bom)
+    ),
     ...formatQuoteSection(
       "Estimation indicative",
       buildPricingSectionLines(bom, coffretCount, pricingTierCode)
@@ -140,8 +109,8 @@ export function buildStructuredQuoteBody({
     ...formatQuoteSection(
       "Commentaire client",
       buildCommentSectionLines(internal.commentaire)
-    )
-  );
+    ),
+  ];
 
   return sections.join("\n").trim();
 }

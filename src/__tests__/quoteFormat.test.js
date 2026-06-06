@@ -46,7 +46,6 @@ describe("quoteFormat", () => {
       internal,
       bom,
       pricingTierCode: "S",
-      mode: "full",
     });
 
     expect(text.indexOf("COORDONNÉES CLIENT")).toBeLessThan(
@@ -55,18 +54,29 @@ describe("quoteFormat", () => {
     expect(text).toContain("Email : jean@acme.fr");
   });
 
-  it("remplace la nomenclature par un lien en mode court", () => {
+  it("n'affiche que la quantité dans la section configuration", () => {
     const text = buildStructuredQuoteBody({
       state: baseState,
       internal,
       bom,
       pricingTierCode: "S",
-      mode: "short",
-      shareUrl: "https://example.com/?config=abc",
     });
 
-    expect(text).not.toContain("• 1× XHG3M");
-    expect(text).toContain("--- NOMENCLATURE ---");
-    expect(text).toContain("https://example.com/?config=abc");
+    expect(text).toContain("--- CONFIGURATION DEMANDÉE ---");
+    expect(text).toContain("Nombre de coffrets : 3");
+    expect(text).not.toContain("Résumé :");
+    expect(text).not.toContain("DTIO4");
+  });
+
+  it("inclut toujours la nomenclature détaillée", () => {
+    const text = buildStructuredQuoteBody({
+      state: baseState,
+      internal,
+      bom,
+      pricingTierCode: "S",
+    });
+
+    expect(text).toContain("--- NOMENCLATURE (PAR COFFRET) ---");
+    expect(text).toContain("• 1× XHG3M");
   });
 });

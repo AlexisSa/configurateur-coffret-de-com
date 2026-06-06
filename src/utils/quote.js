@@ -13,6 +13,5 @@ export function buildQuoteText(state, internal, bom, pricingTierCode) {
     internal,
     bom,
     pricingTierCode,
-    mode: "full",
   });
 }
