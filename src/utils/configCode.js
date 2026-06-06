@@ -1,5 +1,9 @@
 // @ts-check
 
+import catalog from "../data/catalog.json";
+import { isEmbedMode } from "./embedMode.js";
+import { isAllowedEmbedOrigin } from "./embedOrigins.js";
+
 /**
  * @typedef {import('./compatibility.js').ConfigState & { internal?: import('./compatibility.js').ConfigState['internal'] }} FullState
  */
@@ -105,6 +109,41 @@ export function generateConfigCode(state) {
 }
 
 /**
+ * URL de base pour le partage (page Oxatis en embed, pas l'URL Vercel de l'iframe).
+ * @returns {URL}
+ */
+export function getShareBaseUrl() {
+  const configured =
+    catalog.meta?.embed?.sharePageUrl?.trim() ||
+    import.meta.env.VITE_SHARE_BASE_URL?.trim();
+
+  if (configured) {
+    const url = new URL(configured);
+    url.searchParams.delete("config");
+    url.hash = "";
+    return url;
+  }
+
+  if (isEmbedMode() && document.referrer) {
+    try {
+      const referrer = new URL(document.referrer);
+      if (isAllowedEmbedOrigin(referrer.origin)) {
+        referrer.searchParams.delete("config");
+        referrer.hash = "";
+        return referrer;
+      }
+    } catch {
+      // referrer invalide
+    }
+  }
+
+  const url = new URL(window.location.href);
+  url.searchParams.delete("config");
+  url.hash = "";
+  return url;
+}
+
+/**
  * Construit un lien de partage de la configuration produit.
  * Les coordonnées client (internal) sont volontairement exclues : un lien
  * partagé ne doit pas divulguer le nom, l'email ou le téléphone du client.
@@ -117,7 +156,7 @@ export function buildShareUrl(state) {
     coffretCount: state.coffretCount,
     options: state.options,
   });
-  const url = new URL(window.location.href);
+  const url = getShareBaseUrl();
   url.searchParams.set("config", encoded);
   return url.toString();
 }

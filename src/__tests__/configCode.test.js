@@ -4,6 +4,8 @@ import {
   encodeConfigLegacy,
   decodeConfig,
   generateConfigCode,
+  buildShareUrl,
+  getShareBaseUrl,
   MAX_CONFIG_PARAM_LENGTH,
 } from "../utils/configCode.js";
 
@@ -51,5 +53,19 @@ describe("configCode", () => {
     const code = generateConfigCode(state);
     expect(code).toContain("COF-");
     expect(code).toContain("tv:4");
+  });
+
+  it("utilise la page Oxatis comme base du lien de partage", () => {
+    const shareUrl = buildShareUrl(state);
+    expect(shareUrl).toMatch(/^https:\/\/www\.xeilom\.fr\/PBCPPlayer\.asp\?/);
+    expect(shareUrl).toContain("ID=2542607");
+    expect(shareUrl).toContain("config=");
+    expect(shareUrl).not.toContain("vercel.app");
+  });
+
+  it("retire un paramètre config existant de la base de partage", () => {
+    const base = getShareBaseUrl();
+    expect(base.searchParams.has("config")).toBe(false);
+    expect(base.searchParams.get("ID")).toBe("2542607");
   });
 });

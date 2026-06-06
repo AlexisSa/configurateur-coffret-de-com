@@ -250,7 +250,6 @@ window.oxInfos.oxUser.catid[0]
 <div class="configurateur-embed">
   <iframe
     id="configurateur-coffret"
-    src="https://VOTRE-APP.vercel.app/?embed=1"
     title="Configurateur"
     width="100%"
     style="border:0; min-height:720px; display:block; width:100%;"
@@ -262,6 +261,19 @@ window.oxInfos.oxUser.catid[0]
 (function () {
   var IFRAME_ORIGIN = "https://VOTRE-APP.vercel.app";
   var frame = document.getElementById("configurateur-coffret");
+
+  function buildIframeSrc() {
+    var src = IFRAME_ORIGIN + "/?embed=1";
+    var config = new URLSearchParams(window.location.search).get("config");
+    if (config) {
+      src += "&config=" + encodeURIComponent(config);
+    }
+    return src;
+  }
+
+  if (frame) {
+    frame.src = buildIframeSrc();
+  }
 
   function getOxatisCategoryId() {
     var user = window.oxInfos && window.oxInfos.oxUser;
@@ -323,6 +335,16 @@ window.oxInfos.oxUser.catid[0]
 | iframe → Parent | `coffret-resize` | `{ height: 1234 }` | Ajuste la hauteur iframe |
 
 > **Important** : `oxInfos.oxUser.catid` peut ne pas être disponible au premier `load` de l'iframe, et l'app React peut ne pas encore écouter les messages. Le script parent réessaie pendant 10 s et répond aussi à `coffret-request-context` envoyé par l'iframe une fois prête.
+
+### Lien de partage
+
+Le bouton **Partager** copie une URL de la forme :
+
+```
+https://www.xeilom.fr/PBCPPlayer.asp?ID=2542607&config=…
+```
+
+La base est définie dans `catalog.json` → `meta.embed.sharePageUrl`. Le paramètre `config` est transmis à l'iframe par `buildIframeSrc()` ci-dessus (sans cela, l'ouverture du lien ne restaure pas la configuration).
 
 ### Alternative : paramètre URL
 
