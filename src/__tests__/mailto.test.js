@@ -1,17 +1,18 @@
 import { describe, it, expect, vi } from "vitest";
 import { buildMailtoLink } from "../utils/mailto.js";
 
-vi.mock("../utils/quote.js", () => ({
-  buildQuoteText: vi.fn(() => "x".repeat(3000)),
+vi.mock("../utils/quoteFormat.js", () => ({
+  buildStructuredQuoteBody: vi.fn(({ mode, shareUrl }) =>
+    mode === "full" ? "x".repeat(3000) : `short body\n${shareUrl ?? ""}`
+  ),
 }));
 
 describe("mailto", () => {
-
   const baseParams = {
     state: {
       gammeId: "xh-m-250",
       materiau: "grade3",
-      coffretCount: 1,
+      coffretCount: 3,
       options: {
         dti_rj45: "",
         dti_fibre: "",
@@ -49,13 +50,16 @@ describe("mailto", () => {
   it("tronque le corps si le récapitulatif complet est trop long", () => {
     const href = buildMailtoLink(baseParams);
     expect(href).toContain("mailto:commercial@xeilom.fr");
-    expect(href).toContain("lien%20de%20configuration");
+    expect(decodeURIComponent(href)).toContain("config=");
     expect(href.length).toBeLessThan(4000);
   });
 
-  it("inclut le récapitulatif court quand le corps est tronqué", () => {
+  it("utilise une version courte hiérarchisée avec lien de configuration", () => {
     const href = decodeURIComponent(buildMailtoLink(baseParams));
-    expect(href).toContain("Jean Dupont");
+    expect(href).toContain("Bonjour,");
+    expect(href).toContain("configurateur XH'system");
+    expect(href).toContain("short body");
     expect(href).toContain("config=");
+    expect(href).toContain("Cordialement");
   });
 });
