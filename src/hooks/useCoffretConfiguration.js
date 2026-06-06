@@ -26,6 +26,7 @@ import {
   quantityGroupHandlers,
 } from "../utils/quantityGroups.js";
 import { buildMailtoLink } from "../utils/mailto.js";
+import { copyTextToClipboard } from "../utils/clipboard.js";
 import { useToasts } from "./useToasts.js";
 import { usePdfPreview } from "./usePdfPreview.js";
 import { useConfigPersistence } from "./useConfigPersistence.js";
@@ -48,6 +49,7 @@ const initialInternal = () => ({
 export function useCoffretConfiguration(pricingTierCode) {
   const [state, setState] = useState(initialState);
   const [internal, setInternal] = useState(initialInternal);
+  const [shareLinkUrl, setShareLinkUrl] = useState(null);
   const { toasts, addToast, removeToast } = useToasts();
 
   useEffect(() => {
@@ -173,27 +175,47 @@ export function useCoffretConfiguration(pricingTierCode) {
 
   const copyToClipboard = useCallback(
     async (text, successTitle, successMessage) => {
-      try {
-        await navigator.clipboard.writeText(text);
+      const copied = await copyTextToClipboard(text);
+      if (copied) {
         addToast("success", successTitle, successMessage);
-      } catch {
-        addToast(
-          "error",
-          "Copie impossible",
-          "Votre navigateur a bloqué l'accès au presse-papiers."
-        );
+        return true;
       }
+      addToast(
+        "error",
+        "Copie impossible",
+        "Votre navigateur a bloqué l'accès au presse-papiers."
+      );
+      return false;
     },
     [addToast]
   );
 
-  const shareConfig = useCallback(() => {
-    copyToClipboard(
-      buildShareUrl(state),
+  const shareConfig = useCallback(async () => {
+    const url = buildShareUrl(state);
+    const copied = await copyTextToClipboard(url);
+    if (copied) {
+      addToast(
+        "success",
+        "Lien copié",
+        "Le lien de configuration est dans le presse-papiers."
+      );
+      return;
+    }
+    setShareLinkUrl(url);
+  }, [state, addToast]);
+
+  const closeShareLink = useCallback(() => {
+    setShareLinkUrl(null);
+  }, []);
+
+  const confirmShareLinkCopied = useCallback(() => {
+    addToast(
+      "success",
       "Lien copié",
       "Le lien de configuration est dans le presse-papiers."
     );
-  }, [state, copyToClipboard]);
+    setShareLinkUrl(null);
+  }, [addToast]);
 
   const copyRecap = useCallback(() => {
     copyToClipboard(
@@ -249,6 +271,9 @@ export function useCoffretConfiguration(pricingTierCode) {
     downloadPdf,
     buildMailtoLink: buildMailtoLinkFn,
     shareConfig,
+    shareLinkUrl,
+    closeShareLink,
+    confirmShareLinkCopied,
     copyRecap,
     resetConfiguration,
     toasts,

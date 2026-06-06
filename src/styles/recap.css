@@ -189,8 +189,11 @@
 }
 
 .recap-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   width: auto;
-  min-width: 2.75rem;
+  flex-shrink: 0;
   padding-left: 0.85rem;
   padding-right: 0.85rem;
 }

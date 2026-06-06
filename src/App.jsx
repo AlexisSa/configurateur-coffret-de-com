@@ -22,6 +22,7 @@ import {
   ContactForm,
   ToastContainer,
   PdfPreviewModal,
+  ShareLinkModal,
   OptionAccordion,
 } from "./components/index.js";
 
@@ -57,6 +58,9 @@ function App() {
     downloadPdf,
     buildMailtoLink,
     shareConfig,
+    shareLinkUrl,
+    closeShareLink,
+    confirmShareLinkCopied,
     copyRecap,
     resetConfiguration,
     toasts,
@@ -207,6 +211,13 @@ function App() {
         url={pdfPreviewUrl}
         onClose={closePdfPreview}
         onDownload={downloadPdf}
+      />
+
+      <ShareLinkModal
+        open={shareLinkUrl != null}
+        url={shareLinkUrl ?? ""}
+        onClose={closeShareLink}
+        onCopied={confirmShareLinkCopied}
       />
 
       <ToastContainer toasts={toasts} removeToast={removeToast} />

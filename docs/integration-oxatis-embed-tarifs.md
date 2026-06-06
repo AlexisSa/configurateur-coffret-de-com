@@ -254,6 +254,7 @@ window.oxInfos.oxUser.catid[0]
     width="100%"
     style="border:0; min-height:720px; display:block; width:100%;"
     loading="lazy"
+    allow="clipboard-write"
   ></iframe>
 </div>
 
@@ -345,6 +346,8 @@ https://www.xeilom.fr/PBCPPlayer.asp?ID=2542607&config=…
 ```
 
 La base est définie dans `catalog.json` → `meta.embed.sharePageUrl`. Le paramètre `config` est transmis à l'iframe par `buildIframeSrc()` ci-dessus (sans cela, l'ouverture du lien ne restaure pas la configuration).
+
+Ajoutez `allow="clipboard-write"` sur l'iframe pour que le bouton **Partager** copie le lien directement ; sinon une fenêtre affiche le lien à copier manuellement.
 
 ### Alternative : paramètre URL
 

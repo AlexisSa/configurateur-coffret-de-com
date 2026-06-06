@@ -9,5 +9,6 @@ export { RecapTable } from "./RecapTable.jsx";
 export { ContactForm } from "./ContactForm.jsx";
 export { ToastContainer } from "./ToastContainer.jsx";
 export { PdfPreviewModal } from "./PdfPreviewModal.jsx";
+export { ShareLinkModal } from "./ShareLinkModal.jsx";
 export { ConfirmModal } from "./ConfirmModal.jsx";
 export { OptionAccordion } from "./OptionAccordion.jsx";

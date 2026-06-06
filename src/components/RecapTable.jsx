@@ -156,6 +156,7 @@ export function RecapTable({
                   aria-label="Partager la configuration"
                 >
                   <Share2 size={17} strokeWidth={2} />
+                  Partager
                 </button>
               )}
             </div>
