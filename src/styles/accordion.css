@@ -9,22 +9,22 @@
 }
 
 .option-accordion {
-  border: none;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--surface-alt);
+  background: var(--surface);
   overflow: hidden;
   transition:
-    background var(--transition),
+    border-color var(--transition),
     box-shadow var(--transition);
 }
 
 .option-accordion--open {
-  background: var(--surface-alt);
-  box-shadow: none;
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
 }
 
 .option-accordion--configured {
-  background: var(--brand-light);
+  border-color: var(--brand-muted);
 }
 
 .option-accordion-header {
@@ -48,8 +48,7 @@
 }
 
 .option-accordion:not(.option-accordion--open):hover {
-  background: var(--surface-muted);
-  box-shadow: none;
+  border-color: var(--border-hover);
 }
 
 .option-accordion:not(.option-accordion--open) .option-accordion-header:hover {
@@ -128,5 +127,5 @@
 
 .option-accordion-body {
   padding: 1.1rem 1.1rem 1.25rem;
-  border-top: none;
+  border-top: 1px solid var(--border);
 }
