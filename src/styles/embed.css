@@ -5,6 +5,27 @@
   background: #ffffff;
 }
 
+/* Toasts en haut : en bas de l'iframe ils sortent du viewport parent */
+.app--embed .toast-container {
+  top: 1rem;
+  bottom: auto;
+  left: auto;
+  right: 1rem;
+  max-width: min(22rem, calc(100% - 2rem));
+}
+
+@media (max-width: 640px) {
+  .app--embed .toast-container {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
+  }
+
+  .app--embed .toast {
+    min-width: 0;
+  }
+}
+
 .app--embed .app-main {
   padding: 1rem 1rem 2rem;
   max-width: 100%;
