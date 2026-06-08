@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { isEmbedMode } from "../utils/embedMode.js";
 import { getAllowedEmbedOrigins } from "../utils/embedOrigins.js";
 import { EMBED_RESIZE_MESSAGE_TYPE } from "../utils/embedMessages.js";
-import { getEmbedReportedHeight } from "../utils/embedLayout.js";
 
 /**
  * @returns {string[]}
@@ -19,9 +18,7 @@ function getPostMessageTargets() {
  * Envoie la hauteur du document au parent Oxatis pour redimensionner l'iframe.
  */
 function postEmbedHeight() {
-  const height = getEmbedReportedHeight();
-  if (!height) return;
-
+  const height = document.documentElement.scrollHeight;
   const payload = { type: EMBED_RESIZE_MESSAGE_TYPE, height };
 
   for (const origin of getPostMessageTargets()) {
