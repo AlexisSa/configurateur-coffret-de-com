@@ -49,8 +49,6 @@
 
 @media (min-width: 961px) {
   .app--embed .sidebar-column {
-    position: sticky;
     top: 1rem;
-    max-height: calc(100vh - 2rem);
   }
 }

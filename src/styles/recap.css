@@ -30,12 +30,7 @@
 }
 
 .recap-scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  margin-right: -0.2rem;
-  padding-right: 0.2rem;
+  margin: 0;
 }
 
 .recap-footer {

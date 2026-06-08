@@ -37,9 +37,7 @@
   .gamme-picker-nav {
     flex-direction: column;
     flex: 0 0 220px;
-    overflow-x: visible;
-    overflow-y: auto;
-    max-height: 520px;
+    overflow: visible;
     padding-bottom: 0;
     gap: 0.35rem;
   }
