@@ -1,4 +1,20 @@
 /* —— Mode embed (iframe Oxatis) —— */
+/* Scroll interne en desktop : permet au sticky de la colonne droite de fonctionner */
+html.embed-mode,
+html.embed-mode body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html.embed-mode .app--embed {
+  height: 100%;
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .app--embed {
   overflow-x: clip;
   max-width: 100%;
@@ -48,9 +64,10 @@
 }
 
 @media (min-width: 961px) {
-  .app--embed .sidebar-column {
+  html.embed-mode .app--embed .sidebar-column {
     position: sticky;
     top: 1rem;
     max-height: calc(100vh - 2rem);
+    max-height: calc(100dvh - 2rem);
   }
 }
