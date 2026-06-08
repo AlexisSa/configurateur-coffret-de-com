@@ -12,3 +12,4 @@ export { PdfPreviewModal } from "./PdfPreviewModal.jsx";
 export { ShareLinkModal } from "./ShareLinkModal.jsx";
 export { ConfirmModal } from "./ConfirmModal.jsx";
 export { OptionAccordion } from "./OptionAccordion.jsx";
+export { IncludedItemsPanel } from "./IncludedItemsPanel.jsx";

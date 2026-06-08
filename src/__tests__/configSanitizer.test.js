@@ -86,7 +86,7 @@ describe("configSanitizer", () => {
     expect(result?.state.options.terre).toBeUndefined();
     expect(result?.state.options.tv).toBe("tv-4");
     const bom = buildBom(result.state);
-    expect(bom.find((l) => l.sku === "BMT-PRD")?.quantity).toBe(1);
+    expect(bom.find((l) => l.sku === "BMT-PRD")).toBeUndefined();
   });
 
   it("sanitizeOptionsForState conserve les options compatibles", () => {

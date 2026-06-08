@@ -24,6 +24,7 @@ import {
   PdfPreviewModal,
   ShareLinkModal,
   OptionAccordion,
+  IncludedItemsPanel,
 } from "./components/index.js";
 
 const QUANTITY_GROUP_COMPONENTS = {
@@ -146,6 +147,8 @@ function App() {
                   <h2 className="section-title">Options</h2>
                   <span className="section-badge">Étape 2</span>
                 </div>
+
+                <IncludedItemsPanel gammeId={state.gammeId} />
 
                 <div className="options-stack options-stack--accordion">
                   {visibleGroups.map((group) => {

@@ -25,8 +25,17 @@ describe("bomBuilder", () => {
     expect(buildBom({ gammeId: "", materiau: "", options: {} })).toEqual([]);
   });
 
-  it("inclut le bornier de terre sur toute configuration", () => {
+  it("n'ajoute pas le bornier en nomenclature s'il est inclus dans le coffret (M 250)", () => {
     const bom = buildBom(state);
+    expect(bom.find((l) => l.sku === "BMT-PRD")).toBeUndefined();
+  });
+
+  it("facture le bornier de terre si non inclus dans le coffret", () => {
+    const bom = buildBom({
+      ...state,
+      gammeId: "xh-p-300",
+      options: { ...state.options, brassage: "" },
+    });
     expect(bom.find((l) => l.sku === "BMT-PRD")?.quantity).toBe(1);
   });
 
@@ -34,7 +43,7 @@ describe("bomBuilder", () => {
     const bom = buildBom(state);
     const skus = bom.map((l) => l.sku);
     expect(skus).toContain("XHG3M");
-    expect(skus).toContain("BMT-PRD");
+    expect(skus).not.toContain("BMT-PRD");
     expect(skus).toContain("DTIMP4RJ45");
     expect(skus).toContain("SPLITF-4");
     expect(bom.find((l) => l.sku === "KJ6AFSEF1")?.quantity).toBe(4);

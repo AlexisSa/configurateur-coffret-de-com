@@ -42,59 +42,141 @@
     }
   },
   "optionGroups": {
-    "dti_rj45": { "label": "DTI RJ45", "type": "single", "optional": true, "description": "Point d'arrivée et de brassage de la ligne opérateur (téléphone / internet)." },
-    "dti_fibre": { "label": "DTI fibre", "type": "single", "optional": true, "description": "Point d'arrivée et de raccordement de la fibre optique (DTIO)." },
-    "rj45": { "label": "Embases RJ45", "type": "quantity", "optional": true, "description": "Embases à clipser pour câbler les prises réseau du logement." },
-    "cordon_rj45": { "label": "Cordons RJ45", "type": "quantity", "optional": true, "description": "Cordons de brassage RJ45/RJ45 pour relier le DTI, la box ou les équipements du coffret." },
-    "tv": { "label": "Répartiteur TV", "type": "single", "optional": true, "description": "Distribue le signal TV (antenne / satellite) vers plusieurs prises." },
-    "cordon_balun": { "label": "Cordon balun TV", "type": "single", "optional": true, "description": "Cordon balun RJ45 / prise F pour transmettre le signal TV sur câble Ethernet." },
-    "prise": { "label": "Prise 2P+T", "type": "quantity", "optional": true, "description": "Prise de courant pour alimenter la box ou les équipements du coffret." },
-    "brassage": { "label": "Brassage", "type": "single", "optional": false, "description": "Emplacement du brassage réseau : à l'intérieur du coffret (standard) ou à l'extérieur pour un accès facilité aux câbles." },
-    "etagere_box": { "label": "Étagère / support box", "type": "single", "optional": true, "description": "Support pour poser la box opérateur à l'intérieur du coffret." },
-    "capot": { "label": "Capot de protection", "type": "single", "optional": true, "description": "Capot de protection des connexions du coffret." },
-    "rehausse": { "label": "Rehausse saillie", "type": "single", "optional": true, "description": "Rehausse métallique pour fixation en saillie (+50 mm de profondeur)." },
-    "porte": { "label": "Porte", "type": "single", "optional": true, "description": "Porte de fermeture du coffret." }
+    "dti_rj45": {
+      "label": "DTI RJ45",
+      "type": "single",
+      "optional": true,
+      "description": "Point d'arrivée et de brassage de la ligne opérateur (téléphone / internet)."
+    },
+    "dti_fibre": {
+      "label": "DTI fibre",
+      "type": "single",
+      "optional": true,
+      "description": "Point d'arrivée et de raccordement de la fibre optique (DTIO)."
+    },
+    "rj45": {
+      "label": "Embases RJ45",
+      "type": "quantity",
+      "optional": true,
+      "description": "Embases à clipser pour câbler les prises réseau du logement."
+    },
+    "cordon_rj45": {
+      "label": "Cordons RJ45",
+      "type": "quantity",
+      "optional": true,
+      "description": "Cordons de brassage RJ45/RJ45 pour relier le DTI, la box ou les équipements du coffret."
+    },
+    "tv": {
+      "label": "Répartiteur TV",
+      "type": "single",
+      "optional": true,
+      "description": "Distribue le signal TV (antenne / satellite) vers plusieurs prises."
+    },
+    "cordon_balun": {
+      "label": "Cordon balun TV",
+      "type": "single",
+      "optional": true,
+      "description": "Cordon balun RJ45 / prise F pour transmettre le signal TV sur câble Ethernet."
+    },
+    "prise": {
+      "label": "Prise 2P+T",
+      "type": "quantity",
+      "optional": true,
+      "description": "Prise de courant pour alimenter la box ou les équipements du coffret."
+    },
+    "brassage": {
+      "label": "Brassage",
+      "type": "single",
+      "optional": false,
+      "description": "Emplacement du brassage réseau : à l'intérieur du coffret (standard) ou à l'extérieur pour un accès facilité aux câbles."
+    },
+    "etagere_box": {
+      "label": "Étagère / support box",
+      "type": "single",
+      "optional": true,
+      "description": "Support pour poser la box opérateur à l'intérieur du coffret."
+    },
+    "capot": {
+      "label": "Capot de protection",
+      "type": "single",
+      "optional": true,
+      "description": "Capot de protection des connexions du coffret."
+    },
+    "rehausse": {
+      "label": "Rehausse saillie",
+      "type": "single",
+      "optional": true,
+      "description": "Rehausse métallique pour fixation en saillie (+50 mm de profondeur)."
+    },
+    "porte": {
+      "label": "Porte",
+      "type": "single",
+      "optional": true,
+      "description": "Porte de fermeture du coffret."
+    }
   },
   "gammeSegments": [
     {
       "id": "encastrement",
       "label": "Tableaux pour bac d'encastrement",
       "items": [
-        { "gammeId": "xh-p-300" }
+        {
+          "gammeId": "xh-p-300"
+        }
       ]
     },
     {
       "id": "modules-13",
       "label": "Coffrets 13 modules",
       "items": [
-        { "gammeId": "xh-m-250" },
-        { "gammeId": "xh-ml-500" },
-        { "gammeId": "xh-mx-350" },
-        { "gammeId": "xh-mxl-615" }
+        {
+          "gammeId": "xh-m-250"
+        },
+        {
+          "gammeId": "xh-ml-500"
+        },
+        {
+          "gammeId": "xh-mx-350"
+        },
+        {
+          "gammeId": "xh-mxl-615"
+        }
       ]
     },
     {
       "id": "modules-18",
       "label": "Coffrets 18 modules",
       "items": [
-        { "gammeId": "xh-m2-250" },
-        { "gammeId": "xh-m2l-500" }
+        {
+          "gammeId": "xh-m2-250"
+        },
+        {
+          "gammeId": "xh-m2l-500"
+        }
       ]
     },
     {
       "id": "support-box",
       "label": "Coffrets avec support box",
       "items": [
-        { "gammeId": "xh-s-250" },
-        { "gammeId": "xh-sx-350" }
+        {
+          "gammeId": "xh-s-250"
+        },
+        {
+          "gammeId": "xh-sx-350"
+        }
       ]
     },
     {
       "id": "avec-porte",
       "label": "Coffrets avec porte",
       "items": [
-        { "gammeId": "xh-l-500" },
-        { "gammeId": "xh-xl-625" }
+        {
+          "gammeId": "xh-l-500"
+        },
+        {
+          "gammeId": "xh-xl-625"
+        }
       ]
     }
   ],
@@ -123,10 +205,23 @@
         "encastrement": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
-      "specificOptionGroups": []
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun",
+        "prise"
+      ],
+      "specificOptionGroups": [],
+      "includedItems": []
     },
     {
       "id": "xh-m-250",
@@ -153,10 +248,39 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
-      "specificOptionGroups": ["brassage", "etagere_box"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun",
+        "prise"
+      ],
+      "specificOptionGroups": [
+        "brassage",
+        "etagere_box"
+      ],
+      "includedItems": [
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        },
+        {
+          "id": "panneau-rj45-10",
+          "label": "Panneau pour 10 RJ45"
+        },
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        }
+      ]
     },
     {
       "id": "xh-mx-350",
@@ -182,10 +306,25 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
-      "specificOptionGroups": ["etagere_box"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun",
+        "prise"
+      ],
+      "specificOptionGroups": [
+        "etagere_box"
+      ],
+      "includedItems": []
     },
     {
       "id": "xh-ml-500",
@@ -212,10 +351,49 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
-      "specificOptionGroups": ["brassage"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun"
+      ],
+      "specificOptionGroups": [
+        "brassage"
+      ],
+      "includedItems": [
+        {
+          "id": "panneau-rj45-10",
+          "label": "Panneau pour 10 RJ45"
+        },
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        },
+        {
+          "id": "plaque-support-box",
+          "label": "Plaque support box"
+        },
+        {
+          "id": "tablette",
+          "label": "Transformable en tablette"
+        },
+        {
+          "id": "lien-auto-agrippant-60",
+          "label": "Lien auto-agrippant 60 cm"
+        }
+      ]
     },
     {
       "id": "xh-mxl-615",
@@ -241,10 +419,50 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
-      "specificOptionGroups": ["brassage"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun",
+        "prise"
+      ],
+      "specificOptionGroups": [
+        "brassage"
+      ],
+      "includedItems": [
+        {
+          "id": "panneau-rj45-10",
+          "label": "Panneau pour 10 RJ45"
+        },
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        },
+        {
+          "id": "plaque-support-box",
+          "label": "Plaque support box"
+        },
+        {
+          "id": "tablette",
+          "label": "Transformable en tablette"
+        },
+        {
+          "id": "lien-auto-agrippant-60",
+          "label": "Lien auto-agrippant 60 cm"
+        }
+      ]
     },
     {
       "id": "xh-s-250",
@@ -270,10 +488,43 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
-      "specificOptionGroups": ["capot", "rehausse"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun",
+        "prise"
+      ],
+      "specificOptionGroups": [
+        "capot",
+        "rehausse"
+      ],
+      "includedItems": [
+        {
+          "id": "panneau-rj45-10",
+          "label": "Panneau pour 10 RJ45"
+        },
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        },
+        {
+          "id": "emplacement-support-box",
+          "label": "Emplacement support box"
+        }
+      ]
     },
     {
       "id": "xh-sx-350",
@@ -299,10 +550,43 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
-      "specificOptionGroups": ["capot", "rehausse"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun",
+        "prise"
+      ],
+      "specificOptionGroups": [
+        "capot",
+        "rehausse"
+      ],
+      "includedItems": [
+        {
+          "id": "panneau-rj45-10",
+          "label": "Panneau pour 10 RJ45"
+        },
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        },
+        {
+          "id": "emplacement-support-box",
+          "label": "Emplacement support box"
+        }
+      ]
     },
     {
       "id": "xh-l-500",
@@ -329,10 +613,53 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
-      "specificOptionGroups": ["etagere_box"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun"
+      ],
+      "specificOptionGroups": [
+        "etagere_box"
+      ],
+      "includedItems": [
+        {
+          "id": "porte-wifi",
+          "label": "Porte métallique Wifi perforée"
+        },
+        {
+          "id": "rails-lateraux",
+          "label": "2 rails latéraux pré-percés"
+        },
+        {
+          "id": "panneau-rj45-20",
+          "label": "Panneau pour 20 RJ45"
+        },
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "support-3-prises",
+          "label": "Support pour 3 prises électriques"
+        },
+        {
+          "id": "prises-2pt-3",
+          "label": "3 prises 2P+T"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        }
+      ]
     },
     {
       "id": "xh-xl-625",
@@ -359,10 +686,53 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
-      "specificOptionGroups": ["etagere_box"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun"
+      ],
+      "specificOptionGroups": [
+        "etagere_box"
+      ],
+      "includedItems": [
+        {
+          "id": "porte-wifi",
+          "label": "Porte métallique Wifi perforée"
+        },
+        {
+          "id": "rails-lateraux",
+          "label": "2 rails latéraux pré-percés"
+        },
+        {
+          "id": "panneau-rj45-20",
+          "label": "Panneau pour 20 RJ45"
+        },
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "support-3-prises",
+          "label": "Support pour 3 prises électriques"
+        },
+        {
+          "id": "prises-2pt-3",
+          "label": "3 prises 2P+T"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        }
+      ]
     },
     {
       "id": "xh-m2-250",
@@ -388,10 +758,37 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
-      "specificOptionGroups": ["etagere_box"]
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun"
+      ],
+      "specificOptionGroups": [
+        "etagere_box"
+      ],
+      "includedItems": [
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "panneau-rj45-10",
+          "label": "Panneau pour 10 RJ45"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        }
+      ]
     },
     {
       "id": "xh-m2l-500",
@@ -418,10 +815,47 @@
         "saillie": true
       },
       "materiaux": [
-        { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
+        {
+          "id": "grade3",
+          "label": "Grade 3 TV",
+          "skuSuffix": ""
+        }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
-      "specificOptionGroups": []
+      "optionGroups": [
+        "dti_rj45",
+        "dti_fibre",
+        "rj45",
+        "cordon_rj45",
+        "tv",
+        "cordon_balun"
+      ],
+      "specificOptionGroups": [],
+      "includedItems": [
+        {
+          "id": "rail-din",
+          "label": "Rail DIN"
+        },
+        {
+          "id": "panneau-rj45-10",
+          "label": "Panneau pour 10 RJ45"
+        },
+        {
+          "id": "plaque-support-box",
+          "label": "Plaque support box"
+        },
+        {
+          "id": "bloc-3-prises",
+          "label": "Bloc 3 prises 2P+T"
+        },
+        {
+          "id": "terre-bornier",
+          "label": "Bornier de mise à la terre"
+        },
+        {
+          "id": "lien-auto-agrippant",
+          "label": "Lien auto-agrippant"
+        }
+      ]
     }
   ],
   "options": [
@@ -443,7 +877,9 @@
       "image": "/options/dtimp4rj45.jpg",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/09/DTIMP4RJ45_1.jpg",
       "unitPriceHT": 21.5,
-      "rules": { "maxPerConfig": 1 }
+      "rules": {
+        "maxPerConfig": 1
+      }
     },
     {
       "id": "dti-fibre-2",
@@ -456,7 +892,9 @@
       "unitPriceHT": 16.83,
       "rules": {
         "maxPerConfig": 1,
-        "excludes": ["dti-fibre-4"]
+        "excludes": [
+          "dti-fibre-4"
+        ]
       }
     },
     {
@@ -470,7 +908,9 @@
       "unitPriceHT": 16.83,
       "rules": {
         "maxPerConfig": 1,
-        "excludes": ["dti-fibre-2"]
+        "excludes": [
+          "dti-fibre-2"
+        ]
       }
     },
     {
@@ -482,7 +922,15 @@
       "image": "/options/splitf-2.jpg",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/17/SPLIT-F2-1-big.jpg",
       "unitPriceHT": 3.44,
-      "rules": { "excludes": ["tv-3", "tv-4", "tv-6", "tv-8"], "maxPerConfig": 1 }
+      "rules": {
+        "excludes": [
+          "tv-3",
+          "tv-4",
+          "tv-6",
+          "tv-8"
+        ],
+        "maxPerConfig": 1
+      }
     },
     {
       "id": "tv-3",
@@ -493,7 +941,15 @@
       "image": "/options/splitf-3.png",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/22/SPLITF-3-1-big.png",
       "unitPriceHT": 4.56,
-      "rules": { "excludes": ["tv-2", "tv-4", "tv-6", "tv-8"], "maxPerConfig": 1 }
+      "rules": {
+        "excludes": [
+          "tv-2",
+          "tv-4",
+          "tv-6",
+          "tv-8"
+        ],
+        "maxPerConfig": 1
+      }
     },
     {
       "id": "tv-4",
@@ -504,7 +960,15 @@
       "image": "/options/splitf-4.jpg",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/11/SPLIT-F4-1-big.jpg",
       "unitPriceHT": 5.46,
-      "rules": { "excludes": ["tv-2", "tv-3", "tv-6", "tv-8"], "maxPerConfig": 1 }
+      "rules": {
+        "excludes": [
+          "tv-2",
+          "tv-3",
+          "tv-6",
+          "tv-8"
+        ],
+        "maxPerConfig": 1
+      }
     },
     {
       "id": "tv-6",
@@ -515,7 +979,15 @@
       "image": "/options/splitf-6.jpg",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/05/SPLIT-F6-1-big.jpg",
       "unitPriceHT": 11.13,
-      "rules": { "excludes": ["tv-2", "tv-3", "tv-4", "tv-8"], "maxPerConfig": 1 }
+      "rules": {
+        "excludes": [
+          "tv-2",
+          "tv-3",
+          "tv-4",
+          "tv-8"
+        ],
+        "maxPerConfig": 1
+      }
     },
     {
       "id": "tv-8",
@@ -526,7 +998,15 @@
       "image": "/options/splitf-8.jpg",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/15/SPLIT-F8-1-big.jpg",
       "unitPriceHT": 12.74,
-      "rules": { "excludes": ["tv-2", "tv-3", "tv-4", "tv-6"], "maxPerConfig": 1 }
+      "rules": {
+        "excludes": [
+          "tv-2",
+          "tv-3",
+          "tv-4",
+          "tv-6"
+        ],
+        "maxPerConfig": 1
+      }
     },
     {
       "id": "cordon-balun-rj45-f",
@@ -536,7 +1016,9 @@
       "productUrl": "https://www.xeilom.fr/cordon-rj45-prise-f-blanc-25m-cablage-7-8balun2300mhz-c2x32003514",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/07/CR503S78-0-5_1.jpg",
       "unitPriceHT": 8.37,
-      "rules": { "maxPerConfig": 1 }
+      "rules": {
+        "maxPerConfig": 1
+      }
     },
     {
       "id": "prise-2pt",
@@ -547,7 +1029,12 @@
       "image": "/options/pc45x45.png",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/24/PC45X45_1.png",
       "unitPriceHT": 4.14,
-      "rules": { "maxPerConfig": 2, "requireGammeAttribute": { "priseMode": "option" } }
+      "rules": {
+        "maxPerConfig": 2,
+        "requireGammeAttribute": {
+          "priseMode": "option"
+        }
+      }
     },
     {
       "id": "brassage-interieur",
@@ -556,8 +1043,14 @@
       "rules": {
         "maxPerConfig": 1,
         "virtual": true,
-        "gammes": ["xh-m-250", "xh-ml-500", "xh-mxl-615"],
-        "excludes": ["brassage-exterieur"]
+        "gammes": [
+          "xh-m-250",
+          "xh-ml-500",
+          "xh-mxl-615"
+        ],
+        "excludes": [
+          "brassage-exterieur"
+        ]
       }
     },
     {
@@ -568,8 +1061,14 @@
         "maxPerConfig": 1,
         "virtual": true,
         "chassisSkuSuffix": "-E",
-        "gammes": ["xh-m-250", "xh-ml-500", "xh-mxl-615"],
-        "excludes": ["brassage-interieur"]
+        "gammes": [
+          "xh-m-250",
+          "xh-ml-500",
+          "xh-mxl-615"
+        ],
+        "excludes": [
+          "brassage-interieur"
+        ]
       }
     },
     {
@@ -583,7 +1082,10 @@
       "unitPriceHT": 13.87,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-l-500", "xh-xl-625"]
+        "gammes": [
+          "xh-l-500",
+          "xh-xl-625"
+        ]
       }
     },
     {
@@ -596,8 +1098,15 @@
       "unitPriceHT": 20.8,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-m-250", "xh-mx-350", "xh-m2-250"],
-        "excludes": ["etagere-extl-1pc", "etagere-extl-2pc"]
+        "gammes": [
+          "xh-m-250",
+          "xh-mx-350",
+          "xh-m2-250"
+        ],
+        "excludes": [
+          "etagere-extl-1pc",
+          "etagere-extl-2pc"
+        ]
       }
     },
     {
@@ -610,8 +1119,15 @@
       "unitPriceHT": 26.74,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-m-250", "xh-mx-350", "xh-m2-250"],
-        "excludes": ["etagere-extl", "etagere-extl-2pc"]
+        "gammes": [
+          "xh-m-250",
+          "xh-mx-350",
+          "xh-m2-250"
+        ],
+        "excludes": [
+          "etagere-extl",
+          "etagere-extl-2pc"
+        ]
       }
     },
     {
@@ -624,8 +1140,15 @@
       "unitPriceHT": 31.2,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-m-250", "xh-mx-350", "xh-m2-250"],
-        "excludes": ["etagere-extl", "etagere-extl-1pc"]
+        "gammes": [
+          "xh-m-250",
+          "xh-mx-350",
+          "xh-m2-250"
+        ],
+        "excludes": [
+          "etagere-extl",
+          "etagere-extl-1pc"
+        ]
       }
     },
     {
@@ -639,8 +1162,12 @@
       "unitPriceHT": 26.66,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-s-250"],
-        "requireGammeAttribute": { "capotMode": "option" }
+        "gammes": [
+          "xh-s-250"
+        ],
+        "requireGammeAttribute": {
+          "capotMode": "option"
+        }
       }
     },
     {
@@ -654,8 +1181,12 @@
       "unitPriceHT": 38.63,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-sx-350"],
-        "requireGammeAttribute": { "capotMode": "option" }
+        "gammes": [
+          "xh-sx-350"
+        ],
+        "requireGammeAttribute": {
+          "capotMode": "option"
+        }
       }
     },
     {
@@ -668,7 +1199,9 @@
       "unitPriceHT": 45.24,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-s-250"]
+        "gammes": [
+          "xh-s-250"
+        ]
       }
     },
     {
@@ -681,7 +1214,9 @@
       "unitPriceHT": 32.41,
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-sx-350"]
+        "gammes": [
+          "xh-sx-350"
+        ]
       }
     },
     {
@@ -691,31 +1226,55 @@
       "sku": "XH-L-PORTE-HQ",
       "rules": {
         "maxPerConfig": 1,
-        "gammes": ["xh-l-500"],
-        "requireGammeAttribute": { "porteMode": "option" }
+        "gammes": [
+          "xh-l-500"
+        ],
+        "requireGammeAttribute": {
+          "porteMode": "option"
+        }
       }
     }
   ],
   "rules": [
     {
       "id": "hide-capot-if-not-option",
-      "if": { "gammeAttribute": "capotMode", "not": "option" },
-      "hideGroups": ["capot"]
+      "if": {
+        "gammeAttribute": "capotMode",
+        "not": "option"
+      },
+      "hideGroups": [
+        "capot"
+      ]
     },
     {
       "id": "hide-porte-if-not-option",
-      "if": { "gammeAttribute": "porteMode", "not": "option" },
-      "hideGroups": ["porte"]
+      "if": {
+        "gammeAttribute": "porteMode",
+        "not": "option"
+      },
+      "hideGroups": [
+        "porte"
+      ]
     },
     {
       "id": "hide-prise-if-included",
-      "if": { "gammeAttribute": "priseMode", "eq": "included" },
-      "hideGroups": ["prise"]
+      "if": {
+        "gammeAttribute": "priseMode",
+        "eq": "included"
+      },
+      "hideGroups": [
+        "prise"
+      ]
     },
     {
       "id": "hide-prise-if-unavailable",
-      "if": { "gammeAttribute": "priseMode", "eq": "non" },
-      "hideGroups": ["prise"]
+      "if": {
+        "gammeAttribute": "priseMode",
+        "eq": "non"
+      },
+      "hideGroups": [
+        "prise"
+      ]
     }
   ]
 }

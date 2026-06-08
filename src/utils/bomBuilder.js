@@ -16,6 +16,10 @@ import {
 import { getPriseOption, getPriseQuantityError, parsePriseQuantity } from "./prise.js";
 import { getRj45QuantityError, parseRj45Quantity } from "./rj45.js";
 import { isQuantityGroup } from "./quantityGroups.js";
+import {
+  gammeIncludesIncludedItem,
+  INCLUDED_ITEM_IDS,
+} from "./includedItems.js";
 
 /**
  * @typedef {Object} BomLine
@@ -61,7 +65,11 @@ export function buildBom(state, pricingTierCode) {
   });
 
   const terreBornier = catalog.components?.terreBornier;
-  if (terreBornier) {
+  const terreIncludedInCoffret = gammeIncludesIncludedItem(
+    state.gammeId,
+    INCLUDED_ITEM_IDS.TERRE_BORNIER
+  );
+  if (terreBornier && !terreIncludedInCoffret) {
     lines.push({
       sku: terreBornier.sku,
       label: terreBornier.label,
