@@ -1,20 +1,4 @@
 /* —— Mode embed (iframe Oxatis) —— */
-/* Scroll interne en desktop : permet au sticky de la colonne droite de fonctionner */
-html.embed-mode,
-html.embed-mode body {
-  height: 100%;
-  overflow: hidden;
-}
-
-html.embed-mode .app--embed {
-  height: 100%;
-  max-height: 100vh;
-  max-height: 100dvh;
-  overflow-x: clip;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
 .app--embed {
   overflow-x: clip;
   max-width: 100%;
@@ -63,11 +47,27 @@ html.embed-mode .app--embed {
   }
 }
 
+/* Colonne droite épinglée au viewport iframe (scroll page parent) */
 @media (min-width: 961px) {
-  html.embed-mode .app--embed .sidebar-column {
-    position: sticky;
-    top: 1rem;
-    max-height: calc(100vh - 2rem);
-    max-height: calc(100dvh - 2rem);
+  .app--embed .sidebar-column--pinned {
+    position: static;
+    top: auto;
+    max-height: none;
+    align-self: start;
+  }
+
+  .app--embed .sidebar-column--pinned .sidebar-column-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .app--embed .sidebar-column--pinned .recap-panel {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
   }
 }

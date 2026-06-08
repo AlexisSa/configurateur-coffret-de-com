@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { useCoffretConfiguration } from "./hooks/useCoffretConfiguration.js";
 import { useEmbedResize } from "./hooks/useEmbedResize.js";
+import { useEmbedSidebarPinned } from "./hooks/useEmbedSidebarPinned.js";
 import { useEmbedContext } from "./hooks/useEmbedContext.js";
 import { isEmbedMode } from "./utils/embedMode.js";
 import { getGroupMeta } from "./utils/bomBuilder.js";
@@ -35,7 +36,10 @@ const QUANTITY_GROUP_COMPONENTS = {
 
 function App() {
   const embedMode = isEmbedMode();
+  const sidebarRef = useRef(null);
+  const sidebarStackRef = useRef(null);
   useEmbedResize();
+  useEmbedSidebarPinned(sidebarRef, sidebarStackRef);
   const { pricingTierCode } = useEmbedContext();
 
   const {
@@ -188,23 +192,25 @@ function App() {
             )}
           </div>
 
-          <aside className="sidebar-column">
-            {showOptions && (
-              <CoffretQuantitySelector
-                count={state.coffretCount}
-                onChange={setCoffretCount}
+          <aside className="sidebar-column" ref={sidebarRef}>
+            <div className="sidebar-column-stack" ref={sidebarStackRef}>
+              {showOptions && (
+                <CoffretQuantitySelector
+                  count={state.coffretCount}
+                  onChange={setCoffretCount}
+                />
+              )}
+              <RecapTable
+                bom={bom}
+                coffretCount={state.coffretCount}
+                pricingTierCode={pricingTierCode}
+                hasGamme={Boolean(state.gammeId)}
+                optionsStepComplete={optionsStepComplete}
+                onPreviewPdf={openPdfPreview}
+                onShare={shareConfig}
+                onReset={resetConfiguration}
               />
-            )}
-            <RecapTable
-              bom={bom}
-              coffretCount={state.coffretCount}
-              pricingTierCode={pricingTierCode}
-              hasGamme={Boolean(state.gammeId)}
-              optionsStepComplete={optionsStepComplete}
-              onPreviewPdf={openPdfPreview}
-              onShare={shareConfig}
-              onReset={resetConfiguration}
-            />
+            </div>
           </aside>
         </div>
       </main>
