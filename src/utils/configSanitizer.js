@@ -55,11 +55,25 @@ export function normalizeLegacyDti(options) {
 }
 
 /**
+ * Retire l'ancienne option bornier de terre (désormais incluse systématiquement).
+ * @param {Record<string, string>} options
+ */
+export function stripLegacyTerreOption(options) {
+  if (!options.terre) return options;
+  const next = { ...options };
+  delete next.terre;
+  return next;
+}
+
+/**
  * @param {Record<string, string>} options
  * @param {string} [gammeId]
  */
 export function normalizeOptions(options, gammeId = "") {
-  const base = { ...emptyOptions(), ...normalizeLegacyDti(options) };
+  const base = {
+    ...emptyOptions(),
+    ...stripLegacyTerreOption(normalizeLegacyDti(options)),
+  };
   base.rj45 = normalizeRj45Value(base.rj45);
   base.cordon_rj45 = normalizeCordonRj45Value(base.cordon_rj45, gammeId);
   base.prise = normalizePriseValue(base.prise);

@@ -44,9 +44,12 @@ const SHORT_LABEL_BY_SKU = {
   KJ6AFSEF1: "Embase RJ45 Cat.6A",
   "KJ6AFSEF1-24": "Lot 24 embases RJ45",
   "CR6ASSTPOH0.5GS": "Cordon RJ45 0,50 m",
+  "CR503S78-0.5": "Cordon balun RJ45/F 0,50 m",
   "XH-ET-LXL": "Étagère coffret",
   "XH-S-CAPOT": "Capot S 250",
   "XH-SX-CAPOT": "Capot SX 350",
+  "XH-S-REH": "Rehausse S 250",
+  "XH-SX-REH": "Rehausse SX 350",
   "XH-L-PORTE-HQ": "Porte L 500×250",
 };
 

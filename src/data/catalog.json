@@ -17,7 +17,6 @@
       "dti_rj45": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
       "dti_fibre": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
       "tv": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
-      "terre": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918",
       "prise": "https://www.xeilom.fr/coffrets-de-communication-c102x4344918"
     }
   },
@@ -32,6 +31,14 @@
       "image": "/options/kj6afsef1.png",
       "imageSource": "https://www.xeilom.fr/Files/126457/Img/21/KJ6AFSEF1.png",
       "unitPriceHT": 4.14
+    },
+    "terreBornier": {
+      "sku": "BMT-PRD",
+      "label": "Bornier mise à la terre rail DIN",
+      "productUrl": "https://www.xeilom.fr/bornier-de-mise-a-la-terre-fixation-sur-rail-din-c2x25737541",
+      "image": "/options/bmt-prd.png",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/11/BMT-PRD-1.png",
+      "unitPriceHT": 3.09
     }
   },
   "optionGroups": {
@@ -40,11 +47,12 @@
     "rj45": { "label": "Embases RJ45", "type": "quantity", "optional": true, "description": "Embases à clipser pour câbler les prises réseau du logement." },
     "cordon_rj45": { "label": "Cordons RJ45", "type": "quantity", "optional": true, "description": "Cordons de brassage RJ45/RJ45 pour relier le DTI, la box ou les équipements du coffret." },
     "tv": { "label": "Répartiteur TV", "type": "single", "optional": true, "description": "Distribue le signal TV (antenne / satellite) vers plusieurs prises." },
-    "terre": { "label": "Bornier de mise à la terre", "type": "single", "optional": true, "description": "Bornier de mise à la terre des équipements, fixé sur rail DIN." },
+    "cordon_balun": { "label": "Cordon balun TV", "type": "single", "optional": true, "description": "Cordon balun RJ45 / prise F pour transmettre le signal TV sur câble Ethernet." },
     "prise": { "label": "Prise 2P+T", "type": "quantity", "optional": true, "description": "Prise de courant pour alimenter la box ou les équipements du coffret." },
     "brassage": { "label": "Brassage", "type": "single", "optional": false, "description": "Emplacement du brassage réseau : à l'intérieur du coffret (standard) ou à l'extérieur pour un accès facilité aux câbles." },
     "etagere_box": { "label": "Étagère / support box", "type": "single", "optional": true, "description": "Support pour poser la box opérateur à l'intérieur du coffret." },
     "capot": { "label": "Capot de protection", "type": "single", "optional": true, "description": "Capot de protection des connexions du coffret." },
+    "rehausse": { "label": "Rehausse saillie", "type": "single", "optional": true, "description": "Rehausse métallique pour fixation en saillie (+50 mm de profondeur)." },
     "porte": { "label": "Porte", "type": "single", "optional": true, "description": "Porte de fermeture du coffret." }
   },
   "gammeSegments": [
@@ -117,7 +125,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
       "specificOptionGroups": []
     },
     {
@@ -147,7 +155,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
       "specificOptionGroups": ["brassage", "etagere_box"]
     },
     {
@@ -176,7 +184,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
       "specificOptionGroups": ["etagere_box"]
     },
     {
@@ -206,7 +214,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
       "specificOptionGroups": ["brassage"]
     },
     {
@@ -235,7 +243,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
       "specificOptionGroups": ["brassage"]
     },
     {
@@ -264,8 +272,8 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
-      "specificOptionGroups": ["capot"]
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
+      "specificOptionGroups": ["capot", "rehausse"]
     },
     {
       "id": "xh-sx-350",
@@ -293,8 +301,8 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre", "prise"],
-      "specificOptionGroups": ["capot"]
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun", "prise"],
+      "specificOptionGroups": ["capot", "rehausse"]
     },
     {
       "id": "xh-l-500",
@@ -323,7 +331,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
       "specificOptionGroups": ["etagere_box"]
     },
     {
@@ -353,7 +361,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
       "specificOptionGroups": ["etagere_box"]
     },
     {
@@ -382,7 +390,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
       "specificOptionGroups": ["etagere_box"]
     },
     {
@@ -412,7 +420,7 @@
       "materiaux": [
         { "id": "grade3", "label": "Grade 3 TV", "skuSuffix": "" }
       ],
-      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "terre"],
+      "optionGroups": ["dti_rj45", "dti_fibre", "rj45", "cordon_rj45", "tv", "cordon_balun"],
       "specificOptionGroups": []
     }
   ],
@@ -521,14 +529,13 @@
       "rules": { "excludes": ["tv-2", "tv-3", "tv-4", "tv-6"], "maxPerConfig": 1 }
     },
     {
-      "id": "terre-bmt",
-      "group": "terre",
-      "label": "Bornier mise à la terre rail DIN",
-      "sku": "BMT-PRD",
-      "productUrl": "https://www.xeilom.fr/bornier-de-mise-a-la-terre-fixation-sur-rail-din-c2x25737541",
-      "image": "/options/bmt-prd.png",
-      "imageSource": "https://www.xeilom.fr/Files/126457/Img/11/BMT-PRD-1.png",
-      "unitPriceHT": 3.09,
+      "id": "cordon-balun-rj45-f",
+      "group": "cordon_balun",
+      "label": "Cordon balun RJ45 / prise F — 0,50 m",
+      "sku": "CR503S78-0.5",
+      "productUrl": "https://www.xeilom.fr/cordon-rj45-prise-f-blanc-25m-cablage-7-8balun2300mhz-c2x32003514",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/07/CR503S78-0-5_1.jpg",
+      "unitPriceHT": 8.37,
       "rules": { "maxPerConfig": 1 }
     },
     {
@@ -649,6 +656,32 @@
         "maxPerConfig": 1,
         "gammes": ["xh-sx-350"],
         "requireGammeAttribute": { "capotMode": "option" }
+      }
+    },
+    {
+      "id": "rehausse-s250",
+      "group": "rehausse",
+      "label": "Rehausse métallique S 250 — saillie 250×250×50 mm",
+      "sku": "XH-S-REH",
+      "productUrl": "https://www.xeilom.fr/rehausse-metallique-pour-coffret-s-250-fixation-en-saillie-250x250x50-mm-c2x25740642",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/09/XH-S-REH_1.jpg",
+      "unitPriceHT": 45.24,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-s-250"]
+      }
+    },
+    {
+      "id": "rehausse-sx350",
+      "group": "rehausse",
+      "label": "Rehausse métallique SX 350 — saillie 350×250×50 mm",
+      "sku": "XH-SX-REH",
+      "productUrl": "https://www.xeilom.fr/rehausse-metallique-pour-coffret-sx-350-fixation-en-saillie-350x250x50-mm-c2x26865234",
+      "imageSource": "https://www.xeilom.fr/Files/126457/Img/16/XH-SX-REH_1.jpg",
+      "unitPriceHT": 32.41,
+      "rules": {
+        "maxPerConfig": 1,
+        "gammes": ["xh-sx-350"]
       }
     },
     {

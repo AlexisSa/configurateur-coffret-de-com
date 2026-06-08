@@ -10,10 +10,11 @@ const state = {
     rj45: "4",
     cordon_rj45: "2",
     tv: "tv-4",
-    terre: "",
+    cordon_balun: "",
     prise: "",
     etagere_box: "",
     capot: "",
+    rehausse: "",
     porte: "",
     brassage: "brassage-interieur",
   },
@@ -24,10 +25,16 @@ describe("bomBuilder", () => {
     expect(buildBom({ gammeId: "", materiau: "", options: {} })).toEqual([]);
   });
 
+  it("inclut le bornier de terre sur toute configuration", () => {
+    const bom = buildBom(state);
+    expect(bom.find((l) => l.sku === "BMT-PRD")?.quantity).toBe(1);
+  });
+
   it("inclut le châssis XH'system et les options sélectionnées", () => {
     const bom = buildBom(state);
     const skus = bom.map((l) => l.sku);
     expect(skus).toContain("XHG3M");
+    expect(skus).toContain("BMT-PRD");
     expect(skus).toContain("DTIMP4RJ45");
     expect(skus).toContain("SPLITF-4");
     expect(bom.find((l) => l.sku === "KJ6AFSEF1")?.quantity).toBe(4);
@@ -93,5 +100,22 @@ describe("bomBuilder", () => {
     expect(bom.find((l) => l.type === "base")?.label).toContain("brassage extérieur");
     expect(bom.some((l) => l.label?.includes("Brassage extérieur"))).toBe(false);
     expect(getConfigurationSummary(exteriorState)).toContain("Brassage extérieur");
+  });
+
+  it("inclut le cordon balun TV et la rehausse S quand sélectionnés", () => {
+    const bom = buildBom({
+      gammeId: "xh-s-250",
+      materiau: "grade3",
+      options: {
+        ...state.options,
+        brassage: "",
+        cordon_balun: "cordon-balun-rj45-f",
+        rehausse: "rehausse-s250",
+        capot: "capot-s250",
+      },
+    });
+    expect(bom.find((l) => l.sku === "CR503S78-0.5")?.quantity).toBe(1);
+    expect(bom.find((l) => l.sku === "XH-S-REH")?.quantity).toBe(1);
+    expect(bom.find((l) => l.sku === "XH-SX-REH")).toBeUndefined();
   });
 });

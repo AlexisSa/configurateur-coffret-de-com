@@ -11,7 +11,8 @@ const baseOptions = {
   rj45: "",
   cordon_rj45: "",
   tv: "",
-  terre: "",
+  cordon_balun: "",
+    rehausse: "",
   prise: "",
   etagere_box: "",
   capot: "",
@@ -74,6 +75,18 @@ describe("configSanitizer", () => {
       options: baseOptions,
     });
     expect(result?.state.options.brassage).toBe("brassage-interieur");
+  });
+
+  it("retire l'ancienne option bornier de terre des configurations importées", () => {
+    const result = validateAndNormalizeConfig({
+      gammeId: "xh-m-250",
+      materiau: "grade3",
+      options: { ...baseOptions, terre: "terre-bmt", tv: "tv-4" },
+    });
+    expect(result?.state.options.terre).toBeUndefined();
+    expect(result?.state.options.tv).toBe("tv-4");
+    const bom = buildBom(result.state);
+    expect(bom.find((l) => l.sku === "BMT-PRD")?.quantity).toBe(1);
   });
 
   it("sanitizeOptionsForState conserve les options compatibles", () => {

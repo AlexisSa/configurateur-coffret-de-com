@@ -21,7 +21,8 @@ const baseState = {
     dti_fibre: "",
     rj45: "",
     tv: "",
-    terre: "",
+    cordon_balun: "",
+    rehausse: "",
     prise: "",
     etagere_box: "",
     capot: "",
@@ -89,6 +90,27 @@ describe("compatibility", () => {
     const state = { ...baseState, gammeId: "xh-s-250" };
     expect(isGroupHidden("capot", state)).toBe(false);
     expect(isOptionSelectable("capot-s250", state)).toBe(true);
+  });
+
+  it("propose la rehausse uniquement sur S 250 et SX 350", () => {
+    expect(isGroupHidden("rehausse", { ...baseState, gammeId: "xh-s-250" })).toBe(
+      false
+    );
+    expect(isOptionSelectable("rehausse-s250", { ...baseState, gammeId: "xh-s-250" })).toBe(
+      true
+    );
+    expect(
+      isOptionSelectable("rehausse-sx350", { ...baseState, gammeId: "xh-s-250" })
+    ).toBe(false);
+    expect(isGroupHidden("rehausse", { ...baseState, gammeId: "xh-sx-350" })).toBe(
+      false
+    );
+    expect(
+      isOptionSelectable("rehausse-sx350", { ...baseState, gammeId: "xh-sx-350" })
+    ).toBe(true);
+    expect(isGroupHidden("rehausse", { ...baseState, gammeId: "xh-m-250" })).toBe(
+      true
+    );
   });
 
   it("masque etagere_box hors L et XL (P 300)", () => {

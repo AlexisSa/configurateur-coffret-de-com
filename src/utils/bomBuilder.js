@@ -60,6 +60,17 @@ export function buildBom(state, pricingTierCode) {
     productUrl: gamme.productUrl,
   });
 
+  const terreBornier = catalog.components?.terreBornier;
+  if (terreBornier) {
+    lines.push({
+      sku: terreBornier.sku,
+      label: terreBornier.label,
+      quantity: 1,
+      type: "option",
+      productUrl: terreBornier.productUrl,
+    });
+  }
+
   if (!isGroupHidden("rj45", state)) {
     const rj45Qty = parseRj45Quantity(state.options.rj45);
     if (rj45Qty > 0 && !getRj45QuantityError(rj45Qty, state.gammeId)) {
