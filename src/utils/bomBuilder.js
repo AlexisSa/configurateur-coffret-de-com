@@ -28,6 +28,8 @@ import {
  * @property {number} quantity
  * @property {'base'|'option'|'materiau'} type
  * @property {string} [productUrl]
+ * @property {string} [image]
+ * @property {string} [imageSource]
  * @property {number} [unitPriceHT]
  * @property {number} [lineTotalHT]
  */
@@ -62,6 +64,8 @@ export function buildBom(state, pricingTierCode) {
     quantity: 1,
     type: "base",
     productUrl: gamme.productUrl,
+    image: gamme.image,
+    imageSource: gamme.imageSource,
   });
 
   const terreBornier = catalog.components?.terreBornier;
@@ -76,6 +80,8 @@ export function buildBom(state, pricingTierCode) {
       quantity: 1,
       type: "option",
       productUrl: terreBornier.productUrl,
+      image: terreBornier.image,
+      imageSource: terreBornier.imageSource,
     });
   }
 
@@ -148,6 +154,8 @@ export function buildEmbaseRj45Lines(quantity) {
       quantity: lots,
       type: "option",
       productUrl: comp.productUrl,
+      image: comp.image,
+      imageSource: comp.imageSource,
     });
     remaining -= lots * 24;
   }
@@ -159,6 +167,8 @@ export function buildEmbaseRj45Lines(quantity) {
       quantity: remaining,
       type: "option",
       productUrl: comp.productUrl,
+      image: comp.image,
+      imageSource: comp.imageSource,
     });
   }
 
@@ -177,6 +187,8 @@ function buildOptionBomLines(option, quantity) {
       quantity,
       type: "option",
       productUrl: option.productUrl,
+      image: option.image,
+      imageSource: option.imageSource,
     },
   ];
 }

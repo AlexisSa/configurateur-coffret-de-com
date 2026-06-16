@@ -1,4 +1,5 @@
 import { loadBrandLogoForPdf } from "./brandLogo.js";
+import { loadProductImageForPdf } from "./productImage.js";
 import { buildBom } from "./bomBuilder.js";
 import { catalog } from "./catalog.js";
 import { getOrderPricingLines } from "./orderPricing.js";
@@ -38,6 +39,8 @@ const TABLE_PAD = 3;
 const TABLE_LEFT = MARGIN + TABLE_PAD;
 const TABLE_RIGHT = CONTENT_RIGHT - TABLE_PAD;
 const COL_GAP = 3;
+const IMG_COL_W = 16;
+const IMG_MAX = 12;
 const BODY_BOTTOM = 262;
 const FOOTER_Y = 288;
 const LINE_H = 4.2;
@@ -183,12 +186,40 @@ function measureTableLayout(doc, bom, showPrices) {
     align: "center",
   };
   const labelCol = {
-    x: TABLE_LEFT + refW + COL_GAP,
-    w: Math.max(20, qtyCol.x - COL_GAP - (TABLE_LEFT + refW + COL_GAP)),
+    x: TABLE_LEFT + IMG_COL_W + COL_GAP + refW + COL_GAP,
+    w: Math.max(
+      20,
+      qtyCol.x - COL_GAP - (TABLE_LEFT + IMG_COL_W + COL_GAP + refW + COL_GAP)
+    ),
   };
-  const refCol = { x: TABLE_LEFT, w: refW };
+  const imgCol = { x: TABLE_LEFT, w: IMG_COL_W };
+  const refCol = { x: imgCol.x + imgCol.w + COL_GAP, w: refW };
 
-  return { ref: refCol, label: labelCol, qty: qtyCol, unit: unitCol, total: totalCol };
+  return {
+    img: imgCol,
+    ref: refCol,
+    label: labelCol,
+    qty: qtyCol,
+    unit: unitCol,
+    total: totalCol,
+  };
+}
+
+/**
+ * @param {import("./productImage.js").PdfImageAsset | null} asset
+ * @param {number} maxW
+ * @param {number} maxH
+ */
+function getPdfImageSize(asset, maxW, maxH) {
+  if (!asset) return null;
+  const ratio = asset.width / asset.height;
+  let w = maxW;
+  let h = w / ratio;
+  if (h > maxH) {
+    h = maxH;
+    w = h * ratio;
+  }
+  return { w, h };
 }
 
 /**
@@ -353,6 +384,7 @@ function drawTableHeader(doc, y, layout, showPrices) {
   doc.setFontSize(6.5);
   setText(doc, COLORS.subtle);
   const hy = y + 4.8;
+  doc.text("PHOTO", layout.img.x + 1, hy);
   doc.text("RÉF.", layout.ref.x + 2, hy);
   doc.text("DÉSIGNATION", layout.label.x, hy);
   drawCol(doc, layout.qty, hy, "Qté");
@@ -369,14 +401,16 @@ function drawTableHeader(doc, y, layout, showPrices) {
  * @param {import("./bomBuilder.js").BomLine} line
  * @param {ReturnType<typeof measureTableLayout>} layout
  */
-function measureRowHeight(doc, line, layout) {
+function measureRowHeight(doc, line, layout, imageAsset) {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
   const labelLines = wrapText(doc, line.label, layout.label.w);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(7);
   const skuLines = wrapText(doc, line.sku, layout.ref.w - 4);
-  return Math.max(10, Math.max(skuLines.length * 3.6, labelLines.length * LINE_H) + 5);
+  const textH = Math.max(skuLines.length * 3.6, labelLines.length * LINE_H) + 5;
+  const imageH = imageAsset ? IMG_MAX + 4 : 0;
+  return Math.max(10, textH, imageH);
 }
 
 /**
@@ -387,8 +421,8 @@ function measureRowHeight(doc, line, layout) {
  * @param {boolean} striped
  * @param {boolean} showPrices
  */
-function drawTableRow(doc, y, line, layout, striped, showPrices) {
-  const rowH = measureRowHeight(doc, line, layout);
+function drawTableRow(doc, y, line, layout, striped, showPrices, imageAsset) {
+  const rowH = measureRowHeight(doc, line, layout, imageAsset);
 
   if (striped) {
     setFill(doc, COLORS.rowAlt);
@@ -398,6 +432,32 @@ function drawTableRow(doc, y, line, layout, striped, showPrices) {
   setDraw(doc, COLORS.border);
   doc.setLineWidth(0.1);
   doc.line(MARGIN, y + rowH, CONTENT_RIGHT, y + rowH);
+
+  const imageSize = getPdfImageSize(imageAsset, IMG_MAX, IMG_MAX);
+  if (imageSize) {
+    const imgX = layout.img.x + (layout.img.w - imageSize.w) / 2;
+    const imgY = y + (rowH - imageSize.h) / 2;
+    setFill(doc, COLORS.white);
+    setDraw(doc, COLORS.border);
+    doc.setLineWidth(0.1);
+    doc.roundedRect(
+      imgX - 0.4,
+      imgY - 0.4,
+      imageSize.w + 0.8,
+      imageSize.h + 0.8,
+      0.6,
+      0.6,
+      "FD"
+    );
+    doc.addImage(
+      imageAsset.dataUrl,
+      "PNG",
+      imgX,
+      imgY,
+      imageSize.w,
+      imageSize.h
+    );
+  }
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(7);
@@ -560,7 +620,10 @@ export async function buildBomPdf(state, internal = {}, pricingTierCode) {
   if (bom.length === 0) return null;
 
   const { default: jsPDF } = await import("jspdf");
-  const logo = await loadBrandLogoForPdf();
+  const [logo, ...imageAssets] = await Promise.all([
+    loadBrandLogoForPdf(),
+    ...bom.map((line) => loadProductImageForPdf(line.image, line.imageSource)),
+  ]);
   const showPrices = hasPricedLines(bom);
   const doc = new jsPDF({ unit: "mm", format: "a4" });
   const layout = measureTableLayout(doc, bom, showPrices);
@@ -570,15 +633,25 @@ export async function buildBomPdf(state, internal = {}, pricingTierCode) {
   y = drawTableHeader(doc, y, layout, showPrices);
 
   let rowIndex = 0;
-  for (const line of bom) {
-    const rowH = measureRowHeight(doc, line, layout);
+  for (let i = 0; i < bom.length; i += 1) {
+    const line = bom[i];
+    const imageAsset = imageAssets[i] ?? null;
+    const rowH = measureRowHeight(doc, line, layout, imageAsset);
     if (y + rowH > BODY_BOTTOM) {
       doc.addPage();
       y = drawPageHeader(doc, true);
       y = drawTableHeader(doc, y, layout, showPrices);
       rowIndex = 0;
     }
-    y += drawTableRow(doc, y, line, layout, rowIndex % 2 === 1, showPrices);
+    y += drawTableRow(
+      doc,
+      y,
+      line,
+      layout,
+      rowIndex % 2 === 1,
+      showPrices,
+      imageAsset
+    );
     rowIndex += 1;
   }
 

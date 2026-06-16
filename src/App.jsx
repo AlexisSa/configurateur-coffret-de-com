@@ -21,7 +21,6 @@ import {
   RecapTable,
   ContactForm,
   ToastContainer,
-  PdfPreviewModal,
   ShareLinkModal,
   OptionAccordion,
   IncludedItemsPanel,
@@ -53,10 +52,7 @@ function App() {
     bom,
     getOptionState,
     isConfigurationComplete,
-    pdfPreviewUrl,
     openPdfPreview,
-    closePdfPreview,
-    downloadPdf,
     buildMailtoLink,
     shareConfig,
     shareLinkUrl,
@@ -208,13 +204,6 @@ function App() {
           </aside>
         </div>
       </main>
-
-      <PdfPreviewModal
-        open={pdfPreviewUrl != null}
-        url={pdfPreviewUrl}
-        onClose={closePdfPreview}
-        onDownload={downloadPdf}
-      />
 
       <ShareLinkModal
         open={shareLinkUrl != null}

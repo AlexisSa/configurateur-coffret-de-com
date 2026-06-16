@@ -170,8 +170,12 @@ export function useCoffretConfiguration(pricingTierCode) {
     [state]
   );
 
-  const { pdfPreviewUrl, openPdfPreview, closePdfPreview, downloadPdf } =
-    usePdfPreview({ state, internal, pricingTierCode, addToast });
+  const { openPdfPreview } = usePdfPreview({
+    state,
+    internal,
+    pricingTierCode,
+    addToast,
+  });
 
   const copyToClipboard = useCallback(
     async (text, successTitle, successMessage) => {
@@ -265,10 +269,7 @@ export function useCoffretConfiguration(pricingTierCode) {
     bom,
     getOptionState,
     isConfigurationComplete: isConfigurationComplete(state),
-    pdfPreviewUrl,
     openPdfPreview,
-    closePdfPreview,
-    downloadPdf,
     buildMailtoLink: buildMailtoLinkFn,
     shareConfig,
     shareLinkUrl,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExternalLink, Eye, RotateCcw, Share2 } from "lucide-react";
+import { ExternalLink, RotateCcw, Share2 } from "lucide-react";
 import { ConfirmModal } from "./ConfirmModal.jsx";
 import { getBomShortDesignation } from "../utils/bomDisplay.js";
 import { getOrderPricingLines } from "../utils/orderPricing.js";
@@ -145,8 +145,8 @@ export function RecapTable({
                 className="btn primary"
                 onClick={onPreviewPdf}
               >
-                <Eye size={17} strokeWidth={2} />
-                Aperçu PDF
+                <ExternalLink size={17} strokeWidth={2} />
+                Voir le PDF
               </button>
               {onShare && (
                 <button
