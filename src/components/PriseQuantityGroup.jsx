@@ -17,6 +17,7 @@ export function PriseQuantityGroup({
   state,
   onQuantityChange,
   onClear,
+  explicitNone = false,
   headerless = false,
 }) {
   const meta = getGroupMeta("prise");
@@ -50,6 +51,7 @@ export function PriseQuantityGroup({
         unitSingular="prise"
         unitPlural="prises"
         error={error}
+        explicitNone={explicitNone}
         onSelectQuantity={onQuantityChange}
         onClear={onClear}
       />

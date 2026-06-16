@@ -187,12 +187,19 @@ describe("compatibility", () => {
     );
   });
 
-  it("applique le châssis -E au BOM pour le brassage extérieur", () => {
+  it("applique la référence logique et le SKU tarifaire -E pour le brassage extérieur", () => {
     const bom = buildBom({
       ...baseState,
       gammeId: "xh-ml-500",
-      options: { ...baseState.options, brassage: "brassage-exterieur" },
+      options: {
+        ...baseState.options,
+        rj45: "4",
+        dti_rj45: "dti-rj45-4precable",
+        brassage: "brassage-exterieur",
+      },
     });
-    expect(bom.find((l) => l.type === "base")?.sku).toBe("XHG3ML-E");
+    const base = bom.find((l) => l.type === "base");
+    expect(base?.sku).toBe("XHG3ML-E");
+    expect(base?.configRef).toBe("XHG3ML-4RJ-E-DTI-2PC");
   });
 });

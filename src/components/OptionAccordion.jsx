@@ -6,10 +6,12 @@ import { Check, ChevronDown } from "lucide-react";
  * @param {{
  *   title: string,
  *   description?: string,
+ *   hint?: string,
  *   isConfigured?: boolean,
  *   expanded?: boolean,
  *   onToggle?: () => void,
  *   showClear?: boolean,
+ *   clearActive?: boolean,
  *   onClear?: () => void,
  *   children: import('react').ReactNode,
  * }} props
@@ -17,10 +19,12 @@ import { Check, ChevronDown } from "lucide-react";
 export function OptionAccordion({
   title,
   description,
+  hint,
   isConfigured = false,
   expanded = true,
   onToggle,
   showClear = false,
+  clearActive = false,
   onClear,
   children,
 }) {
@@ -50,6 +54,7 @@ export function OptionAccordion({
             {description && (
               <span className="option-accordion-desc">{description}</span>
             )}
+            {hint && <span className="option-accordion-hint">{hint}</span>}
           </span>
           <ChevronDown
             size={18}
@@ -58,8 +63,19 @@ export function OptionAccordion({
             aria-hidden
           />
         </button>
-        {showClear && onClear && expanded && (
-          <button type="button" className="link-btn option-accordion-clear" onClick={onClear}>
+        {showClear && onClear && (
+          <button
+            type="button"
+            className={[
+              "link-btn",
+              "option-accordion-clear",
+              clearActive && "option-accordion-clear--active",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            onClick={onClear}
+            aria-pressed={clearActive}
+          >
             Aucun
           </button>
         )}

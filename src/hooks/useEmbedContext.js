@@ -67,23 +67,29 @@ function readPricingTierFromMessage(event) {
 
 /**
  * Récupère le tarif client depuis l'URL ou le site parent (postMessage).
- * @returns {{ pricingTierCode: string }}
+ * @returns {{ pricingTierCode: string, pricingTierPending: boolean }}
  */
 export function useEmbedContext() {
+  const embedMode = isEmbedMode();
   const [pricingTierCode, setPricingTierCode] = useState(() =>
     resolvePricingTierCode(readPricingTierFromUrl())
+  );
+  const [pricingTierPending, setPricingTierPending] = useState(
+    () => embedMode && !readPricingTierFromUrl()
   );
 
   useEffect(() => {
     const fromUrl = readPricingTierFromUrl();
     if (fromUrl) {
       setPricingTierCode(resolvePricingTierCode(fromUrl));
+      setPricingTierPending(false);
     }
 
     const handleMessage = (event) => {
       const value = readPricingTierFromMessage(event);
       if (value) {
         setPricingTierCode(resolvePricingTierCode(value));
+        setPricingTierPending(false);
       }
     };
 
@@ -93,7 +99,7 @@ export function useEmbedContext() {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  return { pricingTierCode };
+  return { pricingTierCode, pricingTierPending };
 }
 
 export { EMBED_CONTEXT_MESSAGE_TYPE, EMBED_REQUEST_CONTEXT_MESSAGE_TYPE };

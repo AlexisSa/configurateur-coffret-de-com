@@ -1,5 +1,6 @@
 import { getOrderPricingLines } from "./orderPricing.js";
 import { formatPriceHT, getPricingDisclaimer, hasPricedLines } from "./pricing.js";
+import { getConfiguredCoffretRef } from "./bomDisplay.js";
 import { normalizeCoffretCount } from "./coffretQuantity.js";
 
 /**
@@ -36,6 +37,15 @@ export function buildClientSectionLines(internal) {
 export function buildConfigurationSectionLines(state) {
   const coffretCount = normalizeCoffretCount(state.coffretCount);
   return [`Nombre de coffrets : ${coffretCount}`];
+}
+
+/**
+ * @param {import('./bomBuilder.js').BomLine[]} bom
+ * @returns {string[]}
+ */
+export function buildConfiguredRefSectionLines(bom) {
+  const configRef = getConfiguredCoffretRef(bom);
+  return configRef ? [configRef] : [];
 }
 
 /**
@@ -95,6 +105,10 @@ export function buildStructuredQuoteBody({ state, internal, bom, pricingTierCode
   const sections = [
     ...formatQuoteSection("Coordonnées", buildClientSectionLines(internal)),
     ...formatQuoteSection("Quantité demandée", buildConfigurationSectionLines(state)),
+    ...formatQuoteSection(
+      "Référence configurée",
+      buildConfiguredRefSectionLines(bom)
+    ),
     ...formatQuoteSection(
       "Nomenclature (par coffret)",
       buildBomSectionLines(bom)

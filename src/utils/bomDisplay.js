@@ -1,4 +1,14 @@
 /**
+ * Référence logique complète du coffret (hors liste composants).
+ * @param {import('./bomBuilder.js').BomLine[]} bom
+ * @returns {string|null}
+ */
+export function getConfiguredCoffretRef(bom) {
+  const base = bom.find((line) => line.type === "base");
+  return base?.configRef || null;
+}
+
+/**
  * Libellé court pour l’affichage nomenclature (colonne unique réf. + désignation).
  * @param {import('./bomBuilder.js').BomLine} line
  * @returns {string}

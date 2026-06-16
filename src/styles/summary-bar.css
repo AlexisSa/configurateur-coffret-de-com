@@ -1,0 +1,64 @@
+.config-summary-bar {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .app-main {
+    padding-bottom: 5.5rem;
+  }
+
+  .config-summary-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0.85rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--border, #e4e4e7);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+  }
+
+  .config-summary-bar-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .config-summary-bar-ref {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    min-width: 0;
+  }
+
+  .config-summary-bar-ref code {
+    font-size: 0.72rem;
+    line-height: 1.3;
+    word-break: break-all;
+  }
+
+  .config-summary-bar-total {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--brand, #363bc7);
+  }
+
+  .config-summary-bar-actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+}

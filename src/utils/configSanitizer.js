@@ -6,6 +6,7 @@ import {
   isOptionSelectable,
 } from "./compatibility.js";
 import { normalizeCoffretCount, DEFAULT_COFFRET_COUNT } from "./coffretQuantity.js";
+import { OPTION_IDS } from "./optionIds.js";
 import { normalizeCordonRj45Value } from "./cordonRj45.js";
 import { getMaxPriseCount, normalizePriseValue } from "./prise.js";
 import { getMaxRj45Count, normalizeRj45Value } from "./rj45.js";
@@ -33,7 +34,7 @@ export function defaultOptionsForGamme(gammeId) {
   const opts = emptyOptions();
   const gamme = getGammeById(gammeId);
   if (gamme?.specificOptionGroups?.includes("brassage")) {
-    opts.brassage = "brassage-interieur";
+    opts.brassage = OPTION_IDS.BRASSAGE_INTERIEUR;
   }
   return opts;
 }
@@ -46,7 +47,7 @@ export function normalizeLegacyDti(options) {
   if (!legacy) return options;
   const next = { ...options };
   delete next.dti;
-  if (legacy === "dti-rj45-4precable" && !next.dti_rj45) {
+  if (legacy === OPTION_IDS.DTI_RJ45_4PRECABLE && !next.dti_rj45) {
     next.dti_rj45 = legacy;
   } else if (legacy.startsWith("dti-fibre") && !next.dti_fibre) {
     next.dti_fibre = legacy;
@@ -158,7 +159,7 @@ export function sanitizeOptionsForState(state) {
     getGammeById(state.gammeId)?.specificOptionGroups?.includes("brassage") &&
     !accepted.brassage
   ) {
-    accepted.brassage = "brassage-interieur";
+    accepted.brassage = OPTION_IDS.BRASSAGE_INTERIEUR;
   }
 
   return { options: accepted, warnings };

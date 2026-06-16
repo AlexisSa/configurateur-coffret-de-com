@@ -28,6 +28,7 @@ export function ContactForm({
   updateInternal,
   buildMailtoLink,
   onCopyRecap,
+  coffretCount = 1,
 }) {
   const emailErrorId = useId();
   const phoneErrorId = useId();
@@ -57,7 +58,12 @@ export function ContactForm({
     <section className="panel" id="contact-form">
       <div className="panel-header">
         <h2 className="section-title">Demande de devis</h2>
+        <span className="section-badge">Étape 3</span>
       </div>
+      <p className="contact-coffret-reminder">
+        Cette demande concerne <strong>{coffretCount}</strong> coffret
+        {coffretCount > 1 ? "s" : ""}.
+      </p>
       <div className="form-grid">
         <label>
           Nom complet

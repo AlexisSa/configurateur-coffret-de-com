@@ -15,6 +15,7 @@ export function CordonRj45QuantityGroup({
   state,
   onQuantityChange,
   onClear,
+  explicitNone = false,
   headerless = false,
 }) {
   const meta = getGroupMeta("cordon_rj45");
@@ -52,6 +53,7 @@ export function CordonRj45QuantityGroup({
         allowCustom
         customSelected={quantity > 0 && !presetSelected}
         error={error}
+        explicitNone={explicitNone}
         onSelectQuantity={onQuantityChange}
         onClear={onClear}
       />

@@ -1,6 +1,8 @@
 // @ts-check
 import { catalog, getGammeById, getGroupsForGamme, getOptionById } from "./catalog.js";
-import { buildGammeSku } from "./gammeSku.js";
+import { buildLogicalCoffretRef } from "./logicalRef.js";
+import { getChassisPricingSku } from "./gammeSku.js";
+import { OPTION_IDS } from "./optionIds.js";
 import {
   isConfigurationComplete,
   isGroupHidden,
@@ -30,6 +32,7 @@ import {
  * @property {string} [productUrl]
  * @property {string} [image]
  * @property {string} [imageSource]
+ * @property {string} [configRef]
  * @property {number} [unitPriceHT]
  * @property {number} [lineTotalHT]
  */
@@ -53,11 +56,12 @@ export function buildBom(state, pricingTierCode) {
     : null;
 
   lines.push({
-    sku: buildGammeSku(gamme, materiau, state.options),
+    sku: getChassisPricingSku(gamme, materiau, state.options),
+    configRef: buildLogicalCoffretRef(gamme, materiau, state.options),
     label: [
       gamme.label,
       materiau?.label,
-      brassageOption?.id === "brassage-exterieur" ? "brassage extérieur" : null,
+      brassageOption?.id === OPTION_IDS.BRASSAGE_EXTERIEUR ? "brassage extérieur" : null,
     ]
       .filter(Boolean)
       .join(" — "),

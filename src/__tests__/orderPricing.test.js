@@ -29,7 +29,7 @@ const state = {
 describe("orderPricing", () => {
   it("conserve la nomenclature à l'unité et calcule le total commande", () => {
     const bom = buildBom(state);
-    const base = bom.find((l) => l.sku === "XHG3M");
+    const base = bom.find((l) => l.type === "base");
     const unit = getUnitPriceHT("XHG3M");
 
     expect(base?.quantity).toBe(1);

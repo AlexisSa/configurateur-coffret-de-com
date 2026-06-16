@@ -55,7 +55,8 @@ describe("pricing", () => {
 
   it("tarifie le châssis à l'unité dans la nomenclature", () => {
     const bom = buildBom(state);
-    const base = bom.find((l) => l.sku === "XHG3M");
+    const base = bom.find((l) => l.type === "base");
+    expect(base?.sku).toBe("XHG3M");
     const unit = getUnitPriceHT("XHG3M");
     expect(base?.quantity).toBe(1);
     expect(base?.unitPriceHT).toBe(unit);

@@ -47,6 +47,69 @@
   color: var(--text-muted);
 }
 
+.recap-config-ref {
+  margin-bottom: 0.85rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid color-mix(in srgb, var(--brand) 22%, var(--border));
+  background: color-mix(in srgb, var(--brand) 6%, var(--surface));
+}
+
+.recap-config-ref-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+
+.recap-config-ref-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.recap-config-ref-head .recap-config-ref-label {
+  margin-bottom: 0;
+}
+
+.recap-ref-legend-btn {
+  display: inline-flex;
+  padding: 0.15rem;
+}
+
+.recap-tier-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+}
+
+.recap-coffret-reminder {
+  margin: 0.5rem 0 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.contact-coffret-reminder {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.recap-config-ref-value {
+  display: block;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--brand);
+  word-break: break-all;
+}
+
 .bom-list {
   list-style: none;
   margin: 0;
@@ -195,6 +258,65 @@
 
 .recap-panel .btn {
   width: auto;
+}
+
+.ref-apply-field {
+  margin-top: 0.85rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.ref-apply-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-subtle);
+}
+
+.ref-apply-row {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.ref-apply-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+}
+
+.ref-legend-list {
+  margin: 0 0 1rem;
+}
+
+.ref-legend-item {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82rem;
+}
+
+.ref-legend-item dt code {
+  font-weight: 600;
+}
+
+.ref-legend-item dd {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.ref-legend-dialog {
+  max-width: 32rem;
+}
+
+.btn-sm {
+  padding: 0.4rem 0.65rem;
+  font-size: 0.78rem;
 }
 
 .wizard-column .btn {

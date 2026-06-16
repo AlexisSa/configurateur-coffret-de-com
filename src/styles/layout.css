@@ -28,6 +28,10 @@
   align-self: start;
 }
 
+.app:not(.app--embed) .sidebar-column {
+  top: 7.25rem;
+}
+
 .sidebar-column .panel {
   margin-bottom: 0;
 }

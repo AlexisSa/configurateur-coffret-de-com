@@ -110,6 +110,13 @@
   color: var(--text-muted);
 }
 
+.option-accordion-hint {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--brand);
+}
+
 .option-accordion-chevron {
   flex-shrink: 0;
   color: var(--text-muted);
@@ -125,6 +132,11 @@
 
 .option-accordion-clear {
   flex-shrink: 0;
+}
+
+.option-accordion-clear--active {
+  color: var(--brand);
+  font-weight: 600;
 }
 
 .option-accordion-body {

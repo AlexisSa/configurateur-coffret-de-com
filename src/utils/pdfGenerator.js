@@ -1,6 +1,6 @@
 import { loadBrandLogoForPdf } from "./brandLogo.js";
 import { loadProductImageForPdf } from "./productImage.js";
-import { buildBom } from "./bomBuilder.js";
+import { getConfiguredCoffretRef } from "./bomDisplay.js";
 import { catalog } from "./catalog.js";
 import { getOrderPricingLines } from "./orderPricing.js";
 import { normalizeCoffretCount } from "./coffretQuantity.js";
@@ -370,6 +370,48 @@ function drawClientBlock(doc, y, internal) {
 /**
  * @param {jsPDF} doc
  * @param {number} y
+ * @param {string|null} configRef
+ */
+function drawConfiguredRefBlock(doc, y, configRef) {
+  if (!configRef) return y;
+
+  const innerX = MARGIN + BOX_PAD;
+  const valueW = CONTENT_W - BOX_PAD * 2;
+  const titleH = 5;
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9);
+  const valueLines = wrapText(doc, configRef, valueW);
+  const boxH = BOX_PAD + titleH + valueLines.length * LINE_H + BOX_PAD;
+
+  setFill(doc, COLORS.surface);
+  setDraw(doc, COLORS.border);
+  doc.setLineWidth(0.2);
+  doc.roundedRect(MARGIN, y, CONTENT_W, boxH, 2, 2, "FD");
+
+  setFill(doc, COLORS.brand);
+  doc.rect(MARGIN, y, 1.5, boxH, "F");
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(6.5);
+  setText(doc, COLORS.subtle);
+  doc.text("RÉFÉRENCE CONFIGURÉE", innerX, y + BOX_PAD + 3.5);
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(9);
+  setText(doc, COLORS.brand);
+  let valueY = y + BOX_PAD + titleH + BASELINE;
+  for (const line of valueLines) {
+    doc.text(line, innerX, valueY);
+    valueY += LINE_H;
+  }
+
+  return y + boxH + 5;
+}
+
+/**
+ * @param {jsPDF} doc
+ * @param {number} y
  * @param {ReturnType<typeof measureTableLayout>} layout
  * @param {boolean} showPrices
  */
@@ -630,6 +672,7 @@ export async function buildBomPdf(state, internal = {}, pricingTierCode) {
 
   let y = drawPageHeader(doc, false, logo);
   y = drawClientBlock(doc, y, internal);
+  y = drawConfiguredRefBlock(doc, y, getConfiguredCoffretRef(bom));
   y = drawTableHeader(doc, y, layout, showPrices);
 
   let rowIndex = 0;

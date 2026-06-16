@@ -1,5 +1,25 @@
 import { describe, expect, it } from "vitest";
-import { getBomShortDesignation } from "../utils/bomDisplay.js";
+import { getBomShortDesignation, getConfiguredCoffretRef } from "../utils/bomDisplay.js";
+
+describe("getConfiguredCoffretRef", () => {
+  it("renvoie la réf. du châssis ou null", () => {
+    expect(
+      getConfiguredCoffretRef([
+        { sku: "XHG3M", type: "base" },
+      ])
+    ).toBeNull();
+
+    expect(
+      getConfiguredCoffretRef([
+        {
+          sku: "XHG3M",
+          configRef: "XHG3M-SD",
+          type: "base",
+        },
+      ])
+    ).toBe("XHG3M-SD");
+  });
+});
 
 describe("getBomShortDesignation", () => {
   it("raccourcit les options connues par SKU", () => {

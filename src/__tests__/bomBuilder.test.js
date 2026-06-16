@@ -43,6 +43,9 @@ describe("bomBuilder", () => {
     const bom = buildBom(state);
     const skus = bom.map((l) => l.sku);
     expect(skus).toContain("XHG3M");
+    expect(bom.find((l) => l.type === "base")?.configRef).toBe(
+      "XHG3M-4RJ-DTI-4TV-2CRJ0CB"
+    );
     expect(skus).not.toContain("BMT-PRD");
     expect(skus).toContain("DTIMP4RJ45");
     expect(skus).toContain("SPLITF-4");
@@ -99,13 +102,15 @@ describe("bomBuilder", () => {
     expect(getConfigurationSummary({ ...state, coffretCount: 3 })).toContain("3×");
   });
 
-  it("utilise le châssis -E pour le brassage extérieur", () => {
+  it("utilise la référence logique et le SKU tarifaire -E pour le brassage extérieur", () => {
     const exteriorState = {
       ...state,
       options: { ...state.options, brassage: "brassage-exterieur" },
     };
     const bom = buildBom(exteriorState);
-    expect(bom.find((l) => l.type === "base")?.sku).toBe("XHG3M-E");
+    const base = bom.find((l) => l.type === "base");
+    expect(base?.sku).toBe("XHG3M-E");
+    expect(base?.configRef).toBe("XHG3M-4RJ-E-DTI-4TV-2CRJ0CB");
     expect(bom.find((l) => l.type === "base")?.label).toContain("brassage extérieur");
     expect(bom.some((l) => l.label?.includes("Brassage extérieur"))).toBe(false);
     expect(getConfigurationSummary(exteriorState)).toContain("Brassage extérieur");

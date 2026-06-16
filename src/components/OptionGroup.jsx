@@ -12,6 +12,7 @@ export function OptionGroup({
   onSelect,
   onClear,
   getOptionState,
+  explicitNone = false,
   headerless = false,
 }) {
   const meta = getGroupMeta(group);
@@ -34,7 +35,7 @@ export function OptionGroup({
           <OptionTile
             variant="none"
             label="Aucun"
-            selected={!selected}
+            selected={explicitNone && !selected}
             onSelect={() => onClear(group)}
           />
         )}

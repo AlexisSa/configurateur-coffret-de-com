@@ -21,6 +21,7 @@ export function QuantityOptionPanel({
   allowCustom = false,
   customSelected = false,
   error,
+  explicitNone = false,
   onSelectQuantity,
   onClear,
 }) {
@@ -86,11 +87,11 @@ export function QuantityOptionPanel({
             className={[
               "qty-segment",
               "qty-segment--none",
-              quantity === 0 && "qty-segment--selected",
+              quantity === 0 && explicitNone && "qty-segment--selected",
             ]
               .filter(Boolean)
               .join(" ")}
-            aria-pressed={quantity === 0}
+            aria-pressed={quantity === 0 && explicitNone}
             onClick={onClear}
           >
             Aucun

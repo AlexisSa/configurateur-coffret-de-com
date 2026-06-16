@@ -1,20 +1,28 @@
 import { useState } from "react";
-import { ExternalLink, RotateCcw, Share2 } from "lucide-react";
+import { ExternalLink, HelpCircle, RotateCcw, Share2 } from "lucide-react";
 import { ConfirmModal } from "./ConfirmModal.jsx";
-import { getBomShortDesignation } from "../utils/bomDisplay.js";
+import { RefApplyField } from "./RefApplyField.jsx";
+import { getBomShortDesignation, getConfiguredCoffretRef } from "../utils/bomDisplay.js";
 import { getOrderPricingLines } from "../utils/orderPricing.js";
 import { formatPriceHT, getPricingDisclaimer, hasPricedLines } from "../utils/pricing.js";
 import { normalizeCoffretCount, DEFAULT_COFFRET_COUNT } from "../utils/coffretQuantity.js";
+
+const NOT_READY_TITLE = "Ajoutez au moins une option pour continuer";
 
 /**
  * @param {{
  *   bom: Array,
  *   coffretCount?: number,
  *   pricingTierCode?: string,
+ *   pricingTierLabel?: string,
+ *   pricingTierPending?: boolean,
  *   hasGamme?: boolean,
  *   optionsStepComplete?: boolean,
+ *   isConfigurationReady?: boolean,
  *   onPreviewPdf: () => void,
  *   onShare?: () => void,
+ *   onApplyRef?: (ref: string) => void,
+ *   onOpenLegend?: () => void,
  *   onReset?: () => void,
  * }} props
  */
@@ -22,19 +30,26 @@ export function RecapTable({
   bom,
   coffretCount = DEFAULT_COFFRET_COUNT,
   pricingTierCode,
+  pricingTierLabel,
+  pricingTierPending = false,
   hasGamme = false,
   optionsStepComplete = false,
+  isConfigurationReady = false,
   onPreviewPdf,
   onShare,
+  onApplyRef,
+  onOpenLegend,
   onReset,
 }) {
   const [confirmResetOpen, setConfirmResetOpen] = useState(false);
   const lineCount = bom.length;
   const showPrices = hasPricedLines(bom);
+  const normalizedCount = normalizeCoffretCount(coffretCount);
   const pricingLines = showPrices
-    ? getOrderPricingLines(bom, normalizeCoffretCount(coffretCount))
+    ? getOrderPricingLines(bom, normalizedCount)
     : [];
   const pricingDisclaimer = showPrices ? getPricingDisclaimer(pricingTierCode) : "";
+  const configuredRef = getConfiguredCoffretRef(bom);
 
   return (
     <aside className="panel recap-panel" id="recap-panel">
@@ -68,13 +83,40 @@ export function RecapTable({
       {lineCount === 0 ? (
         <p className="recap-empty">
           {!hasGamme
-            ? "Choisissez une gamme pour afficher les références."
+            ? "Choisissez une gamme ou chargez une référence ci-dessous."
             : !optionsStepComplete
               ? "Les références apparaîtront ici au fil de la configuration."
               : "La nomenclature se met à jour selon vos choix."}
         </p>
       ) : (
         <>
+          {configuredRef && (
+            <div className="recap-config-ref">
+              <div className="recap-config-ref-head">
+                <span className="recap-config-ref-label">Référence configurée</span>
+                {onOpenLegend && (
+                  <button
+                    type="button"
+                    className="link-btn recap-ref-legend-btn"
+                    onClick={onOpenLegend}
+                    aria-label="Légende de la référence"
+                  >
+                    <HelpCircle size={14} strokeWidth={2} />
+                  </button>
+                )}
+              </div>
+              <code className="recap-config-ref-value">{configuredRef}</code>
+            </div>
+          )}
+
+          {(pricingTierLabel || pricingTierPending) && (
+            <p className="recap-tier-label">
+              {pricingTierPending
+                ? "Tarif en chargement…"
+                : `Grille tarifaire : ${pricingTierLabel}`}
+            </p>
+          )}
+
           <div className="recap-scroll">
             <ul className="bom-list">
               {bom.map((line, index) => (
@@ -133,6 +175,10 @@ export function RecapTable({
                     <span>{formatPriceHT(line.amount)}</span>
                   </div>
                 ))}
+                <p className="recap-coffret-reminder">
+                  Devis pour <strong>{normalizedCount}</strong> coffret
+                  {normalizedCount > 1 ? "s" : ""}
+                </p>
                 {pricingDisclaimer && (
                   <p className="recap-disclaimer">{pricingDisclaimer}</p>
                 )}
@@ -144,6 +190,8 @@ export function RecapTable({
                 type="button"
                 className="btn primary"
                 onClick={onPreviewPdf}
+                disabled={!isConfigurationReady}
+                title={!isConfigurationReady ? NOT_READY_TITLE : undefined}
               >
                 <ExternalLink size={17} strokeWidth={2} />
                 Voir le PDF
@@ -153,6 +201,8 @@ export function RecapTable({
                   type="button"
                   className="btn ghost recap-share-btn"
                   onClick={onShare}
+                  disabled={!isConfigurationReady}
+                  title={!isConfigurationReady ? NOT_READY_TITLE : "Partager la configuration"}
                   aria-label="Partager la configuration"
                 >
                   <Share2 size={17} strokeWidth={2} />
@@ -163,6 +213,8 @@ export function RecapTable({
           </div>
         </>
       )}
+
+      {onApplyRef && <RefApplyField onApply={onApplyRef} />}
     </aside>
   );
 }

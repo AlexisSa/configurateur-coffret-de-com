@@ -27,6 +27,8 @@ import {
 } from "../utils/quantityGroups.js";
 import { buildMailtoLink } from "../utils/mailto.js";
 import { copyTextToClipboard } from "../utils/clipboard.js";
+import { isConfigurationReady } from "../utils/configurationReadiness.js";
+import { configDraftFromLogicalRef } from "../utils/applyLogicalRef.js";
 import { useToasts } from "./useToasts.js";
 import { usePdfPreview } from "./usePdfPreview.js";
 import { useConfigPersistence } from "./useConfigPersistence.js";
@@ -50,7 +52,18 @@ export function useCoffretConfiguration(pricingTierCode) {
   const [state, setState] = useState(initialState);
   const [internal, setInternal] = useState(initialInternal);
   const [shareLinkUrl, setShareLinkUrl] = useState(null);
+  const [acknowledgedGroups, setAcknowledgedGroups] = useState({});
   const { toasts, addToast, removeToast } = useToasts();
+
+  const resetAcknowledgedGroups = useCallback(() => {
+    setAcknowledgedGroups({});
+  }, []);
+
+  const acknowledgeGroup = useCallback((group) => {
+    setAcknowledgedGroups((prev) =>
+      prev[group] ? prev : { ...prev, [group]: true }
+    );
+  }, []);
 
   useEffect(() => {
     const fromUrl = loadConfigFromUrl();
@@ -89,13 +102,14 @@ export function useCoffretConfiguration(pricingTierCode) {
   });
 
   const setGamme = useCallback((gammeId) => {
+    resetAcknowledgedGroups();
     setState({
       ...initialState(),
       gammeId,
       materiau: DEFAULT_MATERIAU,
       options: defaultOptionsForGamme(gammeId),
     });
-  }, []);
+  }, [resetAcknowledgedGroups]);
 
   const setOption = useCallback((group, optionId) => {
     setState((prev) => applyOptionSelection(prev, group, optionId));
@@ -109,11 +123,12 @@ export function useCoffretConfiguration(pricingTierCode) {
   }, []);
 
   const clearOption = useCallback((group) => {
+    acknowledgeGroup(group);
     setState((prev) => ({
       ...prev,
       options: { ...prev.options, [group]: "" },
     }));
-  }, []);
+  }, [acknowledgeGroup]);
 
   const setQuantityForGroup = useCallback((group, quantity) => {
     setState((prev) => {
@@ -231,6 +246,7 @@ export function useCoffretConfiguration(pricingTierCode) {
 
   const resetConfiguration = useCallback(() => {
     clearStoredConfig();
+    resetAcknowledgedGroups();
     setState(initialState());
     setInternal(initialInternal());
     const url = new URL(window.location.href);
@@ -239,7 +255,7 @@ export function useCoffretConfiguration(pricingTierCode) {
       window.history.replaceState(null, "", url.toString());
     }
     addToast("success", "Configuration réinitialisée", "");
-  }, [addToast]);
+  }, [addToast, resetAcknowledgedGroups]);
 
   const buildMailtoLinkFn = useCallback(
     () =>
@@ -253,8 +269,46 @@ export function useCoffretConfiguration(pricingTierCode) {
     [configCode, state, internal, bom, pricingTierCode]
   );
 
+  const applyConfigurationFromRef = useCallback(
+    (ref) => {
+      const { draft, error } = configDraftFromLogicalRef(ref);
+      if (!draft) {
+        addToast("error", "Référence invalide", error ?? "Format non reconnu.");
+        return false;
+      }
+
+      const result = validateAndNormalizeConfig({
+        ...draft,
+        coffretCount: state.coffretCount,
+      });
+      if (!result) {
+        addToast(
+          "error",
+          "Configuration impossible",
+          "La référence ne peut pas être appliquée à cette gamme."
+        );
+        return false;
+      }
+
+      setState(result.state);
+      resetAcknowledgedGroups();
+      if (result.warnings.length > 0) {
+        addToast(
+          "warning",
+          "Configuration ajustée",
+          "Certaines options de la référence ont été adaptées au catalogue."
+        );
+      } else {
+        addToast("success", "Configuration chargée", "La référence a été appliquée.");
+      }
+      return true;
+    },
+    [state.coffretCount, addToast, resetAcknowledgedGroups]
+  );
+
   return {
     state,
+    acknowledgedGroups,
     internal,
     setGamme,
     setCoffretCount,
@@ -269,9 +323,11 @@ export function useCoffretConfiguration(pricingTierCode) {
     bom,
     getOptionState,
     isConfigurationComplete: isConfigurationComplete(state),
+    configurationReady: isConfigurationReady(state),
     openPdfPreview,
     buildMailtoLink: buildMailtoLinkFn,
     shareConfig,
+    applyConfigurationFromRef,
     shareLinkUrl,
     closeShareLink,
     confirmShareLinkCopied,
@@ -279,6 +335,5 @@ export function useCoffretConfiguration(pricingTierCode) {
     resetConfiguration,
     toasts,
     removeToast,
-    isQuantityGroup,
   };
 }
