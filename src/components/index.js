@@ -12,6 +12,5 @@ export { ShareLinkModal } from "./ShareLinkModal.jsx";
 export { ConfirmModal } from "./ConfirmModal.jsx";
 export { OptionAccordion } from "./OptionAccordion.jsx";
 export { IncludedItemsPanel } from "./IncludedItemsPanel.jsx";
-export { ConfigSummaryBar } from "./ConfigSummaryBar.jsx";
 export { RefLegendModal } from "./RefLegendModal.jsx";
 export { RefApplyField } from "./RefApplyField.jsx";

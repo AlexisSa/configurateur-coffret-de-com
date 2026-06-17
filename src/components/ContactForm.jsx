@@ -29,6 +29,7 @@ export function ContactForm({
   buildMailtoLink,
   onCopyRecap,
   coffretCount = 1,
+  className = "",
 }) {
   const emailErrorId = useId();
   const phoneErrorId = useId();
@@ -55,7 +56,10 @@ export function ContactForm({
   };
 
   return (
-    <section className="panel" id="contact-form">
+    <section
+      className={["panel", className].filter(Boolean).join(" ")}
+      id="contact-form"
+    >
       <div className="panel-header">
         <h2 className="section-title">Demande de devis</h2>
         <span className="section-badge">Étape 3</span>

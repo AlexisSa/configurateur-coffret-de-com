@@ -1,0 +1,156 @@
+/* —— Animations discrètes —— */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes accordion-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-header {
+  animation: fade-in-down 0.5s var(--ease-out) both;
+}
+
+.app-main {
+  animation: fade-in 0.4s var(--ease-out) both;
+}
+
+.wizard-column .panel,
+.sidebar-column .panel {
+  animation: fade-in-up 0.5s var(--ease-out) both;
+}
+
+.wizard-column .panel:nth-child(1) {
+  animation-delay: 0.08s;
+}
+
+.wizard-column .panel:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.wizard-column .panel:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.sidebar-column .panel {
+  animation-delay: 0.12s;
+}
+
+.sidebar-column .panel + .panel {
+  animation-delay: 0.18s;
+}
+
+.option-accordion {
+  animation: fade-in-up 0.4s var(--ease-out) both;
+}
+
+.option-accordion:nth-child(1) {
+  animation-delay: 0.02s;
+}
+.option-accordion:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.option-accordion:nth-child(3) {
+  animation-delay: 0.08s;
+}
+.option-accordion:nth-child(4) {
+  animation-delay: 0.11s;
+}
+.option-accordion:nth-child(5) {
+  animation-delay: 0.14s;
+}
+.option-accordion:nth-child(n + 6) {
+  animation-delay: 0.17s;
+}
+
+.option-accordion-body {
+  animation: accordion-reveal 0.28s var(--ease-out) both;
+}
+
+.gamme-card,
+.option-tile,
+.qty-segment,
+.btn {
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    color var(--transition),
+    transform var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.gamme-picker-nav-item {
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition-fast);
+}
+
+.gamme-picker-nav-item:active,
+.option-tile-main:active,
+.qty-segment:active {
+  transform: scale(0.98);
+}
+
+.toast {
+  animation: slide-in-right 0.35s var(--ease-spring) both;
+}
+

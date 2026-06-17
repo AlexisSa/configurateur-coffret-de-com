@@ -5,21 +5,6 @@ import { createBomPdfBlob } from "../utils/pdfGenerator.js";
 const BLOB_REVOKE_MS = 60_000;
 
 /**
- * @param {Blob} blob
- */
-function downloadPdfBlob(blob) {
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = "devis-coffret.pdf";
-  anchor.rel = "noopener";
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  window.setTimeout(() => URL.revokeObjectURL(url), BLOB_REVOKE_MS);
-}
-
-/**
  * @param {{
  *   state: import('../utils/compatibility.js').ConfigState,
  *   internal: { clientName?: string, societe?: string, email?: string, telephone?: string },
@@ -29,32 +14,31 @@ function downloadPdfBlob(blob) {
  */
 export function usePdfPreview({ state, internal, pricingTierCode, addToast }) {
   const openPdfPreview = useCallback(async () => {
-    const blob = await createBomPdfBlob(state, internal, pricingTierCode);
-    if (!blob) {
-      addToast("error", "Erreur", "Sélectionnez une gamme");
-      return;
-    }
-
-    const url = URL.createObjectURL(blob);
-    const tab = window.open(url, "_blank", "noopener,noreferrer");
-    if (tab) {
-      window.setTimeout(() => URL.revokeObjectURL(url), BLOB_REVOKE_MS);
-      return;
-    }
-
-    URL.revokeObjectURL(url);
     try {
-      downloadPdfBlob(blob);
-      addToast(
-        "success",
-        "PDF téléchargé",
-        "Le fichier a été enregistré sur votre appareil."
-      );
+      const blob = await createBomPdfBlob(state, internal, pricingTierCode);
+      if (!blob) {
+        addToast("error", "Erreur", "Impossible de générer le PDF.");
+        return;
+      }
+
+      const url = URL.createObjectURL(blob);
+      const tab = window.open(url, "_blank", "noopener,noreferrer");
+      if (!tab) {
+        URL.revokeObjectURL(url);
+        addToast(
+          "error",
+          "Ouverture bloquée",
+          "Autorisez les fenêtres contextuelles pour afficher le PDF."
+        );
+        return;
+      }
+
+      window.setTimeout(() => URL.revokeObjectURL(url), BLOB_REVOKE_MS);
     } catch {
       addToast(
         "error",
-        "Ouverture bloquée",
-        "Autorisez les fenêtres contextuelles ou le téléchargement pour obtenir le PDF."
+        "Erreur PDF",
+        "La génération du document a échoué. Réessayez dans un instant."
       );
     }
   }, [state, internal, pricingTierCode, addToast]);

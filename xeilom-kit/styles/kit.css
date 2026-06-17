@@ -1,0 +1,18 @@
+/* Barrel CSS Xeilom — importer ce fichier dans votre point d'entrée (ex. main.jsx). */
+@import "./foundation.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./header.css";
+@import "./panels.css";
+@import "./gamme.css";
+@import "./options.css";
+@import "./options-quantity.css";
+@import "./coffret-quantity.css";
+@import "./recap.css";
+@import "./forms-buttons.css";
+@import "./toasts.css";
+@import "./pdf-preview.css";
+@import "./accordion.css";
+@import "./confirm-modal.css";
+@import "./animations.css";
+@import "./embed.css";

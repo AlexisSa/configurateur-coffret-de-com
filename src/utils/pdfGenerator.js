@@ -1,5 +1,6 @@
 import { loadBrandLogoForPdf } from "./brandLogo.js";
 import { loadProductImageForPdf } from "./productImage.js";
+import { buildBom } from "./bomBuilder.js";
 import { getConfiguredCoffretRef } from "./bomDisplay.js";
 import { catalog } from "./catalog.js";
 import { getOrderPricingLines } from "./orderPricing.js";
@@ -27,6 +28,7 @@ const COLORS = {
   surface: { r: 250, g: 250, b: 251 },
   rowAlt: { r: 247, g: 247, b: 248 },
   skuBg: { r: 243, g: 244, b: 246 },
+  brandTint: { r: 241, g: 242, b: 254 },
   white: { r: 255, g: 255, b: 255 },
 };
 
@@ -39,8 +41,12 @@ const TABLE_PAD = 3;
 const TABLE_LEFT = MARGIN + TABLE_PAD;
 const TABLE_RIGHT = CONTENT_RIGHT - TABLE_PAD;
 const COL_GAP = 3;
-const IMG_COL_W = 16;
-const IMG_MAX = 12;
+const IMG_COL_W = 18;
+/** Cadre photo fixe (mm) — identique sur chaque ligne. */
+const IMG_FRAME_SIZE = 14;
+const IMG_FRAME_PAD = 1.2;
+const IMG_FRAME_RADIUS = 1;
+const IMG_INNER_MAX = IMG_FRAME_SIZE - IMG_FRAME_PAD * 2;
 const BODY_BOTTOM = 262;
 const FOOTER_Y = 288;
 const LINE_H = 4.2;
@@ -206,6 +212,7 @@ function measureTableLayout(doc, bom, showPrices) {
 }
 
 /**
+ * Dimensions d’affichage « contain » dans une zone fixe.
  * @param {import("./productImage.js").PdfImageAsset | null} asset
  * @param {number} maxW
  * @param {number} maxH
@@ -220,6 +227,75 @@ function getPdfImageSize(asset, maxW, maxH) {
     w = h * ratio;
   }
   return { w, h };
+}
+
+/**
+ * @param {number} rowY
+ * @param {number} rowH
+ * @returns {{ x: number, y: number, w: number, h: number }}
+ */
+function getImageFrameRect(rowY, rowH) {
+  const frameW = IMG_FRAME_SIZE;
+  const frameH = IMG_FRAME_SIZE;
+  return {
+    x: TABLE_LEFT + (IMG_COL_W - frameW) / 2,
+    y: rowY + (rowH - frameH) / 2,
+    w: frameW,
+    h: frameH,
+  };
+}
+
+/**
+ * Cadre photo homogène + image centrée (ou tiret si absente).
+ * @param {jsPDF} doc
+ * @param {number} rowY
+ * @param {number} rowH
+ * @param {import("./productImage.js").PdfImageAsset | null} imageAsset
+ */
+function drawRowImageFrame(doc, rowY, rowH, imageAsset) {
+  const frame = getImageFrameRect(rowY, rowH);
+
+  setFill(doc, COLORS.white);
+  setDraw(doc, COLORS.border);
+  doc.setLineWidth(0.15);
+  doc.roundedRect(
+    frame.x,
+    frame.y,
+    frame.w,
+    frame.h,
+    IMG_FRAME_RADIUS,
+    IMG_FRAME_RADIUS,
+    "FD"
+  );
+
+  const imageSize = getPdfImageSize(
+    imageAsset,
+    IMG_INNER_MAX,
+    IMG_INNER_MAX
+  );
+
+  if (imageSize) {
+    const imgX =
+      frame.x + IMG_FRAME_PAD + (IMG_INNER_MAX - imageSize.w) / 2;
+    const imgY =
+      frame.y + IMG_FRAME_PAD + (IMG_INNER_MAX - imageSize.h) / 2;
+    doc.addImage(
+      imageAsset.dataUrl,
+      "PNG",
+      imgX,
+      imgY,
+      imageSize.w,
+      imageSize.h
+    );
+    return;
+  }
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(7);
+  setText(doc, COLORS.subtle);
+  doc.text("—", frame.x + frame.w / 2, frame.y + frame.h / 2 + 1.2, {
+    align: "center",
+  });
 }
 
 /**
@@ -439,20 +515,37 @@ function drawTableHeader(doc, y, layout, showPrices) {
 }
 
 /**
+ * @param {number} skuLineCount
+ */
+function measureSkuBlockHeight(skuLineCount) {
+  return skuLineCount * 3.4 + 1.2;
+}
+
+/**
+ * @param {number} labelLineCount
+ */
+function measureLabelBlockHeight(labelLineCount) {
+  return labelLineCount * LINE_H;
+}
+
+/**
  * @param {jsPDF} doc
  * @param {import("./bomBuilder.js").BomLine} line
  * @param {ReturnType<typeof measureTableLayout>} layout
  */
-function measureRowHeight(doc, line, layout, imageAsset) {
+function measureRowHeight(doc, line, layout) {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
   const labelLines = wrapText(doc, line.label, layout.label.w);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(7);
   const skuLines = wrapText(doc, line.sku, layout.ref.w - 4);
-  const textH = Math.max(skuLines.length * 3.6, labelLines.length * LINE_H) + 5;
-  const imageH = imageAsset ? IMG_MAX + 4 : 0;
-  return Math.max(10, textH, imageH);
+  const contentH = Math.max(
+    measureSkuBlockHeight(skuLines.length),
+    measureLabelBlockHeight(labelLines.length)
+  );
+  const imageH = IMG_FRAME_SIZE + 4;
+  return Math.max(imageH, contentH + 2);
 }
 
 /**
@@ -464,7 +557,7 @@ function measureRowHeight(doc, line, layout, imageAsset) {
  * @param {boolean} showPrices
  */
 function drawTableRow(doc, y, line, layout, striped, showPrices, imageAsset) {
-  const rowH = measureRowHeight(doc, line, layout, imageAsset);
+  const rowH = measureRowHeight(doc, line, layout);
 
   if (striped) {
     setFill(doc, COLORS.rowAlt);
@@ -475,53 +568,32 @@ function drawTableRow(doc, y, line, layout, striped, showPrices, imageAsset) {
   doc.setLineWidth(0.1);
   doc.line(MARGIN, y + rowH, CONTENT_RIGHT, y + rowH);
 
-  const imageSize = getPdfImageSize(imageAsset, IMG_MAX, IMG_MAX);
-  if (imageSize) {
-    const imgX = layout.img.x + (layout.img.w - imageSize.w) / 2;
-    const imgY = y + (rowH - imageSize.h) / 2;
-    setFill(doc, COLORS.white);
-    setDraw(doc, COLORS.border);
-    doc.setLineWidth(0.1);
-    doc.roundedRect(
-      imgX - 0.4,
-      imgY - 0.4,
-      imageSize.w + 0.8,
-      imageSize.h + 0.8,
-      0.6,
-      0.6,
-      "FD"
-    );
-    doc.addImage(
-      imageAsset.dataUrl,
-      "PNG",
-      imgX,
-      imgY,
-      imageSize.w,
-      imageSize.h
-    );
-  }
+  drawRowImageFrame(doc, y, rowH, imageAsset);
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(7);
   const skuLines = wrapText(doc, line.sku, layout.ref.w - 4);
-  const skuH = skuLines.length * 3.4 + 1.2;
+  const skuH = measureSkuBlockHeight(skuLines.length);
+  const skuTop = y + (rowH - skuH) / 2;
   setFill(doc, COLORS.skuBg);
   setDraw(doc, COLORS.border);
   doc.setLineWidth(0.1);
-  doc.roundedRect(layout.ref.x + 2, y + 2.5, layout.ref.w - 4, skuH, 1, 1, "FD");
+  doc.roundedRect(layout.ref.x + 2, skuTop, layout.ref.w - 4, skuH, 1, 1, "FD");
   setText(doc, COLORS.accent);
-  doc.text(skuLines, layout.ref.x + 4, y + 5.2);
+  doc.text(skuLines, layout.ref.x + 4, skuTop + 2.7);
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
   setText(doc, COLORS.text);
-  let labelY = y + 5;
-  for (const labelLine of wrapText(doc, line.label, layout.label.w)) {
+  const labelLines = wrapText(doc, line.label, layout.label.w);
+  const labelH = measureLabelBlockHeight(labelLines.length);
+  let labelY = y + (rowH - labelH) / 2 + BASELINE;
+  for (const labelLine of labelLines) {
     doc.text(labelLine, layout.label.x, labelY);
     labelY += LINE_H;
   }
 
-  const numY = y + 5.2;
+  const numY = y + rowH / 2 + 1;
   drawCol(doc, layout.qty, numY, String(line.quantity));
 
   if (showPrices && layout.unit && layout.total) {
@@ -556,70 +628,113 @@ function drawTotalsBlock(doc, y, bom, pricingTierCode, coffretCount) {
     bom,
     normalizeCoffretCount(coffretCount)
   );
-  const innerX = MARGIN + BOX_PAD;
-  const valueX = CONTENT_RIGHT - BOX_PAD;
-  const labelMaxW = CONTENT_W - BOX_PAD * 2 - 40;
+  if (pricingLines.length === 0) return y;
 
-  const wrappedRows = pricingLines.map((line) => ({
+  const displayLines = pricingLines.filter((line, index, lines) => {
+    if (line.highlight) return true;
+    const next = lines[index + 1];
+    return !(
+      line.label === "Prix unitaire HT" &&
+      next &&
+      !next.highlight &&
+      line.amount === next.amount
+    );
+  });
+
+  const boxW = 92;
+  const boxX = CONTENT_RIGHT - boxW;
+  const innerX = boxX + BOX_PAD;
+  const valueX = CONTENT_RIGHT - BOX_PAD;
+  const labelMaxW = boxW - BOX_PAD * 2 - 38;
+  const headerH = 7;
+  const rowGap = 2.5;
+  const dividerH = 3.5;
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8);
+  const wrappedRows = displayLines.map((line) => ({
     ...line,
     labelLines: wrapText(doc, line.label, labelMaxW),
   }));
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(8.5);
-  const rowGap = 4;
-  const titleH = 5;
-  const rowsH = wrappedRows.reduce((sum, row) => {
-    const lineH = Math.max(8.5, row.labelLines.length * 3.8);
-    return sum + lineH + rowGap;
-  }, 0);
+  let rowsH = 0;
+  let dividerPlanned = false;
+  for (const row of wrappedRows) {
+    const lineH = Math.max(4.5, row.labelLines.length * 3.5);
+    if (row.highlight && !dividerPlanned) {
+      rowsH += dividerH;
+      dividerPlanned = true;
+    }
+    rowsH += lineH + (row.highlight ? 0 : rowGap);
+  }
+
   const disclaimer = getPricingDisclaimer(pricingTierCode);
   const noteLines = disclaimer
-    ? wrapText(doc, disclaimer, CONTENT_W - BOX_PAD * 2)
+    ? wrapText(doc, disclaimer, boxW - BOX_PAD * 2)
     : [];
-  const noteH = noteLines.length > 0 ? noteLines.length * 3.2 + 4 : 0;
-  const boxH = BOX_PAD + titleH + rowsH + noteH + BOX_PAD;
+  const noteGap = noteLines.length > 0 ? 3 : 0;
+  const noteH = noteLines.length > 0 ? noteLines.length * 3 + noteGap : 0;
+  const boxH = headerH + BOX_PAD + rowsH + noteH + BOX_PAD;
 
-  setFill(doc, COLORS.surface);
+  setFill(doc, COLORS.white);
   setDraw(doc, COLORS.border);
   doc.setLineWidth(0.25);
-  doc.roundedRect(MARGIN, y, CONTENT_W, boxH, 2.5, 2.5, "FD");
+  doc.roundedRect(boxX, y, boxW, boxH, 2, 2, "FD");
 
-  setFill(doc, COLORS.brand);
-  doc.rect(MARGIN, y, 1.5, boxH, "F");
+  setFill(doc, COLORS.brandTint);
+  doc.rect(boxX + 0.25, y + 0.25, boxW - 0.5, headerH, "F");
+  setDraw(doc, COLORS.border);
+  doc.setLineWidth(0.2);
+  doc.line(boxX, y + headerH, boxX + boxW, y + headerH);
 
-  let cursorY = y + BOX_PAD;
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(6.5);
-  setText(doc, COLORS.subtle);
-  doc.text("ESTIMATION INDICATIVE", innerX, cursorY + 3.5);
-  cursorY += titleH;
+  doc.setFontSize(6);
+  setText(doc, COLORS.brandDark);
+  doc.text("ESTIMATION INDICATIVE", innerX, y + 4.6);
+
+  let cursorY = y + headerH + BOX_PAD;
+  let dividerDrawn = false;
 
   for (const row of wrappedRows) {
-    const lineH = Math.max(8.5, row.labelLines.length * 3.8);
+    if (row.highlight && !dividerDrawn) {
+      const divY = cursorY + 0.8;
+      setDraw(doc, COLORS.border);
+      doc.setLineWidth(0.2);
+      doc.line(innerX, divY, valueX, divY);
+      cursorY += dividerH;
+      dividerDrawn = true;
+    }
+
+    const lineH = Math.max(4.5, row.labelLines.length * 3.5);
+    const baseline = cursorY + BASELINE;
+
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(row.highlight ? 10 : 8.5);
-    setText(doc, COLORS.muted);
-    let labelY = cursorY + BASELINE;
+    doc.setFontSize(row.highlight ? 8.5 : 8);
+    setText(doc, row.highlight ? COLORS.text : COLORS.muted);
+    let labelY = baseline;
     for (const labelLine of row.labelLines) {
       doc.text(labelLine, innerX, labelY);
-      labelY += 3.8;
+      labelY += 3.5;
     }
+
     doc.setFont("helvetica", "bold");
-    setText(doc, COLORS.accent);
-    doc.text(formatPdfPrice(row.amount), valueX, cursorY + BASELINE, {
+    doc.setFontSize(row.highlight ? 11 : 8.5);
+    setText(doc, row.highlight ? COLORS.brand : COLORS.text);
+    doc.text(formatPdfPrice(row.amount), valueX, baseline, {
       align: "right",
     });
-    cursorY += lineH + rowGap;
+
+    cursorY += lineH + (row.highlight ? 0 : rowGap);
   }
 
   if (noteLines.length > 0) {
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(7);
-    setText(doc, COLORS.muted);
+    cursorY += noteGap;
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(6.5);
+    setText(doc, COLORS.subtle);
     for (const line of noteLines) {
       doc.text(line, innerX, cursorY + BASELINE);
-      cursorY += 3.2;
+      cursorY += 3;
     }
   }
 
@@ -679,7 +794,7 @@ export async function buildBomPdf(state, internal = {}, pricingTierCode) {
   for (let i = 0; i < bom.length; i += 1) {
     const line = bom[i];
     const imageAsset = imageAssets[i] ?? null;
-    const rowH = measureRowHeight(doc, line, layout, imageAsset);
+    const rowH = measureRowHeight(doc, line, layout);
     if (y + rowH > BODY_BOTTOM) {
       doc.addPage();
       y = drawPageHeader(doc, true);
@@ -700,7 +815,7 @@ export async function buildBomPdf(state, internal = {}, pricingTierCode) {
 
   if (showPrices) {
     y += 4;
-    if (y + 40 > BODY_BOTTOM) {
+    if (y + 32 > BODY_BOTTOM) {
       doc.addPage();
       y = drawPageHeader(doc, true);
     }

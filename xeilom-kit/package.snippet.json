@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "jspdf": "^3.0.3",
+    "lucide-react": "^0.555.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "scripts": {
+    "import:pricing": "node xeilom-kit/scripts/import-oxatis-pricing.mjs",
+    "sync:pricing": "node xeilom-kit/scripts/sync-pricing-matrix.mjs"
+  }
+}

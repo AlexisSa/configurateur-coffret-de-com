@@ -1,0 +1,51 @@
+:root {
+  --brand: #363bc7;
+  --brand-dark: #2b2f9f;
+  --brand-light: #ecedf9;
+  --brand-muted: rgb(54 59 199 / 0.14);
+
+  --bg: #ffffff;
+  --bg-accent: #ffffff;
+  --surface: #ffffff;
+  --surface-alt: #f8f8f9;
+  --surface-muted: #f3f3f5;
+  --text: #18181b;
+  --text-muted: #71717a;
+  --text-subtle: #a1a1aa;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --border-hover: rgb(54 59 199 / 0.42);
+  --surface-hover: #ffffff;
+  --shadow-hover: 0 4px 16px rgb(24 24 27 / 0.07);
+  --success: #22a06b;
+  --success-light: #f0fdf6;
+  --error: #e5484d;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 980px;
+  --shadow-sm: 0 1px 2px rgb(24 24 27 / 0.04);
+  --shadow: 0 6px 20px rgb(24 24 27 / 0.06);
+  --shadow-lg: 0 14px 36px rgb(24 24 27 / 0.08);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
+  --transition: 220ms var(--ease-out);
+  --transition-fast: 160ms var(--ease-out);
+  --max-width: 1200px;
+}
+
+.app {
+  min-height: 100vh;
+  background: var(--bg-accent);
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

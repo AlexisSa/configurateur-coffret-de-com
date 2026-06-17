@@ -1,0 +1,66 @@
+/* —— Modale de confirmation —— */
+.confirm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgb(24 24 27 / 0.38);
+  backdrop-filter: blur(5px);
+  animation: fade-in 0.22s var(--ease-out) both;
+}
+
+.confirm-modal-dialog {
+  width: min(400px, 100%);
+  padding: 1.35rem 1.4rem 1.2rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  animation: scale-in 0.28s var(--ease-out) both;
+}
+
+.confirm-modal-title {
+  margin: 0 0 0.55rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.confirm-modal-message {
+  margin: 0 0 1.15rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.confirm-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.share-link-modal .share-link-input {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--text);
+  background: var(--surface-muted, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 6px);
+}
+
+.share-link-modal .share-link-input:focus {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+.confirm-modal-actions .btn {
+  width: auto;
+  min-width: 6.5rem;
+}

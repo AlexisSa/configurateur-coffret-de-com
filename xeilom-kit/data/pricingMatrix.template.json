@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "tiers": ["S", "M", "B", "A", "Z"],
+    "note": "Exemple — remplacez par votre matrice générée via npm run import:pricing"
+  },
+  "skus": {
+    "EXAMPLE-SKU": {
+      "S": 100,
+      "M": 90,
+      "B": 80,
+      "A": 75,
+      "Z": 70
+    }
+  }
+}

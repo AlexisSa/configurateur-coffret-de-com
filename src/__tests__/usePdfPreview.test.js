@@ -17,8 +17,7 @@ describe("usePdfPreview", () => {
 
   beforeEach(() => {
     addToast.mockClear();
-    vi.stubGlobal("open", vi.fn(() => null));
-    vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(() => {});
+    vi.stubGlobal("open", vi.fn(() => ({ closed: false })));
     URL.createObjectURL = vi.fn(() => "blob:pdf");
     URL.revokeObjectURL = vi.fn();
   });
@@ -28,16 +27,30 @@ describe("usePdfPreview", () => {
     vi.restoreAllMocks();
   });
 
-  it("télécharge le PDF si window.open est bloqué", async () => {
+  it("ouvre le PDF dans un nouvel onglet", async () => {
     const { result } = renderHook(() => usePdfPreview(params));
     await act(async () => {
       await result.current.openPdfPreview();
     });
-    expect(HTMLAnchorElement.prototype.click).toHaveBeenCalled();
+    expect(window.open).toHaveBeenCalledWith(
+      "blob:pdf",
+      "_blank",
+      "noopener,noreferrer"
+    );
+    expect(addToast).not.toHaveBeenCalled();
+  });
+
+  it("affiche une erreur si window.open est bloqué", async () => {
+    vi.stubGlobal("open", vi.fn(() => null));
+    const { result } = renderHook(() => usePdfPreview(params));
+    await act(async () => {
+      await result.current.openPdfPreview();
+    });
     expect(addToast).toHaveBeenCalledWith(
-      "success",
-      "PDF téléchargé",
+      "error",
+      "Ouverture bloquée",
       expect.any(String)
     );
+    expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:pdf");
   });
 });

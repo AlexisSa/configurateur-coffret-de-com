@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { useCoffretConfiguration } from "./hooks/useCoffretConfiguration.js";
 import { useEmbedResize } from "./hooks/useEmbedResize.js";
@@ -19,9 +19,6 @@ import {
   getNewlyAcknowledgedGroup,
   getNextAccordionGroup,
 } from "./utils/progress.js";
-import { getConfiguredCoffretRef } from "./utils/bomDisplay.js";
-import { getOrderPricingLines } from "./utils/orderPricing.js";
-import { hasPricedLines } from "./utils/pricing.js";
 import { getPricingTierLabel } from "./utils/pricingTier.js";
 import { normalizeCoffretCount } from "./utils/coffretQuantity.js";
 import {
@@ -38,7 +35,6 @@ import {
   ShareLinkModal,
   OptionAccordion,
   IncludedItemsPanel,
-  ConfigSummaryBar,
   RefLegendModal,
   RefApplyField,
 } from "./components/index.js";
@@ -92,14 +88,7 @@ function App() {
   const optionsStepComplete = isOptionsStepComplete(state);
   const showContactForm = configurationReady && bom.length > 0;
   const groupsProgress = getConfiguredGroupsProgress(state, acknowledgedGroups);
-  const configuredRef = getConfiguredCoffretRef(bom);
   const pricingTierLabel = getPricingTierLabel(pricingTierCode);
-
-  const summaryTotalHT = useMemo(() => {
-    if (!hasPricedLines(bom)) return null;
-    const lines = getOrderPricingLines(bom, normalizeCoffretCount(state.coffretCount));
-    return lines.find((line) => line.highlight)?.amount ?? null;
-  }, [bom, state.coffretCount]);
 
   useEffect(() => {
     if (!state.gammeId) {
@@ -194,6 +183,14 @@ function App() {
             <GammeSelector selectedId={state.gammeId} onSelect={setGamme} />
 
             {showOptions && (
+              <CoffretQuantitySelector
+                className="coffret-qty--inline"
+                count={state.coffretCount}
+                onChange={setCoffretCount}
+              />
+            )}
+
+            {showOptions && (
               <section className="panel">
                 <div className="panel-header">
                   <h2 className="section-title">Options</h2>
@@ -249,6 +246,7 @@ function App() {
           <aside className="sidebar-column">
             {showOptions && (
               <CoffretQuantitySelector
+                className="coffret-qty--sidebar"
                 count={state.coffretCount}
                 onChange={setCoffretCount}
               />
@@ -271,17 +269,6 @@ function App() {
           </aside>
         </div>
       </main>
-
-      {state.gammeId && (
-        <ConfigSummaryBar
-          configuredRef={configuredRef}
-          totalHT={summaryTotalHT}
-          isConfigurationReady={configurationReady}
-          onPreviewPdf={openPdfPreview}
-          onShare={shareConfig}
-          onOpenLegend={() => setRefLegendOpen(true)}
-        />
-      )}
 
       <RefLegendModal
         open={refLegendOpen}

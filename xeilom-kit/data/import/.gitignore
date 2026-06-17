@@ -1,0 +1,5 @@
+# Export tarifs Oxatis (CSV) — ne pas versionner
+
+*.csv
+*.xlsx
+*.xls

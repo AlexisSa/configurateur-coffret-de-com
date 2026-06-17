@@ -1,0 +1,79 @@
+/* —— Options —— */
+.options-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.option-group {
+  padding: 1.35rem 0;
+  border-bottom: none;
+}
+
+.option-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.option-group:first-child {
+  padding-top: 0;
+}
+
+.option-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.95rem;
+}
+
+.option-group-heading {
+  min-width: 0;
+}
+
+.option-group-header h3 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.option-group-desc {
+  margin-top: 0.2rem;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--brand);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.15rem 0;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.link-btn:hover {
+  color: var(--brand-dark);
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(9.5rem, 100%), 1fr));
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .option-grid {
+    grid-template-columns: repeat(auto-fill, minmax(10.2rem, 1fr));
+  }
+}
+

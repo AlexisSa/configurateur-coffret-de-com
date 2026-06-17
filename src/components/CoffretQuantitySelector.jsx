@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   MAX_COFFRET_COUNT,
   MIN_COFFRET_COUNT,
@@ -6,9 +6,10 @@ import {
 } from "../utils/coffretQuantity.js";
 
 /**
- * @param {{ count: number, onChange: (n: number) => void }} props
+ * @param {{ count: number, onChange: (n: number) => void, className?: string }} props
  */
-export function CoffretQuantitySelector({ count, onChange }) {
+export function CoffretQuantitySelector({ count, onChange, className = "" }) {
+  const inputId = useId();
   const [draft, setDraft] = useState(String(count));
   const [focused, setFocused] = useState(false);
 
@@ -27,13 +28,15 @@ export function CoffretQuantitySelector({ count, onChange }) {
   };
 
   return (
-    <section className="panel panel-coffret-qty">
-      <label className="coffret-qty-label" htmlFor="coffret-count">
+    <section
+      className={["panel panel-coffret-qty", className].filter(Boolean).join(" ")}
+    >
+      <label className="coffret-qty-label" htmlFor={inputId}>
         Nombre de coffrets
       </label>
       <div className="coffret-qty-row">
         <input
-          id="coffret-count"
+          id={inputId}
           type="number"
           className="coffret-qty-input"
           min={MIN_COFFRET_COUNT}
